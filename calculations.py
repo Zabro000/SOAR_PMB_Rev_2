@@ -1,8 +1,5 @@
 import math
 
-
-
-
 # https://mm.digikey.com/Volume0/opasdata/d220001/medias/docus/752/SiC47x_Jul04_2018.pdf
 
 
@@ -120,12 +117,9 @@ def indcutance_calculation(time_on, v_out, v_in_min, max_out_current, ripple_cur
 def output_current_ripple_max(max_out_current, ripple_current_percent):
     return max_out_current + max_out_current * ripple_current_percent
 
-def minimum_output_capacitance(inductance, max_out_current, output_ripple_current_max, )
-
-
-
-
-
+# pg 11, equation to find the output capacitances 
+def minimum_output_capacitance(inductance, max_out_current, output_ripple_current_max):
+    pass
 
 
 
