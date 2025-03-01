@@ -1,0 +1,16 @@
+
+Link to create a venv in VS Code:
+
+https://allinpython.com/how-to-create-python-virtual-environment-in-vscode/
+
+
+
+command to create a venv called "venv":
+
+python -m venv venv
+
+
+
+activate the venv by entering this into the terminal:
+
+venv/scripts/activate
