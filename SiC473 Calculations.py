@@ -16,11 +16,12 @@ MAXIMUM_RIPPLE_CURRENT_PERCENTANGE = 0.25
 
 D_constant = 0 # Pg 7 that D in the equation for Rx WHAT EVEN IS THAT
 D_constant_test = 0.5 # Im just guessing the D value
-power_dissipation_max_for_rx = 80e-3 # typical 0603 power dissapation is 25mW so I am using that
+power_dissipation_max_for_rx = 25e-3 # typical 0603 power dissapation is 25mW so I am using that
 VRAMP_MAX = 0.9
 VRAMP_MIN = 0.1
 Rfb_l_value = 10e4
 VOLTAGE_FEEDBACK = 0.8
+
 
 
 
@@ -33,6 +34,7 @@ time_on = 0 # Pg 11 the time on used for the on pulse (like from the Vramp cross
 total_output_capacitor_esr = 0
 inductance_value = 0
 output_ripple_current_max = 0 
+output_voltage_adjustment_resistor = 0 
 
 
 # Pg 11 has equation, and is used for the inequality on Pg 7
@@ -54,33 +56,25 @@ def oscillation_check_inequality(total_out_cap_esr, total_out_capacitace, t_on):
 
 # Pg 7 has the formulae, calculates Cx, Cy, Rx and Vramp following the process outlined on Pg 7
 def voltage_ramp_amplitude_Rx_Cx_general_calculation(v_in_max, v_in_min, v_out, D, P_dissapation_max, switching_freqnecy):
+    
     # Step 1:
     Rx = (v_in_max * v_out * (1 - D)) / P_dissapation_max
 
-
+    # Step 2: 
     Cx_min = (P_dissapation_max) / (v_in_max * switching_freqnecy * VRAMP_MAX)
-    print(Cx_min, Rx)
-
-
+    
     Vramp_min = ((v_in_min - v_out) * v_out) / (v_in_min * switching_freqnecy * Cx_min * Rx)
 
-
-    print(Vramp_min)
     if Vramp_min > 0.2:
         Cx_final = Cx_min
     else:
         Cx_final = (Cx_min) * (Vramp_min / 0.2)
         print(Cx_final)
    
-
-
     if Vramp_min < 0.1:
         print("INCREASE THE POWER MAX AND TRY AGAIN")
-        return None
-   
-    Cy_final = 1 / (820 * switching_freqnecy) # Wrong value it is
-    print(Cy_final)
-
+    else:
+        Cy_final = 1 / (820 * switching_freqnecy) # Wrong value it is
 
     return [Rx, Cx_final, Cy_final]
  
@@ -121,12 +115,26 @@ def output_current_ripple_max(max_out_current, ripple_current_percent):
 def minimum_output_capacitance(inductance, max_out_current, output_ripple_current_max):
     pass
 
+# pg 11 might be useful for determining the output minimum output capacitance
+def general_voltage_ripple_calculation(max_current_ripple, total_output_capacitance, total_output_esr, switching_freq):
+    ripple_voltage = (max_current_ripple) * (1 / (8 * total_output_capacitance * switching_freq) + total_output_esr)
+    return ripple_voltage
+
+print("VALUES FOR THE 12 RAIL BUCK:\n")
+time_on = time_on_general_calculation(Vout_1, switching_freqency, Vin_min)
+inductance_value = indcutance_calculation(time_on, Vout_1, Vin_min, CURRENT_OUT_MAX, MAXIMUM_RIPPLE_CURRENT_PERCENTANGE)
+output_voltage_adjustment_resistor = output_voltage_setting_feedback_resistor(Vout_1)
+ripple_injection_values = voltage_ramp_amplitude_Rx_Cx_general_calculation(Vin_max, Vin_min, Vout_1, D_constant_test, power_dissipation_max_for_rx, switching_freqency)
+
+print(f"R(fsw): {resistor_for_switching_freqency(switching_freqency, Vout_1):.4e}")
+print(f"t(on): {time_on:.2e}")
+print(f"Max output voltage is {general_output_voltage(Vin_min)} if the min input voltage is {Vin_min}")
+print(f"L: {inductance_value:.2e}")
+print(f"R(_FB_H): {output_voltage_adjustment_resistor:.4e}")
+print(f"R(x): {ripple_injection_values[0]:.2e}")
+print(f"C(x): {ripple_injection_values[1]:.2e}")
+print(f"C(y): {ripple_injection_values[2]:.2e}")
 
 
-
-print(output_voltage_setting_feedback_resistor(12))
-print(general_output_voltage(13.5))
-print(resistor_for_switching_freqency(switching_freqency, Vout_1))
-print(voltage_ramp_amplitude_Rx_Cx_general_calculation(Vin_max, Vin_min, Vout_1, D_constant, power_dissipation_max_for_rx, switching_freqency))
 
 
