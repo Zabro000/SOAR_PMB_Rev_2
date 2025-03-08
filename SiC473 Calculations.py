@@ -4,7 +4,7 @@ import math
 
 
 Vin_max = 52
-Vin_min = 13.5
+Vin_min = 14
 Vout_1 = 12
 Vout_2 = 5
 Vout_3 = 3.3
@@ -16,7 +16,7 @@ MAXIMUM_RIPPLE_CURRENT_PERCENTANGE = 0.25
 
 D_constant = 0 # Pg 7 that D in the equation for Rx WHAT EVEN IS THAT
 D_constant_test = 0.5 # Im just guessing the D value
-power_dissipation_max_for_rx = 25e-3 # typical 0603 power dissapation is 25mW so I am using that
+power_dissipation_max_for_rx = 0.025 # typical 0603 power dissapation is 25mW so I am using that
 VRAMP_MAX = 0.9
 VRAMP_MIN = 0.1
 Rfb_l_value = 10e4
@@ -24,11 +24,8 @@ VOLTAGE_FEEDBACK = 0.8
 TRANCONDUCTANCE_OF_ERROR_AMP = 300e-6 
 
 
-
-
-
 #  Not sure if unknown or not:
-switching_freqency = 500_000
+switching_freqency = 250_000
 
 
 # Unknown:
@@ -68,6 +65,7 @@ def voltage_ramp_amplitude_Rx_Cx_general_calculation(v_in_max, v_in_min, v_out, 
     
     Vramp_min = ((v_in_min - v_out) * v_out) / (v_in_min * switching_freqnecy * Cx_min * Rx)
 
+    print("Checking Vramp Min", Vramp_min)
     if Vramp_min > 0.2:
         Cx_final = Cx_min
     else:
@@ -76,8 +74,8 @@ def voltage_ramp_amplitude_Rx_Cx_general_calculation(v_in_max, v_in_min, v_out, 
    
     if Vramp_min < 0.1:
         print("INCREASE THE POWER MAX AND TRY AGAIN")
-    else:
-        Cy_final = 1 / (820 * switching_freqnecy) # Wrong value it is
+    
+    Cy_final = 1 / (820 * switching_freqnecy) # Wrong value it is
 
     return [Rx, Cx_final, Cy_final]
  
