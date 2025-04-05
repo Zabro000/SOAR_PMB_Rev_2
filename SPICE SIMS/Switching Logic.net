@@ -45,7 +45,6 @@ D7 N021 Umbilical_gate_signal D
 R20 N021 0 15000
 R21 N020 0 1000
 D11 N016 N018 D
-D3 N003 Umbilical_gate_signal D
 R23 N007 UMBILICAL 2000
 C5 BATT_1_gate_signal 0 500nf
 R11 BATT_1_gate_signal 0 10000
@@ -60,6 +59,7 @@ R7 N004 N008 220
 D1 UMBILICAL LDO_POWER D
 D2 BATT_1 LDO_POWER D
 D4 BATT_2 LDO_POWER D
+D3 N003 Umbilical_gate_signal D
 .model D D
 .lib C:\Users\reinz\AppData\Local\LTspice\lib\cmp\standard.dio
 .model NMOS NMOS
