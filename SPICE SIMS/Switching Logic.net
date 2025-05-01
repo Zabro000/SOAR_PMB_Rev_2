@@ -59,18 +59,17 @@ A4 N001 0 N005 0 N006 0 N002 0 AND Vhigh = 5, Td = 33n
 A5 N003 0 Umbilical_gate_control_signal 0 N010 0 N008 0 AND Vhigh = 5, Td = 33n
 A12 UMBILICAL BUCK_RAIL 0 0 0 0 N010 0 SCHMITT Trise=1u, Vhigh = 5, Vt = 0.05, Vh = 0.075, Td = 10n
 D3 N008 N009 D
-A13 N003 0 Umbilical_gate_control_signal 0 N012 0 N011 0 AND Vhigh = 5, Td = 33n
+A13 N003 0 BATT_1_gate_control_signal 0 N012 0 N011 0 AND Vhigh = 5, Td = 33n
 A14 BATT_1 BUCK_RAIL 0 0 0 0 N012 0 SCHMITT Trise=1u, Vhigh = 5, Vt = 0.05, Vh = 0.075, Td = 10n
 D10 N011 N009 D
-A15 N003 0 Umbilical_gate_control_signal 0 N015 0 N014 0 AND Vhigh = 5, Td = 33n
+A15 N003 0 BATT_2_gate_control_signal 0 N015 0 N014 0 AND Vhigh = 5, Td = 33n
 A16 BATT_2 BUCK_RAIL 0 0 0 0 N015 0 SCHMITT Trise=1u, Vhigh = 5, Vt = 0.05, Vh = 0.075, Td = 10n
 D12 N014 N009 D
-C14 N004 0 9n
+C14 P001 0 9n
 R13 N009 N007 250
-R34 N004 gate_drive_switch_signal 250
 R35 gate_drive_switch_signal 0 1000
 M5 gate_drive_switch_signal N007 N003 N003 AO6407
-R5 N009 0 10000
+R5 N009 0 5000
 M7 BATT_2_gate_control_signal N004 BATT_2_gate_control_signal_logic_output BATT_2_gate_control_signal_logic_output Si1555DL_P
 A3 Umbilical_gate_control_signal 0 0 0 0 N001 0 0 BUF Vhigh = 5, Td = 33n
 A6 BATT_1_gate_control_signal 0 0 0 0 N005 0 0 BUF Vhigh = 5, Td = 33n
@@ -78,7 +77,7 @@ A17 BATT_2_gate_control_signal 0 0 0 0 N006 0 0 BUF Vhigh = 5, Td = 33n
 M1 BATT_1_gate_control_signal N004 BATT_1_gate_control_logic_output BATT_1_gate_control_logic_output Si1555DL_P
 M6 Umbilical_gate_control_signal N004 Umbilical_gate_control_logic_output Umbilical_gate_control_logic_output Si1555DL_P
 A18 N002 RESET 0 0 0 0 N003 0 SRFLOP Vhigh = 5
-C10 RESET 0 1n
+C10 RESET 0 40n
 R17 N009 0 10000
 M8 N016 UMBILICAL_GATE UMBILICAL UMBILICAL Si4427DY
 M9 N016 UMBILICAL_GATE BUCK_RAIL BUCK_RAIL Si4427DY
@@ -96,6 +95,9 @@ R21 BUCK_RAIL 0 10000
 R36 RESET N009 10000
 D5 RESET N013 D
 R16 N013 N009 250
+R37 P001 N004 250
+R34 N004 gate_drive_switch_signal 250
+R38 N003 0 10000
 .model D D
 .lib C:\Users\reinz\AppData\Local\LTspice\lib\cmp\standard.dio
 .model NPN NPN
