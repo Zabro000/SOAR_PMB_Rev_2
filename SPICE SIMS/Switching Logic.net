@@ -55,7 +55,7 @@ D4 BATT_2 LDO_POWER D
 C3 BATT_1_gate_control_signal 0 10p
 C4 Umbilical_gate_control_signal 0 10p
 C13 BATT_2_gate_control_signal 0 10p
-A4 N001 N005 N010 N011 0 0 N006 0 AND Vhigh = 5, Td = 33n
+A4 N001 N005 N010 N011 0 0 N006 0 AND Vhigh = 5, Td = 9n
 A5 N007 0 Umbilical_gate_control_logic_output 0 N014 0 N013 0 AND Vhigh = 5, Td = 33n
 A12 UMBILICAL BUCK_RAIL 0 0 0 0 N014 0 SCHMITT Trise=1u, Vhigh = 5, Vt = 0.05, Vh = 0.075, Td = 10n
 A13 N007 0 BATT_1_gate_control_logic_output 0 N018 0 N017 0 AND Vhigh = 5, Td = 33n
@@ -63,9 +63,7 @@ A14 BATT_1 BUCK_RAIL 0 0 0 0 N018 0 SCHMITT Trise=1u, Vhigh = 5, Vt = 0.05, Vh =
 A15 N007 0 BATT_2_gate_control_signal_logic_output 0 N020 0 N019 0 AND Vhigh = 5, Td = 33n
 A16 BATT_2 BUCK_RAIL 0 0 0 0 N020 0 SCHMITT Trise=1u, Vhigh = 5, Vt = 0.05, Vh = 0.075, Td = 10n
 M7 BATT_2_gate_control_signal N002 BATT_2_gate_control_signal_logic_output BATT_2_gate_control_signal_logic_output Si1555DL_P
-A3 Umbilical_gate_control_signal 0 0 0 0 N001 0 0 BUF Vhigh = 5, Td = 33n
-A6 BATT_1_gate_control_signal 0 0 0 0 N005 0 0 BUF Vhigh = 5, Td = 33n
-A17 BATT_2_gate_control_signal 0 0 0 0 N010 0 0 BUF Vhigh = 5, Td = 33n
+A3 Umbilical_gate_control_signal 0 0 0 0 N001 0 0 BUF Vhigh = 5, Td = 9n
 M1 BATT_1_gate_control_signal N003 BATT_1_gate_control_logic_output BATT_1_gate_control_logic_output Si1555DL_P
 M6 Umbilical_gate_control_signal N004 Umbilical_gate_control_logic_output Umbilical_gate_control_logic_output Si1555DL_P
 C10 RESET_GATE 0 20n
@@ -83,7 +81,6 @@ C14 SIGNAL_MOSFET 0 1n
 C21 N009 0 10p
 M11 SIGNAL_MOSFET N009 LOGIC_POWER LOGIC_POWER Si1555DL_P
 R5 N008 0 10000
-A19 RESET_GATE 0 0 0 0 N011 0 0 BUF Vhigh = 5, Td = 33n
 A11 N006 0 N012 0 0 N008 N007 0 DFLOP Vhigh = 5
 A20 N006 RESET_CLK 0 0 0 0 N012 0 OR Vhigh = 5
 D5 RESET_GATE N021 D
@@ -101,7 +98,9 @@ M4 BATT_1 BATT_1_GATE N023 N023 Si7469DP
 C17 N024 BATT_2_GATE 0.1µ
 M8 BUCK_RAIL BATT_2_GATE N024 N024 Si7469DP
 M9 BATT_2 BATT_2_GATE N024 N024 Si7469DP
-C18 N006 0 10p
+A6 BATT_1_gate_control_signal 0 0 0 0 N005 0 0 BUF Vhigh = 5, Td = 9n
+A17 BATT_2_gate_control_signal 0 0 0 0 N010 0 0 BUF Vhigh = 5, Td = 9n
+A18 RESET_GATE 0 0 0 0 N011 0 0 BUF Vhigh = 5, Td = 9n
 .model D D
 .lib C:\Users\reinz\AppData\Local\LTspice\lib\cmp\standard.dio
 .model NPN NPN
