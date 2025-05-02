@@ -56,15 +56,12 @@ C3 BATT_1_gate_control_signal 0 10p
 C4 Umbilical_gate_control_signal 0 10p
 C13 BATT_2_gate_control_signal 0 10p
 A4 N001 N005 N010 N011 0 0 N006 0 AND Vhigh = 5, Td = 33n
-A5 N007 0 Umbilical_gate_control_logic_output 0 N016 0 N013 0 AND Vhigh = 5, Td = 33n
-A12 UMBILICAL BUCK_RAIL 0 0 0 0 N016 0 SCHMITT Trise=1u, Vhigh = 5, Vt = 0.05, Vh = 0.075, Td = 10n
-D3 N013 N014 D
+A5 N007 0 Umbilical_gate_control_logic_output 0 N014 0 N013 0 AND Vhigh = 5, Td = 33n
+A12 UMBILICAL BUCK_RAIL 0 0 0 0 N014 0 SCHMITT Trise=1u, Vhigh = 5, Vt = 0.05, Vh = 0.075, Td = 10n
 A13 N007 0 BATT_1_gate_control_logic_output 0 N018 0 N017 0 AND Vhigh = 5, Td = 33n
 A14 BATT_1 BUCK_RAIL 0 0 0 0 N018 0 SCHMITT Trise=1u, Vhigh = 5, Vt = 0.05, Vh = 0.075, Td = 10n
-D10 N017 N014 D
-A15 N007 0 BATT_2_gate_control_signal_logic_output 0 N021 0 N020 0 AND Vhigh = 5, Td = 33n
-A16 BATT_2 BUCK_RAIL 0 0 0 0 N021 0 SCHMITT Trise=1u, Vhigh = 5, Vt = 0.05, Vh = 0.075, Td = 10n
-D12 N020 N014 D
+A15 N007 0 BATT_2_gate_control_signal_logic_output 0 N020 0 N019 0 AND Vhigh = 5, Td = 33n
+A16 BATT_2 BUCK_RAIL 0 0 0 0 N020 0 SCHMITT Trise=1u, Vhigh = 5, Vt = 0.05, Vh = 0.075, Td = 10n
 M7 BATT_2_gate_control_signal N002 BATT_2_gate_control_signal_logic_output BATT_2_gate_control_signal_logic_output Si1555DL_P
 A3 Umbilical_gate_control_signal 0 0 0 0 N001 0 0 BUF Vhigh = 5, Td = 33n
 A6 BATT_1_gate_control_signal 0 0 0 0 N005 0 0 BUF Vhigh = 5, Td = 33n
@@ -72,22 +69,19 @@ A17 BATT_2_gate_control_signal 0 0 0 0 N010 0 0 BUF Vhigh = 5, Td = 33n
 M1 BATT_1_gate_control_signal N003 BATT_1_gate_control_logic_output BATT_1_gate_control_logic_output Si1555DL_P
 M6 Umbilical_gate_control_signal N004 Umbilical_gate_control_logic_output Umbilical_gate_control_logic_output Si1555DL_P
 C10 RESET_GATE 0 20n
-R17 N014 0 10000
+R17 N015 0 10000
 M8 N022 UMBILICAL_GATE UMBILICAL UMBILICAL Si4427DY
 M9 N022 UMBILICAL_GATE BUCK_RAIL BUCK_RAIL Si4427DY
 C16 N022 UMBILICAL_GATE 0.1µ
-R20 N022 UMBILICAL_GATE 10000
 M2 N023 BATT_1_GATE BATT_1 BATT_1 Si4427DY
 M3 N023 BATT_1_GATE BUCK_RAIL BUCK_RAIL Si4427DY
 C9 N023 BATT_1_GATE 0.1µ
-R18 N023 BATT_1_GATE 10000
 M4 N024 BATT_2_GATE BATT_2 BATT_2 Si4427DY
 M10 N024 BATT_2_GATE BUCK_RAIL BUCK_RAIL Si4427DY
 C17 N024 BATT_2_GATE 0.1µ
-R19 N024 BATT_2_GATE 10000
 R21 BUCK_RAIL 0 10000
-R36 RESET_GATE N014 10000
-R16 N019 N014 1000
+R36 RESET_GATE N015 10000
+R16 N021 N015 1000
 R38 N009 N008 220
 R34 N002 SIGNAL_MOSFET 220
 R35 N003 SIGNAL_MOSFET 220
@@ -100,12 +94,13 @@ R5 N008 0 10000
 A19 RESET_GATE 0 0 0 0 N011 0 0 BUF Vhigh = 5, Td = 33n
 A11 N006 0 N012 0 0 N008 N007 0 DFLOP Vhigh = 5
 A20 N006 RESET_CLK 0 0 0 0 N012 0 OR Vhigh = 5
-D5 RESET_GATE N019 D
+D5 RESET_GATE N021 D
 C15 RESET_CLK 0 40n
-R13 N014 0 10000
-R39 RESET_CLK N014 10000
-R40 N015 N014 1000
-D6 RESET_CLK N015 D
+R13 N015 0 10000
+R39 RESET_CLK N015 10000
+R40 N016 N015 1000
+D6 RESET_CLK N016 D
+A10 N013 0 N017 0 N019 0 N015 0 OR Vhigh = 5, Td = 33n
 .model D D
 .lib C:\Users\reinz\AppData\Local\LTspice\lib\cmp\standard.dio
 .model NPN NPN
