@@ -160,5 +160,5 @@ cython_debug/
 #.idea/
 
 # LTspice Files
-.raw
+*.raw
 
