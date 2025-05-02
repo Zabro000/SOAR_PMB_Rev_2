@@ -71,7 +71,7 @@ A6 BATT_1_gate_control_signal 0 0 0 0 N009 0 0 BUF Vhigh = 5, Td = 33n
 A17 BATT_2_gate_control_signal 0 0 0 0 N010 0 0 BUF Vhigh = 5, Td = 33n
 M1 BATT_1_gate_control_signal N003 BATT_1_gate_control_logic_output BATT_1_gate_control_logic_output Si1555DL_P
 M6 Umbilical_gate_control_signal N004 Umbilical_gate_control_logic_output Umbilical_gate_control_logic_output Si1555DL_P
-A18 N005 RESET 0 0 0 0 N006 0 SRFLOP Vhigh = 5
+A18 N005 RESET 0 0 0 0 N006 0 SRFLOP Vhigh = 5, Vh = 0.5, Vt = 0.05
 C10 RESET 0 20n
 R17 N014 0 10000
 M8 N020 UMBILICAL_GATE UMBILICAL UMBILICAL Si4427DY
@@ -89,7 +89,7 @@ R19 N022 BATT_2_GATE 10000
 R21 BUCK_RAIL 0 10000
 R36 N018 N014 10000
 D5 RESET N016 D
-R16 N016 N014 250
+R16 N016 N014 20000
 R38 N008 N007 220
 R34 N002 SIGNAL_MOSFET 220
 R35 N003 SIGNAL_MOSFET 220
@@ -121,6 +121,7 @@ D6 N018 RESET D
 * ORing diodes or or gate, this needs to supply some current to turn on the transmission gate so idk?
 * Voltage spike protection zener diode?
 * Maybe look into gate driver circuit to save space and cost
+* Maybe use transmission gates here or something (single rail transmission gates)
 .lib ADM7170-5.0.sub
 .backanno
 .end
