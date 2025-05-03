@@ -72,13 +72,11 @@ C16 N022 UMBILICAL_GATE 0.1µ
 R21 BUCK_RAIL 0 10000
 R36 RESET_GATE N015 10000
 R16 N021 N015 1000
-R38 N009 N008 220
+R38 N009 N008 330
 R34 N002 SIGNAL_MOSFET 220
 R35 N003 SIGNAL_MOSFET 220
 R37 N004 SIGNAL_MOSFET 220
 R48 SIGNAL_MOSFET 0 10000
-C14 SIGNAL_MOSFET 0 1n
-C21 N009 0 10p
 M11 SIGNAL_MOSFET N009 LOGIC_POWER LOGIC_POWER Si1555DL_P
 R5 N008 0 10000
 A11 N006 0 N012 0 0 N008 N007 0 DFLOP Vhigh = 5
@@ -101,6 +99,8 @@ M9 BATT_2 BATT_2_GATE N024 N024 Si7469DP
 A6 BATT_1_gate_control_signal 0 0 0 0 N005 0 0 BUF Vhigh = 5, Td = 9n
 A17 BATT_2_gate_control_signal 0 0 0 0 N010 0 0 BUF Vhigh = 5, Td = 9n
 A18 RESET_GATE 0 0 0 0 N011 0 0 BUF Vhigh = 5, Td = 9n
+R18 SIGNAL_MOSFET P001 220
+C14 P001 0 1n
 .model D D
 .lib C:\Users\reinz\AppData\Local\LTspice\lib\cmp\standard.dio
 .model NPN NPN
@@ -121,6 +121,7 @@ A18 RESET_GATE 0 0 0 0 N011 0 0 BUF Vhigh = 5, Td = 9n
 * ORing diodes or or gate, this needs to supply some current to turn on the transmission gate so idk?
 * Maybe look into gate driver circuit to save space and cost
 * Maybe use transmission gates here or something (single rail transmission gates)
+* If the propogation delay is high, then the and gate wont read a fast switch over event, maybe add some sort of delay so down time is more easier to detect.
 .lib ADM7170-5.0.sub
 .backanno
 .end
