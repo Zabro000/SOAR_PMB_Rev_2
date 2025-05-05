@@ -161,4 +161,5 @@ cython_debug/
 
 # LTspice Files
 *.raw
+*.op.raw
 
