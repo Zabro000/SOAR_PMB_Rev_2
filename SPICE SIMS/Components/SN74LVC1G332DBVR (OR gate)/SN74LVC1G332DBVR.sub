@@ -1,0 +1,8 @@
+.subckt SN74LVC1G332DBVR IN1 IN2 IN3 IN4 IN5 OUT
+A1 N001 N002 N003 N004 N005 0 OUT 0 OR Vhigh = 5, Vlow = 0.1V, Td = 3.5n, Trise = 2.5n, Tfall = 2.5n
+A2 IN1 0 0 0 0 0 N001 0 SCHMITT Vhigh = 4.9, Vlow = 0.1, Vt = 2.5, Vh =1
+A3 IN2 0 0 0 0 0 N002 0 SCHMITT Vhigh = 4.9, Vlow = 0.1, Vt = 2.5, Vh =1
+A4 IN3 0 0 0 0 0 N003 0 SCHMITT Vhigh = 4.9, Vlow = 0.1, Vt = 2.5, Vh =1
+A5 IN4 0 0 0 0 0 N004 0 SCHMITT Vhigh = 4.9, Vlow = 0.1, Vt = 2.5, Vh =1
+A6 IN5 0 0 0 0 0 N005 0 SCHMITT Vhigh = 4.9, Vlow = 0.1, Vt = 2.5, Vh =1
+.ends SN74LVC1G332DBVR
