@@ -1,3 +1,3 @@
-.subckt SN74LVC1G14DBVR IN1 OUT
+.subckt SN74LVC1G14DBVR IN OUT
 A1 IN 0 0 0 0 OUT 0 0 SCHMITT td = 5n, Vhigh = 4.9, Vlow = 0.1, Vt = 2.81, Vh = 0.555, Trise = 2.5n
-.ends SN74LVC1G14DBVR
+.ends SN74LVC1G14DBVRs
