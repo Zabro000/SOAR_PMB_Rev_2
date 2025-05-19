@@ -7,9 +7,10 @@ turn_on_rc_resistor = 10e4 #ohm
 turn_on_rc_capacitor = 47e-9 #F
 output_rail_bulk_capacitance = 100e-6 #F
 BOOT_STRAPPED_VOLTAGE = 12 #V
+UMBILICAL_VOLTAGE = 48
 
 mosfet_gate_charge = 27e-9
-bootstrap_capacitor = 100e-9
+bootstrap_capacitor = 500e-9
 
 
 def under_voltage_resistor(rising_voltage_threshold):
@@ -20,7 +21,11 @@ def under_voltage_resistor(rising_voltage_threshold):
 
 def rc_turn_on_delay_circuit(rc_resistor, rc_capacitor, output_bulk_capacitance):
     inrush_current = (0.7 * BOOT_STRAPPED_VOLTAGE * output_bulk_capacitance) / (rc_resistor * rc_capacitor)
+    output_voltage_rise_rate = (0.7 * BOOT_STRAPPED_VOLTAGE) / (rc_resistor * rc_capacitor)
+
     print(f"Approx inrush current = {inrush_current:.4f}A")
+    print(f"Approx output voltage rise rate = {output_voltage_rise_rate / 1000:.2f}v/ms")
+    print(f"Approx time to reach the umbilical voltage = {UMBILICAL_VOLTAGE / output_voltage_rise_rate * 1000:.2f}ms")
 
 def bootstrap_capacitor_check(mosfet_gate_charge, rc_capacitor, bootstrap_capacitor):
     total_capacitance = mosfet_gate_charge + 10 * rc_capacitor
