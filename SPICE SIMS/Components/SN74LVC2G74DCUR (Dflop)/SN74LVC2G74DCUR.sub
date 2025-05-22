@@ -1,0 +1,9 @@
+.subckt SN74LVC2G74DCUR _PRE D CLK _CLR Q _Q
+A1 N002 0 N004 N001 N006 N005 N003 0 DFLOP Vhigh = 5
+A3 _CLR 0 0 0 0 N006 0 0 SCHMITT Vhigh = 5, Vlow = 0, Vt = 2.5, Vh =1
+A2 D 0 0 0 0 0 N002 0 SCHMITT Vhigh = 5, Vlow = 0, Vt = 2.5, Vh =1
+A4 CLK 0 0 0 0 0 N004 0 SCHMITT Vhigh = 5, Vlow = 0, Vt = 2.5, Vh =1
+A5 N003 0 0 0 0 0 Q 0 SCHMITT Vhigh = 5, Vlow = 0, Vt = 2.5, Vh =1, Td = 4.1n, Trise = 2.5n
+A6 N005 0 0 0 0 0 _Q 0 SCHMITT Vhigh = 5, Vlow = 0, Vt = 2.5, Vh =1, Td = 4.4n, Trise = 2.5n
+A7 _PRE 0 0 0 0 N001 0 0 SCHMITT Vhigh = 5, Vlow = 0, Vt = 2.5, Vh =1
+.ends SN74LVC2G74DCUR
