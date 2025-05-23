@@ -138,7 +138,6 @@ R7 N045 0 30000
 R9 BATT_1 N045 68000
 C10 BATT_1_priority_comparator 0 10n
 R12 N045 BATT_1_priority_comparator 330
-R39 N048 0 30000
 R44 BATT_2 N048 68000
 C15 BATT_2_priority_comparator 0 10n
 R45 N048 BATT_2_priority_comparator 330
@@ -159,12 +158,13 @@ R50 N025 N026 330
 C53 OUTPUT_RAIL_comparator 0 1n
 R51 N018 OUTPUT_RAIL_comparator 330
 R52 N039 OUTPUT_RAIL 0.00001
+R39 N048 0 30000
 .model D D
 .lib C:\Users\reinz\AppData\Local\LTspice\lib\cmp\standard.dio
 .model NMOS NMOS
 .model PMOS PMOS
 .lib C:\Users\reinz\AppData\Local\LTspice\lib\cmp\standard.mos
-.tran 800m
+.tran 640m
 * Need to switch all the output signals to not invert the signal
 * common switch debouncing values
 * ORing diodes or or gate, this needs to supply some current to turn on the transmission gate so idk?
