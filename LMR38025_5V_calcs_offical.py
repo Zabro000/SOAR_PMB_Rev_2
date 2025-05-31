@@ -21,7 +21,7 @@ INDUCTOR_RIPPLE_CURRENT = 0.4 # 40% of load current
 max_load_current = 2.5# A
 
 # Ripple voltage
-max_ripple_voltage = 0.03 #V
+max_ripple_voltage = 0.02 #V
 
 
 def fb_output_voltage_resistor_divider(v_out, top_resistor):
@@ -61,7 +61,7 @@ def main():
     print(f"R_ent = {enable_pin_values[0]}ohm R_enb = {r_enb}ohm")
     print(f"Disable voltage = {enable_pin_values[1]}V Enable voltage = {v_turn_on_voltage}V")
     print(f"Ripple voltage = {max_ripple_voltage * 1000}mV")
-    print(f"Ripple voltage percentage = {ripple_voltage_percentage(v_out, max_ripple_voltage):.3f}%")
+    print(f"Ripple voltage percentage = {ripple_voltage_percentage(v_out, max_ripple_voltage):.2f}%")
     print()
     pass
 
