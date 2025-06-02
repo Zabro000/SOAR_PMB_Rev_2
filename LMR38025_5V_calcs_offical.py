@@ -7,7 +7,7 @@ f_sw = 3e5 # Hz
 
 
 # Feedback voltage divider (Pg 10, 20)
-r_fbt = 10e4 # ohms
+r_fbt = 10e3 # ohms
 
 # Enable pin votlage divider to set under voltage limits
 v_turn_on_voltage = 14 # V

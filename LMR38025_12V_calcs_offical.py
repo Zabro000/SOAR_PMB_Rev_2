@@ -3,18 +3,18 @@ import math
 # General values
 v_out = 12 # V
 V_REF = 1 # V
-f_sw = 3e5 # Hz
+f_sw = 4e5 # Hz
 
 
 # Feedback voltage divider (Pg 10, 20)
-r_fbt = 11e4 # ohms
+r_fbt = 10e3 # ohms
 
 # Enable pin votlage divider to set under voltage limits
 v_turn_on_voltage = 14 # V
 V_EN_FALLING_THRESHOLD = 0.95 # V
 V_EN_RAISING_THRESHOLD = 1.4 # V
 V_BATT = 16.8 # V
-r_enb = 10e3 # ohm
+r_enb = 11e3 # ohm
 
 # Inductor selection (Pg 20,21)
 INDUCTOR_RIPPLE_CURRENT = 0.4 # 40% of load current
