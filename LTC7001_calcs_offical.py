@@ -1,9 +1,9 @@
 import math
 
-rising_under_voltage_threshold = 4.75 #V
+rising_under_voltage_threshold = 4.5 #V
 UNDER_VOLTAGE_HYSTERESIS = 0.3 #V
 
-turn_on_rc_resistor = 10e4 #ohm
+turn_on_rc_resistor = 5.1e3 #ohm
 turn_on_rc_capacitor = 47e-9 #F
 output_rail_bulk_capacitance = 100e-6 #F
 BOOT_STRAPPED_VOLTAGE = 12 #V
@@ -28,9 +28,9 @@ def rc_turn_on_delay_circuit(rc_resistor, rc_capacitor, output_bulk_capacitance)
     print(f"Approx time to reach the umbilical voltage = {UMBILICAL_VOLTAGE / output_voltage_rise_rate * 1000:.2f}ms")
 
 def bootstrap_capacitor_check(mosfet_gate_charge, rc_capacitor, bootstrap_capacitor):
-    total_capacitance = mosfet_gate_charge + 10 * rc_capacitor
+    total_capacitance = 2 * mosfet_gate_charge + 10 * rc_capacitor
     print(f"RC capacitance + gate capacitance = {total_capacitance * 10**9:.4f}nF")
-    print(f"Bootstrap capactance is {bootstrap_capacitor * 10**9:.4}nF")
+    print(f"Bootstrap capactance is {total_capacitance * 10**9:.4}nF")
     print(bootstrap_capacitor > total_capacitance)
 
 
