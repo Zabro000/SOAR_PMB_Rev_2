@@ -3,7 +3,7 @@ import math
 # General values
 v_out = 5 # V
 V_REF = 1 # V
-f_sw = 3e5 # Hz
+f_sw = 4e5 # Hz
 
 
 # Feedback voltage divider (Pg 10, 20)
@@ -63,6 +63,7 @@ def main():
     print(f"Ripple voltage = {max_ripple_voltage * 1000}mV")
     print(f"Ripple voltage percentage = {ripple_voltage_percentage(v_out, max_ripple_voltage):.2f}%")
     print()
+    print(5 + (0.5/100) * 5)
     pass
 
 
