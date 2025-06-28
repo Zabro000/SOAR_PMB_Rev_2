@@ -55,7 +55,7 @@ def main():
     enable_pin_values = enable_pin_voltage_divider_calculations(v_turn_on_voltage, r_enb)
     print(f"R_fbb = {fb_output_voltage_resistor_divider(v_out, r_fbt):.0f}ohm")
     print(f"R_T = {switching_frequency_resistor(f_sw) * 1000:.0f}ohm")
-    print(f"L = {output_inductor(v_out, max_load_current, V_BATT, f_sw) * 10**6:.2f}uH")
+    print(f"L = {output_inductor(v_out, max_load_current, 48, f_sw) * 10**6:.2f}uH")
     print(f"Subharmonic inductor sizing check: {subharmonic_oscillation_check(11e-6, f_sw, v_out)}")
     print(f"RMS current though the input ceramic capacitor: {input_rms_current_through_ceramic_capacitor_check(max_load_current)}A")
     print(f"R_ent = {enable_pin_values[0]}ohm R_enb = {r_enb}ohm")
