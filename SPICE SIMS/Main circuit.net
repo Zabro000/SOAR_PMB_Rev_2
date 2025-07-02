@@ -4,7 +4,7 @@ V§UMBILICAL N020 0 PULSE(0 48 0 10m 2m 200m 500m 2) Rser=160m
 V§BATT_1 N021 0 PULSE(0 16.8 0 10m 10m 500m 750m 2) Rser=160m
 V§BATT_2 N022 0 PULSE(0 16.8 0 10m 10m 810m 11 1) Rser=160m
 R1 N026 UMBILICAL 100000
-R2 N026 0 13960
+R2 N026 0 14000
 C2 Umbilical_priority_comparator 0 10n
 R8 N026 Umbilical_priority_comparator 330
 B§UMBILICAL_Noise UMBILICAL N020 V=white(2e4*time) / 13
@@ -110,12 +110,12 @@ X§U32 N048 RESET_GATE SN74LVC1G14DBVR
 D5 BATT_2 N027 MMSD4148
 D6 BATT_1 N027 MMSD4148
 D15 UMBILICAL N027 MMSD4148
-R7 N032 0 30100
+R7 N032 0 31000
 R9 BATT_1 N032 68000
-C10 BATT_1_priority_comparator 0 10n
+C10 BATT_1_priority_comparator 0 100n
 R12 N032 BATT_1_priority_comparator 330
 R44 BATT_2 N038 68000
-C15 BATT_2_priority_comparator 0 10n
+C15 BATT_2_priority_comparator 0 100n
 R45 N038 BATT_2_priority_comparator 330
 R3 UMBILICAL N056 68000
 R4 N056 0 68000
@@ -134,7 +134,6 @@ R50 N065 N066 330
 C53 OUTPUT_RAIL_comparator 0 1n
 R51 N044 OUTPUT_RAIL_comparator 330
 R52 N005 OUTPUT_RAIL 0.00001
-R39 N038 0 30100
 C4 LOGIC_POWER 0 1µ
 C38 LOGIC_POWER 0 1µ
 C54 LOGIC_POWER 0 0.1µ
@@ -177,9 +176,10 @@ A2 Umbilical_gate_control_logic_output 0 0 0 0 0 N001 0 SCHMITT Vhigh = 4.9, Vlo
 A1 BATT_1_gate_control_logic_output 0 0 0 0 0 N018 0 SCHMITT Vhigh = 4.9, Vlow = 0.1, Vt = 2.5, Vh =1
 A3 BATT_2_gate_control_signal_logic_output 0 0 0 0 0 N028 0 SCHMITT Vhigh = 4.9, Vlow = 0.1, Vt = 2.5, Vh =1
 C22 N004 N009 250n
-R5 N005 0 6
 C18 N030 N034 250n
 C49 N050 N055 250n
+B1 N005 0 I = 5
+R5 N038 0 31000
 .model D D
 .lib C:\Users\reinz\AppData\Local\LTspice\lib\cmp\standard.dio
 .model NMOS NMOS
