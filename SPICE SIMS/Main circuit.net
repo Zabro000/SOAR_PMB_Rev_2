@@ -40,7 +40,7 @@ R11 N016 0 67857
 M4 N003 UMBILICAL_gate_drive N004 N004 IPA180N10N3
 M5 OUTPUT_RAIL UMBILICAL_gate_drive N004 N004 IPA180N10N3
 D7 N008 N009 RF071MM2S
-R19 UMBILICAL_gate_drive N014 1500
+R19 UMBILICAL_gate_drive N014 1000
 C20 N023 0 20n
 R20 UMBILICAL_gate_drive N023 10
 X§U14 N033 N040 0 BATT_1_gate_control_logic_output Deny_signal BATT_1_gate_drive N039 N030 N034 LTC7001
@@ -110,12 +110,12 @@ X§U32 N048 RESET_GATE SN74LVC1G14DBVR
 D5 BATT_2 N027 MMSD4148
 D6 BATT_1 N027 MMSD4148
 D15 UMBILICAL N027 MMSD4148
-R7 N032 0 31000
+R7 N032 0 32000
 R9 BATT_1 N032 68000
-C10 BATT_1_priority_comparator 0 100n
+C10 BATT_1_priority_comparator 0 10n
 R12 N032 BATT_1_priority_comparator 330
 R44 BATT_2 N038 68000
-C15 BATT_2_priority_comparator 0 100n
+C15 BATT_2_priority_comparator 0 10n
 R45 N038 BATT_2_priority_comparator 330
 R3 UMBILICAL N056 68000
 R4 N056 0 68000
@@ -179,7 +179,8 @@ C22 N004 N009 250n
 C18 N030 N034 250n
 C49 N050 N055 250n
 B1 N005 0 I = 5
-R5 N038 0 31000
+R5 N038 0 32000
+C19 N006 0 220µf Rser=0.1
 .model D D
 .lib C:\Users\reinz\AppData\Local\LTspice\lib\cmp\standard.dio
 .model NMOS NMOS
@@ -205,6 +206,7 @@ R5 N038 0 31000
 * Dflop power bypass caps
 * AND Gate power bypass caps
 * Comparator power bypass caps
+.params para_L = 10p
 .lib ADM7170-5.0.sub
 .lib LTC7001.sub
 .lib SN74LVC1G08DBVR.sub
