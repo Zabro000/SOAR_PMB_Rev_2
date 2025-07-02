@@ -13,7 +13,7 @@ BATT_2_Noise N014 N023 V=white(2e4*time) / 13
 C7 N038 0 1n
 C8 N032 0 4.7µ Rser=1.5m
 X§U1 N028 N032 N028 N038 N032 0 ADM7170-5.0
-C1 OUTPUT_RAIL_1 0 220µf Rser=0.2
+C1 OUTPUT_RAIL_1 0 {rise_cap} Rser=0.2
 C13 LOGIC_POWER 0 1µ
 C14 LOGIC_POWER 0 1µ
 C16 LOGIC_POWER 0 1µ
@@ -40,7 +40,7 @@ R11 N017 0 67857
 M4 N004 UMBILICAL_gate_drive N005 N005 IPA180N10N3
 M5 OUTPUT_RAIL UMBILICAL_gate_drive N005 N005 IPA180N10N3
 D7 N008 N009 RF071MM2S
-R19 UMBILICAL_gate_drive N015 2000
+R19 UMBILICAL_gate_drive N015 {rise_resistor}
 C20 N024 0 20n
 R20 UMBILICAL_gate_drive N024 10
 X§U14 N034 N041 0 BATT_1_gate_control_logic_output Deny_signal BATT_1_gate_drive N040 N031 N035 LTC7001
@@ -182,13 +182,13 @@ L2 BATT_1 N007 {para_L}
 L3 BATT_2 N014 {para_L}
 C18 N031 N035 500n
 C49 N051 N056 500n
-C19 OUTPUT_RAIL_1 0 220µf Rser=0.2
+C19 OUTPUT_RAIL_1 0 {rise_cap} Rser=0.2
 .model D D
 .lib C:\Users\reinz\AppData\Local\LTspice\lib\cmp\standard.dio
 .model NMOS NMOS
 .model PMOS PMOS
 .lib C:\Users\reinz\AppData\Local\LTspice\lib\cmp\standard.mos
-.tran 900m
+.tran 775m
 * OR Gate power bypass caps
 * Schmitt inverter power bypass caps
 * LTC7001 power bypass caps
@@ -209,6 +209,8 @@ C19 OUTPUT_RAIL_1 0 220µf Rser=0.2
 * AND Gate power bypass caps
 * Comparator power bypass caps
 .params para_L = 10p
+.step param rise_resistor list 500 750 1000 1500 2000 2500
+.step param rise_cap list 220uF 330uF 470uF
 .lib ADM7170-5.0.sub
 .lib LTC7001.sub
 .lib SN74LVC1G08DBVR.sub
