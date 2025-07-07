@@ -208,8 +208,8 @@ C49 N051 N056 500n
 * AND Gate power bypass caps
 * Comparator power bypass caps
 .params para_L = 10p
-.step param rise_resistor list 500 750 1000 1250 1500
-.step param bulk_capacitor list 330uf 440uf 660uf
+.param rise_resistor = 1500
+.param bulk_capacitor 660uf
 .lib ADM7170-5.0.sub
 .lib LTC7001.sub
 .lib SN74LVC1G08DBVR.sub
