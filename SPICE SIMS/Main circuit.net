@@ -182,9 +182,9 @@ C49 N054 N059 500n
 D2 N014 N015 AHHHH
 D4 N021 N022 AHHHH
 D16 N025 N026 AHHHH
-B2 OUTPUT_RAIL_1 0 P = if(V(OUTPUT_RAIL_1) > 9, {a12V_PWR}, V(OUTPUT_RAIL_1)/(9/{a12V_PWR}))
-B1 OUTPUT_RAIL_1 0 P = if(V(OUTPUT_RAIL_1) > 9, {a5V_PWR}, V(OUTPUT_RAIL_1)/(9/{a5V_PWR}))
-B3 OUTPUT_RAIL_1 0 P = if(V(OUTPUT_RAIL_1) > 9, {a3V3_PWR}, V(OUTPUT_RAIL_1)/(9/{a3V3_PWR}))
+B2 OUTPUT_RAIL_1 0 P = if(V(OUTPUT_RAIL_1) > 15, {a12V_PWR}, V(OUTPUT_RAIL_1)/(15/{a12V_PWR})) Vprxover = foldback
+B1 OUTPUT_RAIL_1 0 P = if(V(OUTPUT_RAIL_1) > 15, {a5V_PWR}, V(OUTPUT_RAIL_1)/(15/{a5V_PWR})) Vprxover = foldback
+B3 OUTPUT_RAIL_1 0 P = if(V(OUTPUT_RAIL_1) > 15, {a3V3_PWR}, V(OUTPUT_RAIL_1)/(15/{a3V3_PWR})) Vprxover = foldback
 .model D D
 .lib C:\Users\reinz\AppData\Local\LTspice\lib\cmp\standard.dio
 .model NMOS NMOS
@@ -212,7 +212,7 @@ B3 OUTPUT_RAIL_1 0 P = if(V(OUTPUT_RAIL_1) > 9, {a3V3_PWR}, V(OUTPUT_RAIL_1)/(9/
 * Comparator power bypass caps
 .params para_L = 10p
 .param rise_resistor = 500
-.param bulk_capacitor = 100uf
+.param bulk_capacitor = 880uf
 .model AHHHH D(Vfwd = 0, Ron = 0, Ilimit = BMS_current_limit, Vrev = {Rev_prot_v})
 .param BMS_current_limit = 12
 .param Battery_ESR=200m
@@ -220,6 +220,7 @@ B3 OUTPUT_RAIL_1 0 P = if(V(OUTPUT_RAIL_1) > 9, {a3V3_PWR}, V(OUTPUT_RAIL_1)/(9/
 .params a12V_PWR= 96
 .params a5V_PWR = 48
 .param a3V3_PWR = 26.4
+.params foldback =20
 .lib ADM7170-5.0.sub
 .lib LTC7001.sub
 .lib SN74LVC1G08DBVR.sub
