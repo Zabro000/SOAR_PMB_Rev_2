@@ -4,7 +4,7 @@ V§UMBILICAL N024 0 PULSE(0 48 0 10m 2m 200m 500m 2) Rser=ESR
 V§BATT_1 N025 0 PULSE(0 16.8 0 10m 10m 500m 750m 2) Rser=ESR
 V§BATT_2 N026 0 PULSE(0 16.8 0 10m 10m 810m 11 1) Rser=ESR
 R1 N030 UMBILICAL 100000
-R2 N030 0 14000
+R2 N030 0 15000
 C2 Umbilical_priority_comparator 0 10n
 R8 N030 Umbilical_priority_comparator 330
 B§UMBILICAL_Noise N001 N024 V=white(2e4*time) / 13
@@ -174,7 +174,7 @@ C56 N039 0 2.2n
 A2 Umbilical_gate_control_logic_output 0 0 0 0 0 N003 0 SCHMITT Vhigh = 4.9, Vlow = 0.1, Vt = 2.5, Vh =1, Trise = 2ns
 A1 BATT_1_gate_control_logic_output 0 0 0 0 0 N022 0 SCHMITT Vhigh = 4.9, Vlow = 0.1, Vt = 2.5, Vh =1
 A3 BATT_2_gate_control_signal_logic_output 0 0 0 0 0 N032 0 SCHMITT Vhigh = 4.9, Vlow = 0.1, Vt = 2.5, Vh =1
-C22 N006 N011 500n
+C22 N006 N011 100n
 B1 OUTPUT_RAIL_1 0 I=if(V(OUTPUT_RAIL_1) > 13,{load_current},V(OUTPUT_RAIL_1)/(13/{load_current}))
 R5 N042 0 32000
 L1 N002 N001 {para_L}
@@ -211,13 +211,13 @@ D4 N002 UMBILICAL AHHHH
 * AND Gate power bypass caps
 * Comparator power bypass caps
 .params para_L = 10p
-.param rise_resistor = 1500
-.param bulk_capacitor 660uf
+.param rise_resistor=1500
+.param bulk_capacitor 1000uf
 .param load_current = 10
 .param ESR = 32m
 .model AHHHH D(Vfwd = 0, Ron = 0, Ilimit = BMS_current_limit, Vrev = {Rev_prot_v})
 .param Rev_prot_v = 1000000
-.param BMS_current_limit = 12
+.param BMS_current_limit = 15
 .lib ADM7170-5.0.sub
 .lib LTC7001.sub
 .lib SN74LVC1G08DBVR.sub
