@@ -40,7 +40,7 @@ R11 N019 0 67857
 M4 N004 UMBILICAL_gate_drive N005 N005 IPA180N10N3
 M5 OUTPUT_RAIL UMBILICAL_gate_drive N005 N005 IPA180N10N3
 D7 N010 N011 RF071MM2S
-R19 UMBILICAL_gate_drive N017 2000
+R19 UMBILICAL_gate_drive N017 1000
 C20 N026 0 20n
 R20 UMBILICAL_gate_drive N026 10
 X§U14 N036 N043 0 BATT_1_gate_control_logic_output Deny_signal BATT_1_gate_drive N042 N033 N037 LTC7001
@@ -175,9 +175,9 @@ C56 N038 0 2.2n
 A2 Umbilical_gate_control_logic_output 0 0 0 0 0 N002 0 SCHMITT Vhigh = 4.9, Vlow = 0.1, Vt = 2.5, Vh =1, Trise = 2ns
 A1 BATT_1_gate_control_logic_output 0 0 0 0 0 N021 0 SCHMITT Vhigh = 4.9, Vlow = 0.1, Vt = 2.5, Vh =1
 A3 BATT_2_gate_control_signal_logic_output 0 0 0 0 0 N031 0 SCHMITT Vhigh = 4.9, Vlow = 0.1, Vt = 2.5, Vh =1
-C22 N005 N011 {cap}
-C18 N033 N037 250n
-C49 N053 N058 250n
+C22 N005 N011 1µ
+C18 N033 N037 1µ
+C49 N053 N058 1µ
 B1 N006 0 I = 10
 R5 N041 0 32000
 C19 N007 0 220µf Rser=0.1
@@ -210,7 +210,6 @@ L3 BATT_2 N016 {para_L}
 * AND Gate power bypass caps
 * Comparator power bypass caps
 .params para_L = 10p
-.step param cap list 100n 250n 500n 1000n
 .lib ADM7170-5.0.sub
 .lib LTC7001.sub
 .lib SN74LVC1G08DBVR.sub
