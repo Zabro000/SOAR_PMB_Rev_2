@@ -177,12 +177,12 @@ A3 BATT_2_gate_control_signal_logic_output 0 0 0 0 0 N031 0 SCHMITT Vhigh = 4.9,
 C22 N005 N011 1µ
 C18 N033 N037 1µ
 C49 N053 N058 1µ
-B1 N006 0 I = {current}
 C19 N007 0 330µ Rser=0.1 Lser=6.8n
 L1 UMBILICAL N001 {para_L}
 L2 BATT_1 N009 {para_L}
 L3 BATT_2 N016 {para_L}
 R5 N041 0 33200
+I1 N006 0 {current} load
 .model D D
 .lib C:\Users\reinz\AppData\Local\LTspice\lib\cmp\standard.dio
 .model NMOS NMOS
