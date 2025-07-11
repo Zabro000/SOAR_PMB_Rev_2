@@ -4,7 +4,7 @@ V§UMBILICAL N023 0 PULSE(0 48 0 10m 2m 200m 500m 2) Rser=ESR
 V§BATT_1 N024 0 PULSE(0 16.8 0 10m 10m 500m 750m 2) Rser=ESR
 V§BATT_2 N025 0 PULSE(0 16.8 0 10m 10m 810m 11 1) Rser=ESR
 R1 N029 UMBILICAL 100000
-R2 N029 0 12500
+R2 N029 0 13000
 C2 Umbilical_priority_comparator 0 10n
 R8 N029 Umbilical_priority_comparator 330
 B§UMBILICAL_Noise N001 N023 V=white(2e4*time) / 13
@@ -110,7 +110,7 @@ X§U32 N051 RESET_GATE SN74LVC1G14DBVR
 D5 BATT_2 N030 MMSD4148
 D6 BATT_1 N030 MMSD4148
 D15 UMBILICAL N030 MMSD4148
-R7 N035 0 32000
+R7 N035 0 33000
 R9 BATT_1 N035 68000
 C10 BATT_1_priority_comparator 0 10n
 R12 N035 BATT_1_priority_comparator 330
@@ -179,8 +179,8 @@ C22 N005 N011 1µ
 C18 N033 N037 1µ
 C49 N053 N058 1µ
 B1 N006 0 I = 10
-R5 N041 0 32000
-C19 N007 0 220µf Rser=0.1 Lser=6.8n
+R5 N041 0 33000
+C19 N007 0 330µ Rser=0.1 Lser=6.8n
 L1 UMBILICAL N001 {para_L}
 L2 BATT_1 N009 {para_L}
 L3 BATT_2 N016 {para_L}
@@ -210,7 +210,7 @@ L3 BATT_2 N016 {para_L}
 * AND Gate power bypass caps
 * Comparator power bypass caps
 .params para_L = 10p
-.param ESR=60m
+.param ESR=100m
 .model AHHHH D(Vfwd = 0, Ron = 0, Ilimit = BMS_current_limit, Vrev = {Rev_prot_v})
 .param Rev_prot_v = 0
 .param BMS_current_limit=25
