@@ -4,7 +4,7 @@ V§UMBILICAL N023 0 PULSE(0 48 0 10m 2m 200m 500m 2) Rser=ESR
 V§BATT_1 N024 0 PULSE(0 16.8 0 10m 10m 500m 750m 2) Rser=ESR
 V§BATT_2 N025 0 PULSE(0 16.8 0 10m 10m 810m 11 1) Rser=ESR
 R1 N029 UMBILICAL 100000
-R2 N029 0 14000
+R2 N029 0 12500
 C2 Umbilical_priority_comparator 0 10n
 R8 N029 Umbilical_priority_comparator 330
 B§UMBILICAL_Noise N001 N023 V=white(2e4*time) / 13
@@ -13,7 +13,7 @@ BATT_2_Noise N016 N025 V=white(2e4*time) / 13
 C7 N040 0 1n
 C8 N034 0 4.7µ Rser=1.5m
 X§U1 N030 N034 N030 N040 N034 0 ADM7170-5.0
-C1 N007 0 220µf Rser=0.1
+C1 N007 0 220µf Rser=0.1 Lser=6.8n
 C13 LOGIC_POWER 0 1µ
 C14 LOGIC_POWER 0 1µ
 C16 LOGIC_POWER 0 1µ
@@ -40,7 +40,7 @@ R11 N019 0 67857
 M4 N004 UMBILICAL_gate_drive N005 N005 IPA180N10N3
 M5 OUTPUT_RAIL UMBILICAL_gate_drive N005 N005 IPA180N10N3
 D7 N010 N011 RF071MM2S
-R19 UMBILICAL_gate_drive N017 1000
+R19 UMBILICAL_gate_drive N017 1500
 C20 N026 0 20n
 R20 UMBILICAL_gate_drive N026 10
 X§U14 N036 N043 0 BATT_1_gate_control_logic_output Deny_signal BATT_1_gate_drive N042 N033 N037 LTC7001
@@ -180,11 +180,10 @@ C18 N033 N037 1µ
 C49 N053 N058 1µ
 B1 N006 0 I = 10
 R5 N041 0 32000
-C19 N007 0 220µf Rser=0.1
+C19 N007 0 220µf Rser=0.1 Lser=6.8n
 L1 UMBILICAL N001 {para_L}
 L2 BATT_1 N009 {para_L}
 L3 BATT_2 N016 {para_L}
-D18 NC_22 NC_23 AHHHH
 .model D D
 .lib C:\Users\reinz\AppData\Local\LTspice\lib\cmp\standard.dio
 .model NMOS NMOS
@@ -214,7 +213,7 @@ D18 NC_22 NC_23 AHHHH
 .param ESR=60m
 .model AHHHH D(Vfwd = 0, Ron = 0, Ilimit = BMS_current_limit, Vrev = {Rev_prot_v})
 .param Rev_prot_v = 0
-.param BMS_current_limit=20
+.param BMS_current_limit=25
 .lib ADM7170-5.0.sub
 .lib LTC7001.sub
 .lib SN74LVC1G08DBVR.sub
