@@ -13,7 +13,6 @@ BATT_2_Noise N016 N025 V=white(2e4*time) / 13
 C7 N040 0 1n
 C8 N034 0 4.7µ Rser=1.5m
 X§U1 N030 N034 N030 N040 N034 0 ADM7170-5.0
-C1 N007 0 220µf Rser=0.1 Lser=6.8n
 C13 LOGIC_POWER 0 1µ
 C14 LOGIC_POWER 0 1µ
 C16 LOGIC_POWER 0 1µ
@@ -177,7 +176,7 @@ C19 N007 0 330µ Rser=0.1 Lser=6.8n
 L1 UMBILICAL N001 {para_L}
 L2 BATT_1 N009 {para_L}
 L3 BATT_2 N016 {para_L}
-I1 N006 0 10 load
+I1 N006 0 5 load
 D1 UMBILICAL UMBILICAL_L AHHHH
 D2 BATT_1 BATT_1_L AHHHH
 D4 BATT_2 BATT_2_L AHHHH
@@ -188,6 +187,7 @@ R10 N035 0 33200
 R5 N041 0 33200
 C10 BATT_1_priority_comparator 0 10n
 C15 BATT_2_priority_comparator 0 10n
+C1 N007 0 330µ Rser=0.1 Lser=6.8n
 .model D D
 .lib C:\Users\reinz\AppData\Local\LTspice\lib\cmp\standard.dio
 .model NMOS NMOS
