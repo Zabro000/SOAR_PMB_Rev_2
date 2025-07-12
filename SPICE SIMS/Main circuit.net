@@ -110,7 +110,7 @@ X§U32 N054 RESET_GATE SN74LVC1G14DBVR
 D5 BATT_2 N033 MMSD4148
 D6 BATT_1 N033 MMSD4148
 D15 UMBILICAL N033 MMSD4148
-R7 N038 0 33200
+R7 N038 0 35000
 R9 BATT_1 N038 68000
 C10 BATT_1_priority_comparator 0 10n
 R12 N038 BATT_1_priority_comparator 330
@@ -180,11 +180,15 @@ C19 N008 0 330µ Rser=0.1 Lser=6.8n
 L1 N002 N001 {para_L}
 L2 N011 N010 {para_L}
 L3 N019 N018 {para_L}
-R5 N044 0 33200
 I1 N007 0 5 load
 D1 N002 UMBILICAL AHHHH
 D2 N011 BATT_1 AHHHH
 D4 N019 BATT_2 AHHHH
+C47 UMBILICAL 0 330µf Rser=0.1 Lser=6.8n
+C48 BATT_1 0 220µf Rser=0.1 Lser=6.8n
+C52 BATT_2 0 220µf Rser=0.1 Lser=6.8n
+R10 NC_22 NC_23 33200
+R18 N044 0 35000
 .model D D
 .lib C:\Users\reinz\AppData\Local\LTspice\lib\cmp\standard.dio
 .model NMOS NMOS
@@ -214,7 +218,7 @@ D4 N019 BATT_2 AHHHH
 .param ESR=100m
 .model AHHHH D(Vfwd = 0, Ron = 0, Ilimit = BMS_current_limit, Vrev = {Rev_prot_v})
 .param Rev_prot_v = 0
-.param BMS_current_limit=30
+.param BMS_current_limit=18
 .lib ADM7170-5.0.sub
 .lib LTC7001.sub
 .lib SN74LVC1G08DBVR.sub
