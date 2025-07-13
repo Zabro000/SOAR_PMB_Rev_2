@@ -4,7 +4,7 @@ V§UMBILICAL N023 0 PULSE(0 48 0 10m 2m 200m 500m 2) Rser=ESR
 V§BATT_1 N024 0 PULSE(0 16.8 0 10m 10m 430m 750m 2) Rser=ESR
 V§BATT_2 N025 0 PULSE(0 16.8 0 10m 10m 850m 11 1) Rser=ESR
 R1 N029 UMBILICAL 100000
-R2 N029 0 29500
+R2 N029 0 12900
 C2 Umbilical_priority_comparator 0 {cap}
 R8 N029 Umbilical_priority_comparator 330
 B§UMBILICAL_Noise N001 N023 V=white(2e4*time) / 13
@@ -39,7 +39,7 @@ R11 N019 0 67857
 M4 N004 UMBILICAL_gate_drive N005 N005 IPA180N10N3
 M5 OUTPUT_RAIL UMBILICAL_gate_drive N005 N005 IPA180N10N3
 D7 N010 N011 RF071MM2S
-R19 UMBILICAL_gate_drive N017 1500
+R19 UMBILICAL_gate_drive N017 500
 C20 N026 0 20n
 R20 UMBILICAL_gate_drive N026 10
 X§U14 N036 N043 0 BATT_1_gate_control_logic_output Deny_signal BATT_1_gate_drive N042 N033 N037 LTC7001
@@ -169,7 +169,7 @@ C56 N038 0 2.2n
 A2 Umbilical_gate_control_logic_output 0 0 0 0 0 N002 0 SCHMITT Vhigh = 4.9, Vlow = 0.1, Vt = 2.5, Vh =1, Trise = 2ns
 A1 BATT_1_gate_control_logic_output 0 0 0 0 0 N021 0 SCHMITT Vhigh = 4.9, Vlow = 0.1, Vt = 2.5, Vh =1
 A3 BATT_2_gate_control_signal_logic_output 0 0 0 0 0 N031 0 SCHMITT Vhigh = 4.9, Vlow = 0.1, Vt = 2.5, Vh =1
-C22 N005 N011 1µ
+C22 N005 N011 {cappp}
 C18 N033 N037 1µ
 C49 N053 N058 1µ
 C19 N007 0 330µ Rser=0.1 Lser=6.8n
@@ -188,7 +188,6 @@ R7 N035 0 {res}
 R5 N041 0 {res}
 C48 BATT_1_L 0 440µf Rser=0.1 Lser=6.8n
 C73 BATT_2_L 0 440µf Rser=0.1 Lser=6.8n
-C52 N007 0 {capp} Rser=0.1 Lser=6.8n
 .model D D
 .lib C:\Users\reinz\AppData\Local\LTspice\lib\cmp\standard.dio
 .model NMOS NMOS
@@ -222,7 +221,7 @@ C52 N007 0 {capp} Rser=0.1 Lser=6.8n
 .param res=33600
 * step param cap list 0.5n 1n 10n
 .param cap 1n
-.step param capp list 1n 100u 300u
+.step param cappp list 200n 300n 500n
 .lib ADM7170-5.0.sub
 .lib LTC7001.sub
 .lib SN74LVC1G08DBVR.sub
