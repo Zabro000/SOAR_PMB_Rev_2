@@ -3,7 +3,7 @@ import math
 rising_under_voltage_threshold = 4.75 #V
 UNDER_VOLTAGE_HYSTERESIS = 0.3 #V
 
-turn_on_rc_resistor = 5e3 #ohm
+turn_on_rc_resistor = 10e2 #ohm
 turn_on_rc_capacitor = 20e-9 #F
 output_rail_bulk_capacitance = 100e-6 #F
 BOOT_STRAPPED_VOLTAGE = 12 #V

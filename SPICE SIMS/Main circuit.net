@@ -210,7 +210,8 @@ L3 BATT_2 N016 {para_L}
 * AND Gate power bypass caps
 * Comparator power bypass caps
 .params para_L = 10p
-.step param cur list 5 10 12
+.step param cur list 5 10.5 12.1
+.param curr = 5
 .lib ADM7170-5.0.sub
 .lib LTC7001.sub
 .lib SN74LVC1G08DBVR.sub
