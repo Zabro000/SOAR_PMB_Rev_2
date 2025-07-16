@@ -13,7 +13,7 @@ BATT_2_Noise N016 N025 V=white(2e4*time) / 13
 C7 N040 0 1n
 C8 N034 0 4.7µ Rser=1.5m
 X§U1 N030 N034 N030 N040 N034 0 ADM7170-5.0
-C1 N007 0 220µf Rser=0.1
+C1 N007 0 {cappp} Rser=0.1
 C13 LOGIC_POWER 0 1µ
 C14 LOGIC_POWER 0 1µ
 C16 LOGIC_POWER 0 1µ
@@ -178,9 +178,9 @@ A3 BATT_2_gate_control_signal_logic_output 0 0 0 0 0 N031 0 SCHMITT Vhigh = 4.9,
 C22 N005 N011 1µ
 C18 N033 N037 1µ
 C49 N053 N058 1µ
-B1 N006 0 I = {cur}
+B1 N006 0 I = {ii}
 R5 N041 0 32000
-C19 N007 0 220µf Rser=0.1
+C19 N007 0 {cappp} Rser=0.1
 L1 UMBILICAL N001 {para_L}
 L2 BATT_1 N009 {para_L}
 L3 BATT_2 N016 {para_L}
@@ -210,8 +210,8 @@ L3 BATT_2 N016 {para_L}
 * AND Gate power bypass caps
 * Comparator power bypass caps
 .params para_L = 10p
-.step param cur list 5 10.5 12.1
-.param curr = 5
+.step param cappp list 220uf 550uf
+.step param ii list 5 12.1
 .lib ADM7170-5.0.sub
 .lib LTC7001.sub
 .lib SN74LVC1G08DBVR.sub
