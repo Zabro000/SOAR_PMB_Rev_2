@@ -52,7 +52,7 @@ X§U16 N057 N063 0 BATT_2_gate_control_signal_logic_output Deny_signal BATT_2_ga
 M8 N052 BATT_2_gate_drive N053 N053 IPA180N10N3
 M9 OUTPUT_RAIL BATT_2_gate_drive N053 N053 IPA180N10N3
 D8 N057 N058 RF071MM2S
-R23 BATT_2_gate_drive N061 {resistors}
+R23 BATT_2_gate_drive N061 500
 C23 N066 0 20n
 R24 BATT_2_gate_drive N066 10
 D9 0 N005 D
@@ -182,8 +182,8 @@ C19 N007 0 220µf Rser=0.1
 L1 UMBILICAL N001 {para_L}
 L2 BATT_1 N009 {para_L}
 L3 BATT_2 N016 {para_L}
-R10 UMBILICAL_gate_drive N017 {resistors}
-R15 BATT_1_gate_drive N042 {resistors}
+R10 UMBILICAL_gate_drive N017 750
+R15 BATT_1_gate_drive N042 500
 .model D D
 .lib C:\Users\reinz\AppData\Local\LTspice\lib\cmp\standard.dio
 .model NMOS NMOS
@@ -211,8 +211,6 @@ R15 BATT_1_gate_drive N042 {resistors}
 * Comparator power bypass caps
 .params para_L = 10p
 .step param cur list 5 12.1
-* .step param resistors list 1000 500 250 100
-.param resistors 500
 .lib ADM7170-5.0.sub
 .lib LTC7001.sub
 .lib SN74LVC1G08DBVR.sub
