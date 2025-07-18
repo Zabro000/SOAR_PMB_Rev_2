@@ -174,7 +174,7 @@ C19 N007 0 220µf Rser=0.1
 L1 UMBILICAL N001 {para_L}
 L2 BATT_1 N009 {para_L}
 L3 BATT_2 N016 {para_L}
-R10 UMBILICAL_gate_drive N017 1000
+R10 UMBILICAL_gate_drive N017 750
 R15 BATT_1_gate_drive N039 500
 R5 BATT_2 BATT_2_priority_comparator 10000
 R18 BATT_2_priority_comparator 0 4778
