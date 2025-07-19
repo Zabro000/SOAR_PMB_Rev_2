@@ -175,10 +175,10 @@ R33 LOGIC_POWER N009 976k
 R12 N024 0 187500
 R16 N033 0 187500
 B2 0 N026 V = 50 * v(UMBILICAL_gate_drive) + 100
-R10 UMBILICAL_gate_drive TGUP 15000
-R26 N037 TGUP 250
+R10 UMBILICAL_gate_drive TGUP 20000
+R26 N037 TGUP 200
 S1 N037 UMBILICAL_gate_drive N039 0 MYSW
-A1 UMBILICAL_gate_drive OUTPUT_RAIL 0 0 0 0 N039 0 SCHMITT Trise= 330n, Vhigh = 5, Vlow = 0, Vh = 100m, Vt =0.00
+A1 UMBILICAL_gate_drive OUTPUT_RAIL 0 0 0 N039 0 0 SCHMITT Trise= 330n, Vhigh = 5, Vlow = 0, Vh = 100m, Vt =0.00
 .model D D
 .lib C:\Users\reinz\AppData\Local\LTspice\lib\cmp\standard.dio
 .model NMOS NMOS
