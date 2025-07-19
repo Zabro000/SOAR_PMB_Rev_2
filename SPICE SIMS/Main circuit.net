@@ -169,7 +169,7 @@ A3 BATT_2_gate_control_signal_logic_output 0 0 0 0 0 N030 0 SCHMITT Vhigh = 4.9,
 C22 N005 N011 1µ
 C18 N032 N035 1µ
 C49 N050 N055 1µ
-B1 N006 0 I = 12.1
+B1 N006 0 I = {cur}
 C19 N007 0 220µf Rser=0.1
 L1 UMBILICAL N001 {para_L}
 L2 BATT_1 N009 {para_L}
@@ -181,9 +181,6 @@ R18 BATT_2_priority_comparator 0 4778
 C2 Umbilical_priority_comparator 0 10n
 C10 BATT_1_priority_comparator 0 10n
 C15 BATT_2_priority_comparator 0 10n
-C48 UMBILICAL 0 220µ
-C73 BATT_1 0 220µ
-C76 BATT_2 0 220µ
 .model D D
 .lib C:\Users\reinz\AppData\Local\LTspice\lib\cmp\standard.dio
 .model NMOS NMOS
@@ -210,7 +207,7 @@ C76 BATT_2 0 220µ
 * AND Gate power bypass caps
 * Comparator power bypass caps
 .params para_L = 10p
-* .step param cur list 5 12.1
+.step param cur list 5 12.1
 .lib ADM7170-5.0.sub
 .lib LTC7001.sub
 .lib SN74LVC1G08DBVR.sub
