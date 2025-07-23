@@ -5,3 +5,5 @@ A2 V+ 0 0 0 0 0 N002 0 BUF Vhigh = 5, Vlow = 0, Vt = 1.5, Td = 2m
 R1 OUT 0 10e6
 .model SW1 SW(Vt = 1.5 Vh = 10m)
 .ends TLV1851DBVR
+
+
