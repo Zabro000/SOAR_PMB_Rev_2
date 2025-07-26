@@ -62,6 +62,14 @@ def input_cap_calculations(peak_indcutor_current, input_cap_esr, max_output_curr
     power_loss_input_capacitor = approx_input_cap_rms_current * (input_cap_esr ** 2)
 
 
+def ripple_injection_calculations(input_voltage, k_div, duty_cycle, switching_frequency):
+    k_div = 
+    injected_ripple = input_voltage * k_div * duty_cycle * switching_frequency
+
+
+
+def running_12V_ripple_injection():
+    pass
 
 
 def running_simple_values_for_12V_buck_converter(): 
@@ -83,8 +91,6 @@ def running_simple_values_for_12V_buck_converter():
 
         print("\n\n\n")
 
-    
-    #
     print(f"Capacitance: {capacitance_1 * 1e6}uF voltage ripple: {output_voltage_ripple(1.6, capacitance_1, switching_frequency, esr_1):.5f}V")
 
 
@@ -92,5 +98,9 @@ def main():
     running_simple_values_for_12V_buck_converter()
 
 
+
+
 if __name__ == "__main__":
     main()
+
+    
