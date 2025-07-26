@@ -63,7 +63,7 @@ def input_cap_calculations(peak_indcutor_current, input_cap_esr, max_output_curr
 
 
 def ripple_injection_calculations(input_voltage, k_div, duty_cycle, switching_frequency):
-    k_div = 
+    k_div = None ### silly thing here
     injected_ripple = input_voltage * k_div * duty_cycle * switching_frequency
 
 
