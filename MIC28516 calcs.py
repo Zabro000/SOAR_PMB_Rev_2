@@ -71,12 +71,13 @@ def running_simple_values():
 
     print(soft_start_capacitor(30e-3) * 10e8)
 
-    out_cap_vals = [100e-6, 220e-6, 55e-6]
+    out_cap_vals = [100e-6, 220e-6, 55e-6, 22e-6]
     esr_values = [5,4,3,2,1,0.2,0.1,0.05]
 
     for esr in esr_values:
+        print(f"ESR: {esr}ohm")
         for val in out_cap_vals:
-            print(output_voltage_ripple(1.6, val, switching_frequency, esr))
+            print(f"Capacitance: {val * 1e6}uF voltage ripple: {output_voltage_ripple(1.6, val, switching_frequency, esr):.5f}V")
 
         print("\n\n\n")
 
