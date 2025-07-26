@@ -84,7 +84,7 @@ def running_simple_values_for_12V_buck_converter():
         print("\n\n\n")
 
     
-    
+    #
     print(f"Capacitance: {capacitance_1 * 1e6}uF voltage ripple: {output_voltage_ripple(1.6, capacitance_1, switching_frequency, esr_1):.5f}V")
 
 
