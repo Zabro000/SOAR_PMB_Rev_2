@@ -13,8 +13,6 @@ load_current_limit = None
 AC_RIPPLE_CURRENT_TO_DC_RATIO = 0.2
 
 
-
-
 def time_on_estimate(Vout, Vin, fsw):
     return Vout / (Vin * fsw)
 
@@ -47,7 +45,7 @@ def inductor_selection_and_indcutor_ppk_to_pkk_current_ripple(v_out, v_in_max, v
     rms_inductor_current = (current_output_max ** 2 + (peak_to_peak_inductor_ripple ** 2) / 12) ** (1/2)
 
 def output_voltage_ripple(peak_to_peak_i_ripple, output_cap, fsw, output_cap_esr):
-    v_out_ripple = ((peak_to_peak_i_ripple / (output_cap * fsw * 8)) ** 2 + (peak_to_peak_i_ripple * output_cap_esr) ** 2)
+    v_out_ripple = ((peak_to_peak_i_ripple / (output_cap * fsw * 8)) ** 2 + (peak_to_peak_i_ripple * output_cap_esr) ** 2) ** (0.5)
     return v_out_ripple
 
 
@@ -66,13 +64,17 @@ def input_cap_calculations(peak_indcutor_current, input_cap_esr, max_output_curr
 
 
 
-def running_simple_values(): 
-    print(output_voltage_bottom_resistor(20.8e3, selected_output_voltage))
+def running_simple_values_for_12V_buck_converter(): 
+    #print(output_voltage_bottom_resistor(20.8e3, selected_output_voltage))
+    #print(soft_start_capacitor(30e-3) * 10e8)
 
-    print(soft_start_capacitor(30e-3) * 10e8)
 
-    out_cap_vals = [100e-6, 220e-6, 55e-6, 22e-6]
-    esr_values = [5,4,3,2,1,0.2,0.1,0.05]
+    print("Please note these values calculate the worst case voltage ripple because the max voltage input and current ripple is used. " \
+    "The actual voltage ripple will be much lower.")
+    out_cap_vals = [220e-6, 100e-6, 55e-6, 22e-6]
+    esr_values = [5,4,3,2,1,0.2,0.1,0.05,0.01,0.005]
+    capacitance_1 = 330e-6
+    esr_1 = 14e-3
 
     for esr in esr_values:
         print(f"ESR: {esr}ohm")
@@ -81,9 +83,13 @@ def running_simple_values():
 
         print("\n\n\n")
 
+    
+    
+    print(f"Capacitance: {capacitance_1 * 1e6}uF voltage ripple: {output_voltage_ripple(1.6, capacitance_1, switching_frequency, esr_1):.5f}V")
+
 
 def main():
-    running_simple_values()
+    running_simple_values_for_12V_buck_converter()
 
 
 if __name__ == "__main__":
