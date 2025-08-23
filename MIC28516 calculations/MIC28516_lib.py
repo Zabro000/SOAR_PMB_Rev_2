@@ -72,7 +72,13 @@ class MIC28516():
         self.current_limit_external_resistance = (self.load_current_limit + (self.inductor_ripple_current / 2)) * MIC28516.internal_low_side_mosfet_rds / MIC28516.current_limit_pin_output_current
 
         if print_val:
-            value_printer("Current Limit Resistor", self.soft_start_capacitance, "nF")
+            value_printer("Current Limit Resistor", self.current_limit_external_resistance, "nF")
+
+    
+    def run_calcs(self):
+        self.source_current_limit_resistor()
+        
+
 
 
 
@@ -81,9 +87,17 @@ class MIC28516():
 
 
 def test_1():
-    buck_1 = MIC28516(300e3, [48], 12, 30e-3, 0.2, 10000)
+    fsw = 300e3
+    vin = [48]
+    vout = 12 
+    tss = 30e-3
+    ripple_ratio = 0.2
+    fb_rtop = 10000
+    Ilim = 8
+    buck_1 = MIC28516(fsw, vin, vout, tss, ripple_ratio, fb_rtop, Ilim)
     buck_1.feedback_bottom_resistor()
     buck_1.soft_start_capacitor(print_val = True)
+    buck_1.source_current_limit_resistor(print_val = True)
 
 
 
