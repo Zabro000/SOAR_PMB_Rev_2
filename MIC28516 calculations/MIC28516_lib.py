@@ -28,27 +28,64 @@ class MIC28516():
     internal_low_side_mosfet_rds = 18e-3
     internal_soft_start_current = 1.4e-6
     fundimental_switching_frequency_fo = 800e3
+    maximum_output_current = 8 
 
 
-    def __init__(self, switching_freq: float, input_voltages: list, output_voltage: float, soft_start_time: float, ripple_current_ratio: float,
-                 feedback_top_resistor: float, load_current_limit: float):
+    def __init__(self, switching_freq: float, input_voltage: float, output_voltage: float, soft_start_time: float, ripple_current_ratio: float,
+                 feedback_top_resistor: float, load_current_limit: float, feedforward_capacitor: float = None,
+                 ripple_injection_resistor: float = None, ripple_injection_capacitor: float = None):
         
         self.switching_frequency = switching_freq
         self.soft_start_time = soft_start_time
-        self.input_voltage = input_voltages
+        self.input_voltage = input_voltage
         self.output_voltage = output_voltage
         self.ripple_current_ratio = ripple_current_ratio
         self.feedback_top_resistance = feedback_top_resistor
         self.load_current_limit = load_current_limit
 
 
-        self.approx_on_time = None
+        self.time_on_aprrox = None
         self.max_duty_cycle = None 
         self.soft_start_capacitance = None 
         self.feedback_bottom_resistance = None
         self.current_limit_external_resistance = None
         self.inductor_ripple_current = None
-         
+        self.negitive_current_limit = None
+        self.inductance = None 
+        self.peak_to_peak_inductor_ripple_current = None
+        self.maximum_inductor_current = None
+        self.rms_inductor_current = None
+        self.output_voltage_ripple = None
+        self.output_capacitance = None
+        self.output_capacitance_esr = None
+        self.peak_to_peak_feedback_voltage_ripple_using_feedforward_capacitor_only = None
+
+        if feedforward_capacitor is None:
+            self.feedforward_capacitor = None 
+        else:
+           self.feedforward_capacitor = feedforward_capacitor 
+
+
+        if ripple_injection_resistor is None:
+            self.ripple_injection_resistor = None 
+        else:
+           self.ripple_injection_resistor = ripple_injection_resistor 
+
+        if ripple_injection_capacitor is None:
+            self.ripple_injection_capacitor = None 
+        else:
+           self.ripple_injection_capacitor = ripple_injection_capacitor 
+
+
+    def update_input_voltage(self, new_voltage):
+        self.input_voltage = new_voltage
+
+    
+    def preliminary_calculations(self):
+
+        self.time_on_aprrox = self.output_voltage / (self.input_voltage * self.switching_frequency)
+
+        self.max_duty_cycle = 1 - (MIC28516.min_on_time * self.switching_frequency)
 
     def feedback_bottom_resistor(self, print_val = None):
         
@@ -63,20 +100,54 @@ class MIC28516():
         if print_val:
             value_printer("Soft start capacitance", self.soft_start_capacitance, "nF")
 
-    def maximum_duty_cycle(self):
-        self.max_duty_cycle = 1 - (MIC28516.min_on_time * self.switching_frequency)
 
 
-    def source_current_limit_resistor(self, print_val = None):
+    def inductor_calculations(self, print_val = None):
 
-        self.current_limit_external_resistance = (self.load_current_limit + (self.inductor_ripple_current / 2)) * MIC28516.internal_low_side_mosfet_rds / MIC28516.current_limit_pin_output_current
+        numerator = (self.output_voltage * self.input_voltage - self.output_voltage ** 2)
+        denominator = (self.input_voltage * self.switching_frequency * self.ripple_current_ratio * MIC28516.maximum_output_current)
+        self.inductance = numerator / denominator
+
+        numerator_2 = (self.output_voltage * self.input_voltage - self.output_voltage ** 2)
+        denominator_2 = (self.input_voltage * self.switching_frequency * self.inductance)
+        self.peak_to_peak_inductor_ripple_current = numerator_2 / denominator_2
+
+        self.maximum_inductor_current = MIC28516.maximum_output_current + 0.5 * self.peak_to_peak_inductor_ripple_current
+
+        self.rms_inductor_current = M.sqrt(M.pow(MIC28516.maximum_output_current, 2) + M.pow(self.peak_to_peak_inductor_ripple_current, 2) / 12)
+
 
         if print_val:
-            value_printer("Current Limit Resistor", self.current_limit_external_resistance, "nF")
+            value_printer("Inductance", self.inductance, "H")
+            value_printer("Peak to peak ind current ripple", self.peak_to_peak_inductor_ripple_current, "H")
+            value_printer("Maximum current", self.maximum_inductor_current)
+            value_printer("RMS ind current", self.rms_inductor_current)
 
+    def output_capacitor_value_and_esr_plot(self, value_bounds, esr_bounds):
+        pass
     
-    def run_calcs(self):
-        self.source_current_limit_resistor()
+    def output_voltage_ripple_calculations(self, print_val = None):
+
+        func_1 = M.pow((self.maximum_inductor_current / (self.output_capacitance * self.switching_frequency * 8)), 2)
+        func_2 = M.pow((self.maximum_inductor_current * self.output_capacitance_esr), 2)
+        self.output_voltage_ripple = M.sqrt(func_1 + func_2)
+
+        if print_val:
+            value_printer("Output voltage ripple", self.output_voltage_ripple)
+
+
+    def ripple_injection_calculations(self, print_val = None):
+        self.peak_to_peak_feedback_voltage_ripple_using_feedforward_capacitor_only = self.output_capacitance_esr * self.peak_to_peak_inductor_ripple_current
+        
+        func_1 = (M.pow(self.feedback_top_resistance, -1) + M.pow(self.feedback_bottom_resistance, -1) + M.pow(self.feedback_bottom_resistance, -1))
+        func_2 = 
+       
+       
+        self.peak_to_peak_feedback_voltage_ripple_using_method_3 = 
+
+
+    def run_all_calcs(self):
+        pass
         
 
 
