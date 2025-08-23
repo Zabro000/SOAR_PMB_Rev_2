@@ -61,20 +61,19 @@ class MIC28516():
         self.peak_to_peak_feedback_voltage_ripple_using_feedforward_capacitor_only = None
 
         if feedforward_capacitor is None:
-            self.feedforward_capacitor = None 
+            self.feedforward_capacitance = None 
         else:
-           self.feedforward_capacitor = feedforward_capacitor 
-
+           self.feedforward_capacitance = feedforward_capacitor 
 
         if ripple_injection_resistor is None:
-            self.ripple_injection_resistor = None 
+            self.ripple_injection_resistance = None 
         else:
-           self.ripple_injection_resistor = ripple_injection_resistor 
+           self.ripple_injection_resistance = ripple_injection_resistor 
 
         if ripple_injection_capacitor is None:
-            self.ripple_injection_capacitor = None 
+            self.ripple_injection_capacitance = None 
         else:
-           self.ripple_injection_capacitor = ripple_injection_capacitor 
+           self.ripple_injection_capacitance = ripple_injection_capacitor 
 
 
     def update_input_voltage(self, new_voltage):
@@ -139,11 +138,19 @@ class MIC28516():
     def ripple_injection_calculations(self, print_val = None):
         self.peak_to_peak_feedback_voltage_ripple_using_feedforward_capacitor_only = self.output_capacitance_esr * self.peak_to_peak_inductor_ripple_current
         
-        func_1 = (M.pow(self.feedback_top_resistance, -1) + M.pow(self.feedback_bottom_resistance, -1) + M.pow(self.feedback_bottom_resistance, -1))
-        func_2 = 
+        func_1 = (M.pow((M.pow(self.feedback_top_resistance, -1) + M.pow(self.feedback_bottom_resistance, -1) + M.pow(self.feedback_bottom_resistance, -1)), -1) 
+        * self.feedforward_capacitance)
+        
+        func_2_a = M.pow((M.pow(self.feedback_top_resistance, -1) + M.pow(self.feedback_bottom_resistance, -1)), -1) 
+        func_2_b = self.ripple_injection_resistance + func_2_a
+        func_2 = func_2_a / func_2_b
+
+        func_3 = self.max_duty_cycle - M.pow(self.max_duty_cycle, 2)
        
-       
-        self.peak_to_peak_feedback_voltage_ripple_using_method_3 = 
+        self.peak_to_peak_feedback_voltage_ripple_using_method_3 = self.input_voltage * func_2 * func_3 / (self.switching_frequency * func_1)
+
+        if print_val:
+            value_printer("Feedback pin voltage ripple", self.peak_to_peak_feedback_voltage_ripple_using_method_3)
 
 
     def run_all_calcs(self):
