@@ -1,0 +1,13 @@
+,Values,Units
+Switching On Time,3.4722222222222224e-07,s
+Max Duty Cycle,0.928,N/A
+Top Feedback Resistor Value,21000.0,ohm
+Bottom Feedback Resistor Value,2863.6363636363635,ohm
+Soft Start Capacitance,7e-08,F
+Output Inductance,9.331597222222222e-06,H
+Peak to Peak Ind Current Ripple,1.6,A
+Peak Ind Current,8.8,A
+RMS Ind Current,8.01332224070225,A
+Output Votlage Ripple,0.02249091408107791,V
+Feedback Votlage Ripple Only Using a Feedforward Capacitor,0.022400000000000003,V
+Feedback Voltage Ripple Using Method 3,0.040473082456273186,V

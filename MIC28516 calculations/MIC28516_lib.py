@@ -105,7 +105,7 @@ class MIC28516():
         if print_val:
             value_print_block()
             value_printer("Time on aprox", self.time_on_aprrox, "s")
-            value_printer("Max duty cycle", self.max_duty_cycle, "N/A")
+            value_printer("Max duty cycle", self.max_duty_cycle, "")
 
     def feedback_bottom_resistor(self, print_val = None):
         
@@ -186,11 +186,13 @@ class MIC28516():
 
 
     def run_all_calcs_compare(self, set_inductance = None, set_inductance_value = None):
-        message = f" All the important calculation methods ran here: input voltage = {self.input_voltage}V "
+        message = f" All the important calculation methods ran here: Vin = {self.input_voltage}V, Vout = {self.output_voltage}V "
         message_string = f"\n\n{message:-^100}"
 
         end_message = " Done "
         end_message_string = f"\n{end_message:-^100}\n"
+
+        print(message_string)
 
         self.preliminary_calculations(True)
         self.feedback_bottom_resistor(True)
@@ -230,7 +232,9 @@ class MIC28516():
         dataframe = pd.DataFrame(data = data, index = row_indices)
         dataframe.to_csv(self.export_csv_filename)
 
+        print()
         print(dataframe)
+        print()
 
         
 
