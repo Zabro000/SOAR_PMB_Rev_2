@@ -157,7 +157,7 @@ class MIC28516():
     def ripple_injection_calculations(self, print_val = None):
         self.peak_to_peak_feedback_voltage_ripple_using_feedforward_capacitor_only = self.output_capacitance_esr * self.peak_to_peak_inductor_ripple_current
         
-        func_1 = (M.pow((M.pow(self.feedback_top_resistance, -1) + M.pow(self.feedback_bottom_resistance, -1) + M.pow(self.feedback_bottom_resistance, -1)), -1) 
+        func_1 = (M.pow((M.pow(self.feedback_top_resistance, -1) + M.pow(self.feedback_bottom_resistance, -1) + M.pow(self.ripple_injection_resistance, -1)), -1) 
         * self.feedforward_capacitance)
         
         func_2_a = M.pow((M.pow(self.feedback_top_resistance, -1) + M.pow(self.feedback_bottom_resistance, -1)), -1) 
@@ -169,7 +169,9 @@ class MIC28516():
         self.peak_to_peak_feedback_voltage_ripple_using_method_3 = self.input_voltage * func_2 * func_3 / (self.switching_frequency * func_1)
 
         if print_val:
-            value_printer("Feedback pin voltage ripple", self.peak_to_peak_feedback_voltage_ripple_using_method_3)
+            value_print_block()
+            value_printer("Feedback pin voltage ripple from only a feedforward capacitor", self.peak_to_peak_feedback_voltage_ripple_using_feedforward_capacitor_only)
+            value_printer("Feedback pin voltage ripple from method 3", self.peak_to_peak_feedback_voltage_ripple_using_method_3)
 
 
     def run_all_calcs(self):
@@ -187,12 +189,17 @@ def test_2():
     Ilim = 8
     Cout = 330e-6
     esr_Cout = 14e-3
-    buck_1 = MIC28516(fsw, vin, vout, tss, ripple_ratio, fb_rtop, Ilim, output_capacitance = Cout, output_capacitance_esr = esr_Cout)
+    feedforward_cap = 4.7e-9
+    ripple_resistor = 56.2e3
+    ripple_capacitor = 100e-9
+    buck_1 = MIC28516(fsw, vin, vout, tss, ripple_ratio, fb_rtop, Ilim, output_capacitance = Cout, output_capacitance_esr = esr_Cout, 
+                      ripple_injection_resistor= ripple_resistor, ripple_injection_capacitor = ripple_capacitor, feedforward_capacitor = feedforward_cap)
     buck_1.preliminary_calculations(True)
     buck_1.feedback_bottom_resistor(True)
     buck_1.soft_start_capacitor(True)
     buck_1.inductor_calculations(True)
     buck_1.output_voltage_ripple_calculations(True)
+    buck_1.ripple_injection_calculations(True)
 
 
 
@@ -214,36 +221,4 @@ if __name__ == "__main__":
 
     
 
-
-
-
-#     def time_on_estimate(self, Vout, Vin, fsw):
-#         return Vout / (Vin * fsw)
-
-
-#     def max_duty_cycle_1(self, fsw):
-#         return 1 - (MIN_ON_TIME * fsw)
-    
-
-
-#     # Run all the calculations: 
-#     def run_calculations(self):
-#         pass
-        
-
-
-
-# switching_frequency = 300e3
-# MIN_ON_TIME = 240e-9
-# RDS_LOW_SIDE_MOSFET = 18e-3
-# ADJUSTED_FSW = 800e3 
-# INERTAL_SS_CURRENT = 1.4e-6
-# soft_start_time = 50e-3
-# VREF = 0.6
-# V_INTERNAL_FB_VOLTAGE = 0.6 
-# selected_output_voltage = 12
-# inductor_ripple_current = None
-# CURRENT_LIMIT_SOURCE_CURRENT = 96e-6
-# load_current_limit = None
-# AC_RIPPLE_CURRENT_TO_DC_RATIO = 0.2
 
