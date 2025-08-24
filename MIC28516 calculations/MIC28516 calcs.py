@@ -95,7 +95,8 @@ def running_simple_values_for_12V_buck_converter():
 
 
 def main():
-    running_simple_values_for_12V_buck_converter()
+    print(57 / 36)
+    print(432 / 270)
 
 
 

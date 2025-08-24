@@ -91,6 +91,7 @@ class MIC28516():
 
     
     def preliminary_calculations(self, print_val = None):
+        print(self.input_voltage)
 
         self.time_on_aprrox = self.output_voltage / (self.input_voltage * self.switching_frequency)
 
@@ -118,14 +119,25 @@ class MIC28516():
 
 
 
-    def inductor_calculations(self, print_val = None):
+    def inductor_calculations(self, print_val = None, set_inductance = None, inductance_value = None):
 
-        numerator = (self.output_voltage * self.input_voltage - self.output_voltage ** 2)
-        denominator = (self.input_voltage * self.switching_frequency * self.ripple_current_ratio * MIC28516.maximum_output_current)
-        self.inductance = numerator / denominator
+        if set_inductance:
+            self.inductance = inductance_value
+        else:
+            numerator = (self.output_voltage * self.input_voltage - self.output_voltage ** 2)
+            denominator = (self.input_voltage * self.switching_frequency * self.ripple_current_ratio * MIC28516.maximum_output_current)
+            self.inductance = numerator / denominator
+
+        print(self.input_voltage)
 
         numerator_2 = (self.output_voltage * self.input_voltage - self.output_voltage ** 2)
         denominator_2 = (self.input_voltage * self.switching_frequency * self.inductance)
+
+        print(numerator_2)
+        print(denominator_2)
+
+
+
         self.peak_to_peak_inductor_ripple_current = numerator_2 / denominator_2
 
         self.maximum_inductor_current = MIC28516.maximum_output_current + 0.5 * self.peak_to_peak_inductor_ripple_current
@@ -174,8 +186,8 @@ class MIC28516():
             value_printer("Feedback pin voltage ripple from method 3", self.peak_to_peak_feedback_voltage_ripple_using_method_3)
 
 
-    def run_all_calcs(self):
-        message = " All the important calculation methods ran here "
+    def run_all_calcs_compare(self, set_inductance = None, set_inductance_value = None):
+        message = f" All the important calculation methods ran here: input voltage = {self.input_voltage}V "
         message_string = f"\n\n{message:-^100}"
 
         end_message = " Done "
@@ -186,11 +198,20 @@ class MIC28516():
         self.preliminary_calculations(True)
         self.feedback_bottom_resistor(True)
         self.soft_start_capacitor(True)
-        self.inductor_calculations(True)
+
+        if set_inductance:
+            self.inductor_calculations(True, True, set_inductance_value)
+        
+        else:
+            self.inductor_calculations(True)
+
         self.output_voltage_ripple_calculations(True)
         self.ripple_injection_calculations(True)
 
         print(end_message_string)
+
+
+
 
         
 
@@ -218,7 +239,12 @@ def test_2():
     buck_1.output_voltage_ripple_calculations(True)
     buck_1.ripple_injection_calculations(True)
 
-    buck_1.run_all_calcs()
+    buck_1.run_all_calcs_compare()
+
+    buck_1.update_input_voltage(16.8)
+
+    buck_1.run_all_calcs_compare(set_inductance = True, set_inductance_value = buck_1.inductance)
+
 
 
 
