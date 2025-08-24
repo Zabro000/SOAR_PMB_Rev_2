@@ -30,6 +30,8 @@ class MIC28516():
     fundimental_switching_frequency_fo = 800e3
     maximum_output_current = 8 
 
+    file_folder_path = "./MIC28516 calculations/"
+
 
     def __init__(self, switching_freq: float, input_voltage: float, output_voltage: float, soft_start_time: float, ripple_current_ratio: float,
                  feedback_top_resistor: float, load_current_limit: float, feedforward_capacitor: float = None,
@@ -59,6 +61,7 @@ class MIC28516():
         self.output_voltage_ripple = None
         self.peak_to_peak_feedback_voltage_ripple_using_feedforward_capacitor_only = None
         self.peak_to_peak_feedback_voltage_ripple_using_method_3 = None
+        self.export_csv_filename = None 
 
         if feedforward_capacitor is None:
             self.feedforward_capacitance = None 
@@ -211,6 +214,33 @@ class MIC28516():
         print(end_message_string)
 
 
+    def export_list_of_values(self, filename: str = None):
+
+        if filename is None:
+            self.export_csv_filename = f"{MIC28516.file_folder_path}MIC28516 buck converter values Vin = {self.input_voltage}V, Vout = {self.output_voltage}V.csv"
+        else:
+            self.export_csv_filename = f"{MIC28516.file_folder_path}{filename}.csv"
+
+        row_indices = ["Switching On Time", "Max Duty Cycle", "Top Feedback Resistor Value", "Bottom Feedback Resistor Value", "Soft Start Capacitance", 
+                       "Output Inductance", "Peak to Peak Ind Current Ripple", "Peak Ind Current", "RMS Ind Current", "Output Votlage Ripple",
+                       "Feedback Votlage Ripple Only Using a Feedforward Capacitor", "Feedback Voltage Ripple Using Method 3"]
+        
+        data_1 = np.array([self.time_on_aprrox, self.max_duty_cycle, self.feedback_top_resistance, self.feedback_bottom_resistance, self.soft_start_capacitance,
+                self.inductance, self.peak_to_peak_inductor_ripple_current, self.maximum_inductor_current, self.rms_inductor_current, self.output_voltage_ripple,
+                self.peak_to_peak_feedback_voltage_ripple_using_feedforward_capacitor_only, self.peak_to_peak_feedback_voltage_ripple_using_method_3])
+        
+        data_2 = np.array(["s", "N/A", "ohm", "ohm", "F", "H", "A", "A", "A", "V", "V", "V"])
+
+        data = {f"Values": data_1, "Units": data_2}
+        
+        dataframe = pd.DataFrame(data = data, index = row_indices)
+        dataframe.to_csv(self.export_csv_filename)
+
+        print(dataframe)
+
+        
+
+
 
 
         
@@ -244,6 +274,7 @@ def test_2():
     buck_1.update_input_voltage(16.8)
 
     buck_1.run_all_calcs_compare(set_inductance = True, set_inductance_value = buck_1.inductance)
+    buck_1.export_list_of_values()
 
 
 
