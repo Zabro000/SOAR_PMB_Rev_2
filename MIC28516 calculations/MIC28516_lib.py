@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd 
 import math as M 
+from engineering_notation import EngNumber
 
 
 def value_print_block():
@@ -15,7 +16,9 @@ def value_printer(sentance, value, unit: str = None, floating: int = None) -> No
     if unit is None:
         unit = " "
 
-    message = f"~ {sentance}: {value:.3e} {unit}"
+    eng_number = EngNumber(value)
+
+    message = f"~ {sentance}: {eng_number}{unit}"
     print(message)
     
     
@@ -94,7 +97,6 @@ class MIC28516():
 
     
     def preliminary_calculations(self, print_val = None):
-        print(self.input_voltage)
 
         self.time_on_aprrox = self.output_voltage / (self.input_voltage * self.switching_frequency)
 
@@ -102,8 +104,8 @@ class MIC28516():
 
         if print_val:
             value_print_block()
-            value_printer("Time on", self.time_on_aprrox)
-            value_printer("Max duty cycle", self.max_duty_cycle)
+            value_printer("Time on aprox", self.time_on_aprrox, "s")
+            value_printer("Max duty cycle", self.max_duty_cycle, "N/A")
 
     def feedback_bottom_resistor(self, print_val = None):
         
@@ -111,14 +113,15 @@ class MIC28516():
         
         if print_val:
             value_print_block()
-            value_printer("Feedback bottom resistor value", self.feedback_bottom_resistance, "ohm")
+            value_printer("Top feedback resistor value", self.feedback_top_resistance, "ohm")
+            value_printer("Bottom feedback resistor value", self.feedback_bottom_resistance, "ohm")
 
     def soft_start_capacitor(self, print_val = None):
         self.soft_start_capacitance = (MIC28516.internal_soft_start_current * self.soft_start_time) / MIC28516.feedback_referance_voltage
 
         if print_val:
             value_print_block()
-            value_printer("Soft start capacitance", self.soft_start_capacitance, "nF")
+            value_printer("Soft start capacitance", self.soft_start_capacitance, "F")
 
 
 
@@ -131,15 +134,8 @@ class MIC28516():
             denominator = (self.input_voltage * self.switching_frequency * self.ripple_current_ratio * MIC28516.maximum_output_current)
             self.inductance = numerator / denominator
 
-        print(self.input_voltage)
-
         numerator_2 = (self.output_voltage * self.input_voltage - self.output_voltage ** 2)
         denominator_2 = (self.input_voltage * self.switching_frequency * self.inductance)
-
-        print(numerator_2)
-        print(denominator_2)
-
-
 
         self.peak_to_peak_inductor_ripple_current = numerator_2 / denominator_2
 
@@ -151,9 +147,9 @@ class MIC28516():
         if print_val:
             value_print_block()
             value_printer("Inductance", self.inductance, "H")
-            value_printer("Peak to peak ind current ripple", self.peak_to_peak_inductor_ripple_current, "H")
-            value_printer("Maximum current", self.maximum_inductor_current)
-            value_printer("RMS ind current", self.rms_inductor_current)
+            value_printer("Peak to peak ind current ripple", self.peak_to_peak_inductor_ripple_current, "A")
+            value_printer("Peak current", self.maximum_inductor_current, "A")
+            value_printer("RMS ind current", self.rms_inductor_current, "A")
 
     def output_capacitor_value_and_esr_plot(self, value_bounds, esr_bounds):
         pass
@@ -166,7 +162,7 @@ class MIC28516():
 
         if print_val:
             value_print_block()
-            value_printer("Output voltage ripple", self.output_voltage_ripple)
+            value_printer("Output voltage ripple", self.output_voltage_ripple, "V")
 
 
     def ripple_injection_calculations(self, print_val = None):
@@ -185,8 +181,8 @@ class MIC28516():
 
         if print_val:
             value_print_block()
-            value_printer("Feedback pin voltage ripple from only a feedforward capacitor", self.peak_to_peak_feedback_voltage_ripple_using_feedforward_capacitor_only)
-            value_printer("Feedback pin voltage ripple from method 3", self.peak_to_peak_feedback_voltage_ripple_using_method_3)
+            value_printer("Feedback pin voltage ripple from only a feedforward capacitor", self.peak_to_peak_feedback_voltage_ripple_using_feedforward_capacitor_only, "V")
+            value_printer("Feedback pin voltage ripple from method 3", self.peak_to_peak_feedback_voltage_ripple_using_method_3, "V")
 
 
     def run_all_calcs_compare(self, set_inductance = None, set_inductance_value = None):
@@ -195,8 +191,6 @@ class MIC28516():
 
         end_message = " Done "
         end_message_string = f"\n{end_message:-^100}\n"
-
-        print(message_string)
 
         self.preliminary_calculations(True)
         self.feedback_bottom_resistor(True)
