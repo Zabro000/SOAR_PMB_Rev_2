@@ -175,7 +175,23 @@ class MIC28516():
 
 
     def run_all_calcs(self):
-        pass
+        message = " All the important calculation methods ran here "
+        message_string = f"\n\n{message:-^100}"
+
+        end_message = " Done "
+        end_message_string = f"\n{end_message:-^100}\n"
+
+        print(message_string)
+
+        self.preliminary_calculations(True)
+        self.feedback_bottom_resistor(True)
+        self.soft_start_capacitor(True)
+        self.inductor_calculations(True)
+        self.output_voltage_ripple_calculations(True)
+        self.ripple_injection_calculations(True)
+
+        print(end_message_string)
+
         
 
 
@@ -187,13 +203,14 @@ def test_2():
     ripple_ratio = 0.2
     fb_rtop = 21e3
     Ilim = 8
-    Cout = 330e-6
-    esr_Cout = 14e-3
+    c_out = 330e-6
+    esr_c_out = 14e-3
     feedforward_cap = 4.7e-9
     ripple_resistor = 56.2e3
     ripple_capacitor = 100e-9
-    buck_1 = MIC28516(fsw, vin, vout, tss, ripple_ratio, fb_rtop, Ilim, output_capacitance = Cout, output_capacitance_esr = esr_Cout, 
+    buck_1 = MIC28516(fsw, vin, vout, tss, ripple_ratio, fb_rtop, Ilim, output_capacitance = c_out, output_capacitance_esr = esr_c_out, 
                       ripple_injection_resistor= ripple_resistor, ripple_injection_capacitor = ripple_capacitor, feedforward_capacitor = feedforward_cap)
+    
     buck_1.preliminary_calculations(True)
     buck_1.feedback_bottom_resistor(True)
     buck_1.soft_start_capacitor(True)
@@ -201,6 +218,7 @@ def test_2():
     buck_1.output_voltage_ripple_calculations(True)
     buck_1.ripple_injection_calculations(True)
 
+    buck_1.run_all_calcs()
 
 
 
