@@ -5,7 +5,7 @@ import math as M
 
 
 def value_print_block():
-    print("\n\n")
+    print()
 
 def value_printer(sentance, value, unit: str = None, floating: int = None) -> None:
 
@@ -15,7 +15,7 @@ def value_printer(sentance, value, unit: str = None, floating: int = None) -> No
     if unit is None:
         unit = " "
 
-    message = f"~~ {sentance}: {floating:.2f} {unit}"
+    message = f"~ {sentance}: {value:.3e} {unit}"
     print(message)
     
     
@@ -33,7 +33,8 @@ class MIC28516():
 
     def __init__(self, switching_freq: float, input_voltage: float, output_voltage: float, soft_start_time: float, ripple_current_ratio: float,
                  feedback_top_resistor: float, load_current_limit: float, feedforward_capacitor: float = None,
-                 ripple_injection_resistor: float = None, ripple_injection_capacitor: float = None):
+                 ripple_injection_resistor: float = None, ripple_injection_capacitor: float = None, output_capacitance: float = None,
+                 output_capacitance_esr: float = None):
         
         self.switching_frequency = switching_freq
         self.soft_start_time = soft_start_time
@@ -56,9 +57,8 @@ class MIC28516():
         self.maximum_inductor_current = None
         self.rms_inductor_current = None
         self.output_voltage_ripple = None
-        self.output_capacitance = None
-        self.output_capacitance_esr = None
         self.peak_to_peak_feedback_voltage_ripple_using_feedforward_capacitor_only = None
+        self.peak_to_peak_feedback_voltage_ripple_using_method_3 = None
 
         if feedforward_capacitor is None:
             self.feedforward_capacitance = None 
@@ -75,28 +75,45 @@ class MIC28516():
         else:
            self.ripple_injection_capacitance = ripple_injection_capacitor 
 
+        if output_capacitance is None:
+            self.output_capacitance = None
+        else: 
+            self.output_capacitance = output_capacitance
+
+        if output_capacitance_esr is None:
+            self.output_capacitance_esr = None
+        else:
+            self.output_capacitance_esr = output_capacitance_esr
+
 
     def update_input_voltage(self, new_voltage):
         self.input_voltage = new_voltage
 
     
-    def preliminary_calculations(self):
+    def preliminary_calculations(self, print_val = None):
 
         self.time_on_aprrox = self.output_voltage / (self.input_voltage * self.switching_frequency)
 
         self.max_duty_cycle = 1 - (MIC28516.min_on_time * self.switching_frequency)
+
+        if print_val:
+            value_print_block()
+            value_printer("Time on", self.time_on_aprrox)
+            value_printer("Max duty cycle", self.max_duty_cycle)
 
     def feedback_bottom_resistor(self, print_val = None):
         
         self.feedback_bottom_resistance = (MIC28516.feedback_referance_voltage_internal * self.feedback_top_resistance) / (self.output_voltage - MIC28516.feedback_referance_voltage_internal)
         
         if print_val:
+            value_print_block()
             value_printer("Feedback bottom resistor value", self.feedback_bottom_resistance, "ohm")
 
     def soft_start_capacitor(self, print_val = None):
         self.soft_start_capacitance = (MIC28516.internal_soft_start_current * self.soft_start_time) / MIC28516.feedback_referance_voltage
 
         if print_val:
+            value_print_block()
             value_printer("Soft start capacitance", self.soft_start_capacitance, "nF")
 
 
@@ -117,6 +134,7 @@ class MIC28516():
 
 
         if print_val:
+            value_print_block()
             value_printer("Inductance", self.inductance, "H")
             value_printer("Peak to peak ind current ripple", self.peak_to_peak_inductor_ripple_current, "H")
             value_printer("Maximum current", self.maximum_inductor_current)
@@ -127,11 +145,12 @@ class MIC28516():
     
     def output_voltage_ripple_calculations(self, print_val = None):
 
-        func_1 = M.pow((self.maximum_inductor_current / (self.output_capacitance * self.switching_frequency * 8)), 2)
-        func_2 = M.pow((self.maximum_inductor_current * self.output_capacitance_esr), 2)
+        func_1 = M.pow((self.peak_to_peak_inductor_ripple_current / (self.output_capacitance * self.switching_frequency * 8)), 2)
+        func_2 = M.pow((self.peak_to_peak_inductor_ripple_current  * self.output_capacitance_esr), 2)
         self.output_voltage_ripple = M.sqrt(func_1 + func_2)
 
         if print_val:
+            value_print_block()
             value_printer("Output voltage ripple", self.output_voltage_ripple)
 
 
@@ -158,30 +177,29 @@ class MIC28516():
         
 
 
-
-
-
-
-
-
-def test_1():
+def test_2():
     fsw = 300e3
-    vin = [48]
+    vin =  48
     vout = 12 
     tss = 30e-3
     ripple_ratio = 0.2
-    fb_rtop = 10000
+    fb_rtop = 21e3
     Ilim = 8
-    buck_1 = MIC28516(fsw, vin, vout, tss, ripple_ratio, fb_rtop, Ilim)
-    buck_1.feedback_bottom_resistor()
-    buck_1.soft_start_capacitor(print_val = True)
-    buck_1.source_current_limit_resistor(print_val = True)
+    Cout = 330e-6
+    esr_Cout = 14e-3
+    buck_1 = MIC28516(fsw, vin, vout, tss, ripple_ratio, fb_rtop, Ilim, output_capacitance = Cout, output_capacitance_esr = esr_Cout)
+    buck_1.preliminary_calculations(True)
+    buck_1.feedback_bottom_resistor(True)
+    buck_1.soft_start_capacitor(True)
+    buck_1.inductor_calculations(True)
+    buck_1.output_voltage_ripple_calculations(True)
+
 
 
 
 
 def main():
-    test_1()
+    test_2()
 
 
 
