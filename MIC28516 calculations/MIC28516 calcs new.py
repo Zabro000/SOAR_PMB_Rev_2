@@ -16,7 +16,7 @@ def buck_12V():
     c_out = 330e-6
     esr_c_out = 14e-3
     feedforward_cap = 4.7e-9
-    ripple_resistor = 39e3
+    ripple_resistor = 56.2e3
     ripple_capacitor = 100e-9
     eff = 0.9
     winding_res = 1.9e-3
@@ -27,7 +27,7 @@ def buck_12V():
     
     buck_1.run_all_calcs_compare()
 
-    buck_1.input_voltage = 16.8
+    buck_1.input_voltage = 48
     set_ind = buck_1.inductance
 
     buck_1.run_all_calcs_compare(set_inductance = True, set_inductance_value = set_ind)
@@ -40,12 +40,18 @@ def buck_12V():
         buck_1.ripple_injection_calculations_given_components_known()
         listt = np.append(listt, buck_1.peak_to_peak_feedback_voltage_ripple_using_method_3)
 
+
+    element_list = listt.size
+    y_values = np.full(shape = element_list, fill_value = 0.02, dtype = float)
+
     fig, ax = plt.subplots(figsize = (4*2,3*2))
-    ax.plot(ripple_res, listt, color = 'green', linestyle = 'dashed', marker = 'o')
+    ax.plot(ripple_res, listt, color = 'green', linestyle = 'dashed', marker = 'o', label = 'Voltage Ripple')
+    ax.plot(ripple_res, y_values, color = 'red', linestyle = 'solid', label = "Minimum Voltage Ripple")
     ax.grid(True, color = 'k', linestyle = "--")
+    ax.legend()
     ax.set_xlabel("Ripple Injection Resistor Value (ohm)")
     ax.set_ylabel("Injected Ripple (V)")
-    ax.set_title("Injected Ripple vs Ripple Injection Resistor Value")
+    ax.set_title(f"Injected Ripple vs Ripple Injection Resistor Value (Vin = {buck_1.input_voltage}V, Vout = 12V)")
 
 
     plt.savefig("Injected Ripple vs Ripple Injection Resistor Value.png")
@@ -64,7 +70,7 @@ def buck_12V_1():
     c_out = 330e-6
     esr_c_out = 14e-3
     feedforward_cap = 4.7e-9
-    ripple_resistor = 39e3
+    ripple_resistor = 26.5e3
     ripple_capacitor = 100e-9
     eff = 0.9
     winding_res = 1.9e-3
@@ -133,7 +139,6 @@ def buck_3V3():
 
 
 def main():
-    buck_12V()
     buck_12V_1()
 
 
