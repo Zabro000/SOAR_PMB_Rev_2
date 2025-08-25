@@ -234,6 +234,12 @@ class MIC28516():
 
     def export_list_of_values(self, filename: str = None):
 
+        message = f" Table of calculations for: Vin = {self.input_voltage}V, Vout = {self.output_voltage}V "
+        message_string = f"\n\n{message:-^100}\n"
+
+        end_message = " End of table "
+        end_message_string = f"\n{end_message:-^100}\n"
+
         if filename is None:
             self.export_csv_filename = f"{MIC28516.file_folder_path}MIC28516 buck converter values Vin = {self.input_voltage}V, Vout = {self.output_voltage}V.csv"
         else:
@@ -254,9 +260,9 @@ class MIC28516():
         dataframe = pd.DataFrame(data = data, index = row_indices)
         dataframe.to_csv(self.export_csv_filename)
 
-        print()
+        print(message_string)
         print(dataframe)
-        print()
+        print(end_message_string)
 
         
 

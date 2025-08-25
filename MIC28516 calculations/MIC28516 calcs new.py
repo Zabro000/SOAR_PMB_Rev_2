@@ -82,11 +82,6 @@ def main():
     buck_5V()
 
     buck_3V3()
-
-    print(3.3 / (48 * 0.9))
-
-
-    pass
-
+    
 if __name__ == "__main__":
     main()
