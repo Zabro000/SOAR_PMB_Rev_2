@@ -8,7 +8,7 @@ from engineering_notation import EngNumber
 def value_print_block():
     print()
 
-def value_printer(sentance, value, unit: str = None, floating: int = None) -> None:
+def value_printer(sentance, value, unit: str = None, floating: int = None, end = None) -> None:
 
     if floating is None:
         floating = 2
@@ -18,9 +18,15 @@ def value_printer(sentance, value, unit: str = None, floating: int = None) -> No
 
     eng_number = EngNumber(value)
 
-    message = f"~ {sentance}: {eng_number}{unit}"
-    print(message)
-    
+    if not end:
+        message = f"~ {sentance}: {eng_number}{unit}"
+        print(message)
+    else:
+        message = f"~ {sentance}: {eng_number}{unit}"
+        print(message, end = end)
+
+
+        
     
 class MIC28516():
     feedback_referance_voltage = 0.6
@@ -70,6 +76,7 @@ class MIC28516():
         self.switching_period = None
         self.period_approx = None
         self.inductor_copper_loss = None
+        self.feedforward_capacitor_time_contsant_value = None # Yapped about on Pg 25
 
         if feedforward_capacitor is None:
             self.feedforward_capacitance = None 
@@ -215,10 +222,16 @@ class MIC28516():
        
         self.peak_to_peak_feedback_voltage_ripple_using_method_3 = self.input_voltage * func_2 * func_3 / (self.switching_frequency * func_1)
 
+
+        # Checking the feedforward time constant:
+        self.feedforward_capacitor_time_contsant_value = 1 / (self.switching_frequency * func_1)
+
         if print_val:
             value_print_block()
             value_printer("Feedback pin voltage ripple from only a feedforward capacitor", self.peak_to_peak_feedback_voltage_ripple_using_feedforward_capacitor_only, "V")
             value_printer("Feedback pin voltage ripple from method 3", self.peak_to_peak_feedback_voltage_ripple_using_method_3, "V")
+            value_printer("Tau value", func_1)
+            value_printer("Time constant value check", self.feedforward_capacitor_time_contsant_value, end = "<< 1" )
 
 
     def run_all_calcs_compare(self, set_inductance = None, set_inductance_value = None):
