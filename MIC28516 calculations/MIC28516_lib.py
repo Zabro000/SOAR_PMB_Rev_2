@@ -26,8 +26,6 @@ def value_printer(sentance, value, unit: str = None, floating: int = None, end =
         print(message, end = end)
 
 
-        
-    
 class MIC28516():
     feedback_referance_voltage = 0.6
     feedback_referance_voltage_internal = 0.6
@@ -45,7 +43,7 @@ class MIC28516():
     def __init__(self, switching_freq: float, input_voltage: float, output_voltage: float, soft_start_time: float, ripple_current_ratio: float,
                  feedback_top_resistor: float, load_current_limit: float, feedforward_capacitor: float = None,
                  ripple_injection_resistor: float = None, ripple_injection_capacitor: float = None, output_capacitance: float = None,
-                 output_capacitance_esr: float = None, typical_efficiency: float = None, inductor_winding_resistance: float = None):
+                 output_capacitance_esr: float = None, typical_efficiency: float = None, inductor_winding_resistance: float = None, injected_ripple_method_3: float = None):
         
         self.switching_frequency = switching_freq
         self.soft_start_time = soft_start_time
@@ -69,7 +67,6 @@ class MIC28516():
         self.rms_inductor_current = None
         self.output_voltage_ripple = None
         self.peak_to_peak_feedback_voltage_ripple_using_feedforward_capacitor_only = None
-        self.peak_to_peak_feedback_voltage_ripple_using_method_3 = None
         self.export_csv_filename = None 
         self.nominal_duty_cycle = None 
         self.time_off_aprrox = None
@@ -92,6 +89,11 @@ class MIC28516():
             self.ripple_injection_capacitance = None 
         else:
            self.ripple_injection_capacitance = ripple_injection_capacitor 
+
+        if injected_ripple_method_3 is None:
+            self.peak_to_peak_feedback_voltage_ripple_using_method_3 = None
+        else:
+            self.peak_to_peak_feedback_voltage_ripple_using_method_3 = injected_ripple_method_3
 
         if output_capacitance is None:
             self.output_capacitance = None
@@ -208,7 +210,7 @@ class MIC28516():
             value_printer("Output voltage ripple", self.output_voltage_ripple, "V")
 
 
-    def ripple_injection_calculations(self, print_val = None):
+    def ripple_injection_calculations_given_components_known(self, print_val = None):
         self.peak_to_peak_feedback_voltage_ripple_using_feedforward_capacitor_only = self.output_capacitance_esr * self.peak_to_peak_inductor_ripple_current
         
         func_1 = (M.pow((M.pow(self.feedback_top_resistance, -1) + M.pow(self.feedback_bottom_resistance, -1) + M.pow(self.ripple_injection_resistance, -1)), -1) 
@@ -234,6 +236,10 @@ class MIC28516():
             value_printer("Time constant value check", self.feedforward_capacitor_time_contsant_value, end = "<< 1" )
 
 
+    def ripple_injection_resistor_given_ripple_known(self, print_val = None):
+        pass
+
+
     def run_all_calcs_compare(self, set_inductance = None, set_inductance_value = None):
         message = f" All the important calculation methods ran here: Vin = {self.input_voltage}V, Vout = {self.output_voltage}V "
         message_string = f"\n\n{message:-^100}"
@@ -256,7 +262,7 @@ class MIC28516():
         self.inductor_copper_loss_calculations(True)
 
         self.output_voltage_ripple_calculations(True)
-        self.ripple_injection_calculations(True)
+        self.ripple_injection_calculations_given_components_known(True)
 
         print(end_message_string)
 
@@ -292,6 +298,11 @@ class MIC28516():
         print(message_string)
         print(dataframe)
         print(end_message_string)
+
+
+    def create_dataframe(self, title: str, data: list = None, user_input: bool = None):
+        pass
+        
 
         
 
