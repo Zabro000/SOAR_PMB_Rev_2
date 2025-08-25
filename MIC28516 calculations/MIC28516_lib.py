@@ -39,7 +39,7 @@ class MIC28516():
     def __init__(self, switching_freq: float, input_voltage: float, output_voltage: float, soft_start_time: float, ripple_current_ratio: float,
                  feedback_top_resistor: float, load_current_limit: float, feedforward_capacitor: float = None,
                  ripple_injection_resistor: float = None, ripple_injection_capacitor: float = None, output_capacitance: float = None,
-                 output_capacitance_esr: float = None):
+                 output_capacitance_esr: float = None, typical_efficiency: float = None):
         
         self.switching_frequency = switching_freq
         self.soft_start_time = soft_start_time
@@ -65,6 +65,10 @@ class MIC28516():
         self.peak_to_peak_feedback_voltage_ripple_using_feedforward_capacitor_only = None
         self.peak_to_peak_feedback_voltage_ripple_using_method_3 = None
         self.export_csv_filename = None 
+        self.nominal_duty_cycle = None 
+        self.time_off_aprrox = None
+        self.switching_period = None
+        self.period_approx = None
 
         if feedforward_capacitor is None:
             self.feedforward_capacitance = None 
@@ -91,6 +95,11 @@ class MIC28516():
         else:
             self.output_capacitance_esr = output_capacitance_esr
 
+        if typical_efficiency is None:
+            self.typical_efficiency = None
+        else:
+            self.typical_efficiency = typical_efficiency
+
 
     def update_input_voltage(self, new_voltage):
         self.input_voltage = new_voltage
@@ -102,10 +111,23 @@ class MIC28516():
 
         self.max_duty_cycle = 1 - (MIC28516.min_on_time * self.switching_frequency)
 
+        self.nominal_duty_cycle = self.output_voltage / (self.input_voltage * self.typical_efficiency)
+
+        self.time_off_aprrox = self.time_on_aprrox * (1 - self.nominal_duty_cycle) / self.nominal_duty_cycle
+
+        self.switching_period = 1 / self.switching_frequency
+
+        self.period_approx = self.time_on_aprrox + self.time_off_aprrox
+
         if print_val:
             value_print_block()
             value_printer("Time on aprox", self.time_on_aprrox, "s")
             value_printer("Max duty cycle", self.max_duty_cycle, "")
+            value_printer("Nominal duty cycle", self.nominal_duty_cycle, "")
+            value_printer("Aprrox time off", self.time_off_aprrox, "s")
+            value_printer("Switching frequency", self.switching_frequency, "Hz")
+            value_printer("Switching period", self.switching_period, "s")
+            value_printer("Switching period approx", self.period_approx, "s")
 
     def feedback_bottom_resistor(self, print_val = None):
         

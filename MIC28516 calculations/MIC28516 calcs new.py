@@ -16,9 +16,11 @@ def buck_12V():
     feedforward_cap = 4.7e-9
     ripple_resistor = 56.2e3
     ripple_capacitor = 100e-9
+    eff = 0.9
 
     buck_1 = Buck.MIC28516(fsw, vin, vout, tss, ripple_ratio, fb_rtop, curent_limit, output_capacitance = c_out, output_capacitance_esr = esr_c_out, 
-                      ripple_injection_resistor= ripple_resistor, ripple_injection_capacitor = ripple_capacitor, feedforward_capacitor = feedforward_cap)
+                      ripple_injection_resistor= ripple_resistor, ripple_injection_capacitor = ripple_capacitor, feedforward_capacitor = feedforward_cap,
+                      typical_efficiency = eff)
     
     buck_1.run_all_calcs_compare()
 
@@ -38,9 +40,11 @@ def buck_5V():
     feedforward_cap = 4.7e-9
     ripple_resistor = 56.2e3
     ripple_capacitor = 100e-9
+    eff = 0.9
 
     buck_1 = Buck.MIC28516(fsw, vin, vout, tss, ripple_ratio, fb_rtop, curent_limit, output_capacitance = c_out, output_capacitance_esr = esr_c_out, 
-                      ripple_injection_resistor= ripple_resistor, ripple_injection_capacitor = ripple_capacitor, feedforward_capacitor = feedforward_cap)
+                      ripple_injection_resistor= ripple_resistor, ripple_injection_capacitor = ripple_capacitor, feedforward_capacitor = feedforward_cap,
+                      typical_efficiency = eff)
     
     buck_1.run_all_calcs_compare()
 
@@ -61,9 +65,11 @@ def buck_3V3():
     feedforward_cap = 4.7e-9
     ripple_resistor = 56.2e3
     ripple_capacitor = 100e-9
+    eff = 0.9
 
     buck_1 = Buck.MIC28516(fsw, vin, vout, tss, ripple_ratio, fb_rtop, curent_limit, output_capacitance = c_out, output_capacitance_esr = esr_c_out, 
-                      ripple_injection_resistor= ripple_resistor, ripple_injection_capacitor = ripple_capacitor, feedforward_capacitor = feedforward_cap)
+                      ripple_injection_resistor= ripple_resistor, ripple_injection_capacitor = ripple_capacitor, feedforward_capacitor = feedforward_cap,
+                      typical_efficiency = eff)
     
     buck_1.run_all_calcs_compare()
 
@@ -76,6 +82,8 @@ def main():
     buck_5V()
 
     buck_3V3()
+
+    print(3.3 / (48 * 0.9))
 
 
     pass
