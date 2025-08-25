@@ -39,7 +39,7 @@ class MIC28516():
     def __init__(self, switching_freq: float, input_voltage: float, output_voltage: float, soft_start_time: float, ripple_current_ratio: float,
                  feedback_top_resistor: float, load_current_limit: float, feedforward_capacitor: float = None,
                  ripple_injection_resistor: float = None, ripple_injection_capacitor: float = None, output_capacitance: float = None,
-                 output_capacitance_esr: float = None, typical_efficiency: float = None):
+                 output_capacitance_esr: float = None, typical_efficiency: float = None, inductor_winding_resistance: float = None):
         
         self.switching_frequency = switching_freq
         self.soft_start_time = soft_start_time
@@ -69,6 +69,7 @@ class MIC28516():
         self.time_off_aprrox = None
         self.switching_period = None
         self.period_approx = None
+        self.inductor_copper_loss = None
 
         if feedforward_capacitor is None:
             self.feedforward_capacitance = None 
@@ -99,6 +100,11 @@ class MIC28516():
             self.typical_efficiency = None
         else:
             self.typical_efficiency = typical_efficiency
+
+        if inductor_winding_resistance is None:
+            self.inductor_winding_resistance = None
+        else:
+            self.inductor_winding_resistance = inductor_winding_resistance
 
 
     def update_input_voltage(self, new_voltage):
@@ -146,7 +152,6 @@ class MIC28516():
             value_printer("Soft start capacitance", self.soft_start_capacitance, "F")
 
 
-
     def inductor_calculations(self, print_val = None, set_inductance = None, inductance_value = None):
 
         if set_inductance:
@@ -172,6 +177,15 @@ class MIC28516():
             value_printer("Peak to peak ind current ripple", self.peak_to_peak_inductor_ripple_current, "A")
             value_printer("Peak current", self.maximum_inductor_current, "A")
             value_printer("RMS ind current", self.rms_inductor_current, "A")
+
+
+    def inductor_copper_loss_calculations(self, print_val = None):
+        self.inductor_copper_loss = (self.rms_inductor_current ** 2) * self.inductor_winding_resistance
+
+        if print_val:
+            value_print_block()
+            value_printer("Inductor copper loss", self.inductor_copper_loss, "W")
+
 
     def output_capacitor_value_and_esr_plot(self, value_bounds, esr_bounds):
         pass
@@ -225,6 +239,8 @@ class MIC28516():
         
         else:
             self.inductor_calculations(True)
+
+        self.inductor_copper_loss_calculations(True)
 
         self.output_voltage_ripple_calculations(True)
         self.ripple_injection_calculations(True)

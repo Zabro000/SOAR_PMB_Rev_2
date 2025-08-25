@@ -2,6 +2,8 @@ import MIC28516_lib as Buck
 
 
 
+
+
 def buck_12V():
     # defining inital values
     fsw = 300e3
@@ -17,14 +19,17 @@ def buck_12V():
     ripple_resistor = 56.2e3
     ripple_capacitor = 100e-9
     eff = 0.9
+    winding_res = 1.9e-3
 
     buck_1 = Buck.MIC28516(fsw, vin, vout, tss, ripple_ratio, fb_rtop, curent_limit, output_capacitance = c_out, output_capacitance_esr = esr_c_out, 
                       ripple_injection_resistor= ripple_resistor, ripple_injection_capacitor = ripple_capacitor, feedforward_capacitor = feedforward_cap,
-                      typical_efficiency = eff)
+                      typical_efficiency = eff, inductor_winding_resistance = winding_res)
     
     buck_1.run_all_calcs_compare()
 
-    buck_1.export_list_of_values()
+    buck_1.input_voltage = 16.8
+
+    buck_1.run_all_calcs_compare(set_inductance = True, set_inductance_value = buck_1.inductance)
 
 def buck_5V():
     # defining inital values
@@ -79,9 +84,5 @@ def buck_3V3():
 def main():
     buck_12V()
 
-    buck_5V()
-
-    buck_3V3()
-    
 if __name__ == "__main__":
     main()

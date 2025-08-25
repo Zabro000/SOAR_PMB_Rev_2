@@ -13,6 +13,7 @@ load_current_limit = None
 AC_RIPPLE_CURRENT_TO_DC_RATIO = 0.2
 
 
+
 def time_on_estimate(Vout, Vin, fsw):
     return Vout / (Vin * fsw)
 
