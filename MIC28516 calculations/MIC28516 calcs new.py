@@ -47,6 +47,8 @@ def buck_12V():
     ax.set_ylabel("Injected Ripple (V)")
     ax.set_title("Injected Ripple vs Ripple Injection Resistor Value")
 
+
+    plt.savefig("Injected Ripple vs Ripple Injection Resistor Value.png")
     plt.show()
 
 
