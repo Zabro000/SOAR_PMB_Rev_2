@@ -233,6 +233,7 @@ class MIC28516():
             value_printer("Feedback pin voltage ripple from only a feedforward capacitor", self.peak_to_peak_feedback_voltage_ripple_using_feedforward_capacitor_only, "V")
             value_printer("Feedback pin voltage ripple from method 3", self.peak_to_peak_feedback_voltage_ripple_using_method_3, "V")
             value_printer("Tau value", func_1)
+            value_printer("Kdiv value", func_2)
             value_printer("Time constant value check", self.feedforward_capacitor_time_contsant_value, end = "<< 1" )
 
 

@@ -69,8 +69,8 @@ def buck_12V_1():
     curent_limit = 8
     c_out = 330e-6
     esr_c_out = 14e-3
-    feedforward_cap = 4.7e-9
-    ripple_resistor = 26.5e3
+    feedforward_cap = 9.1e-9
+    ripple_resistor = 16.9e3
     ripple_capacitor = 100e-9
     eff = 0.9
     winding_res = 1.9e-3
