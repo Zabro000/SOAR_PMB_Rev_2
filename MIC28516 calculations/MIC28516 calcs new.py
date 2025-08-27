@@ -111,7 +111,43 @@ def buck_5V():
                       typical_efficiency = eff, inductor_winding_resistance = winding_res, input_capacitance_esr = input_cap_esr)
     
     
+    # Run all the calculations
+    print("FINDING THE INDUCTANCE")
+    buck_1.run_all_calcs_compare(print_val = True)
+
+
+    print(f"WHAT HAPPENS WITH INDUCTANCE OF {EngNumber(set_ind)}H")
+    buck_1.run_all_calcs_compare(print_val = True, set_inductance = True, set_inductance_value = set_ind)
     
+
+    # Run all the calculations but with a lower input voltage and the same inductance as what is needed for 48V
+    buck_1.input_voltage = 16.8
+
+    buck_1.run_all_calcs_compare(print_val = True, set_inductance = True, set_inductance_value = set_ind)
+
+
+def buck_5V_1():
+    # defining inital values
+    fsw = 300e3
+    vin =  48
+    vout = 5
+    tss = 30e-3
+    ripple_ratio = 0.2
+    fb_rtop = 21e3
+    curent_limit = 8
+    c_out = 330e-6
+    esr_c_out = 14e-3
+    feedforward_cap = 4.7e-9
+    ripple_resistor = 63.4e3
+    ripple_capacitor = 100e-9
+    eff = 0.9
+    winding_res = 1.9e-3
+    input_cap_esr = 15e-3
+    set_ind = 10e-6
+
+    buck_1 = Buck.MIC28516(fsw, vin, vout, tss, ripple_ratio, fb_rtop, curent_limit, output_capacitance = c_out, output_capacitance_esr = esr_c_out, 
+                      ripple_injection_resistor= ripple_resistor, ripple_injection_capacitor = ripple_capacitor, feedforward_capacitor = feedforward_cap,
+                      typical_efficiency = eff, inductor_winding_resistance = winding_res, input_capacitance_esr = input_cap_esr)
     
     
     # Run all the calculations
@@ -128,13 +164,15 @@ def buck_5V():
 
     buck_1.run_all_calcs_compare(print_val = True, set_inductance = True, set_inductance_value = set_ind)
 
+
     
 
 
 def buck_3V3():
+    # defining inital values
     fsw = 300e3
     vin =  48
-    vout = 3.3 
+    vout = 3.3
     tss = 30e-3
     ripple_ratio = 0.2
     fb_rtop = 21e3
@@ -142,21 +180,35 @@ def buck_3V3():
     c_out = 330e-6
     esr_c_out = 14e-3
     feedforward_cap = 4.7e-9
-    ripple_resistor = 56.2e3
+    ripple_resistor = 63.4e3
     ripple_capacitor = 100e-9
     eff = 0.9
+    winding_res = 1.9e-3
+    input_cap_esr = 15e-3
+    set_ind = 10e-6
 
     buck_1 = Buck.MIC28516(fsw, vin, vout, tss, ripple_ratio, fb_rtop, curent_limit, output_capacitance = c_out, output_capacitance_esr = esr_c_out, 
                       ripple_injection_resistor= ripple_resistor, ripple_injection_capacitor = ripple_capacitor, feedforward_capacitor = feedforward_cap,
-                      typical_efficiency = eff)
+                      typical_efficiency = eff, inductor_winding_resistance = winding_res, input_capacitance_esr = input_cap_esr)
     
-    buck_1.run_all_calcs_compare()
+    
+    # Run all the calculations
+    print("FINDING THE INDUCTANCE")
+    buck_1.run_all_calcs_compare(print_val = True)
 
-    buck_1.export_list_of_values()
+
+    print(f"WHAT HAPPENS WITH INDUCTANCE OF {EngNumber(set_ind)}H")
+    buck_1.run_all_calcs_compare(print_val = True, set_inductance = True, set_inductance_value = set_ind)
+    
+
+    # Run all the calculations but with a lower input voltage and the same inductance as what is needed for 48V
+    buck_1.input_voltage = 16.8
+
+    buck_1.run_all_calcs_compare(print_val = True, set_inductance = True, set_inductance_value = set_ind)
 
 
 def main():
-    buck_5V()
+    buck_3V3()
 
 
 if __name__ == "__main__":
