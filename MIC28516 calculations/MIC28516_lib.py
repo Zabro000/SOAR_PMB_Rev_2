@@ -220,7 +220,7 @@ class MIC28516():
         func_2_b = self.ripple_injection_resistance + func_2_a
         func_2 = func_2_a / func_2_b
 
-        func_3 = self.max_duty_cycle - M.pow(self.max_duty_cycle, 2)
+        func_3 = self.nominal_duty_cycle - M.pow(self.nominal_duty_cycle, 2)
        
         self.peak_to_peak_feedback_voltage_ripple_using_method_3 = self.input_voltage * func_2 * func_3 / (self.switching_frequency * func_1)
 
