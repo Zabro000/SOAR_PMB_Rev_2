@@ -22,8 +22,8 @@ def value_printer(sentance, value, unit: str = None, floating: int = None, end =
         message = f"~ {sentance}: {eng_number}{unit}"
         print(message)
     else:
-        message = f"~ {sentance}: {eng_number}{unit}"
-        print(message, end = end)
+        message = f"~ {sentance}: {eng_number}{unit} {end}"
+        print(message)
 
 
 class MIC28516():
@@ -43,7 +43,8 @@ class MIC28516():
     def __init__(self, switching_freq: float, input_voltage: float, output_voltage: float, soft_start_time: float, ripple_current_ratio: float,
                  feedback_top_resistor: float, load_current_limit: float, feedforward_capacitor: float = None,
                  ripple_injection_resistor: float = None, ripple_injection_capacitor: float = None, output_capacitance: float = None,
-                 output_capacitance_esr: float = None, typical_efficiency: float = None, inductor_winding_resistance: float = None, injected_ripple_method_3: float = None):
+                 output_capacitance_esr: float = None, typical_efficiency: float = None, inductor_winding_resistance: float = None, injected_ripple_method_3: float = None, 
+                 input_capacitance_esr: float = None):
         
         self.switching_frequency = switching_freq
         self.soft_start_time = soft_start_time
@@ -114,6 +115,11 @@ class MIC28516():
             self.inductor_winding_resistance = None
         else:
             self.inductor_winding_resistance = inductor_winding_resistance
+
+        if input_capacitance_esr is None:
+            self.input_capacitance_esr = None 
+        else:
+            self.input_capacitance_esr = input_capacitance_esr
 
 
     def update_input_voltage(self, new_voltage):
@@ -240,6 +246,20 @@ class MIC28516():
     def ripple_injection_resistor_given_ripple_known(self, print_val = None):
         pass
 
+    def input_voltage_ripple_calcualtions(self, print_val = None):
+
+        self.input_voltage_ripple = self.maximum_inductor_current * self.input_capacitance_esr
+
+        self.rms_max_input_capacitor_current = MIC28516.maximum_output_current * np.sqrt(self.nominal_duty_cycle * (1 - self.nominal_duty_cycle))
+
+        self.input_capacitor_power_loss = np.power(self.rms_max_input_capacitor_current, 2) * self.input_capacitance_esr
+
+        if print_val:
+            value_print_block()
+            value_printer("Buck converter input voltage ripple", self.input_voltage_ripple, "V")
+            value_printer("Max rms input capacitor current", self.rms_max_input_capacitor_current, "A")
+            value_printer("Max input capacitor power loss", self.input_capacitor_power_loss, "W")
+ 
 
     def run_all_calcs_compare(self, set_inductance = None, set_inductance_value = None):
         message = f" All the important calculation methods ran here: Vin = {self.input_voltage}V, Vout = {self.output_voltage}V "
@@ -264,6 +284,7 @@ class MIC28516():
 
         self.output_voltage_ripple_calculations(True)
         self.ripple_injection_calculations_given_components_known(True)
+        self.input_voltage_ripple_calcualtions(True)
 
         print(end_message_string)
 

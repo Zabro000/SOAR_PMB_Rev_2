@@ -103,10 +103,11 @@ def buck_12V_2():
     ripple_capacitor = 100e-9
     eff = 0.9
     winding_res = 1.9e-3
+    input_cap_esr = 50e-3
 
     buck_1 = Buck.MIC28516(fsw, vin, vout, tss, ripple_ratio, fb_rtop, curent_limit, output_capacitance = c_out, output_capacitance_esr = esr_c_out, 
                       ripple_injection_resistor= ripple_resistor, ripple_injection_capacitor = ripple_capacitor, feedforward_capacitor = feedforward_cap,
-                      typical_efficiency = eff, inductor_winding_resistance = winding_res)
+                      typical_efficiency = eff, inductor_winding_resistance = winding_res, input_capacitance_esr = input_cap_esr)
     
     buck_1.run_all_calcs_compare()
 
@@ -168,7 +169,7 @@ def buck_3V3():
 
 
 def main():
-    buck_12V_1()
+    buck_12V_2()
 
 
 if __name__ == "__main__":
