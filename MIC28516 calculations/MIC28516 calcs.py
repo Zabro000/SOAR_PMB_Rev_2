@@ -78,7 +78,7 @@ def running_simple_values_for_12V_buck_converter():
     #print(soft_start_capacitor(30e-3) * 10e8)
 
 
-    print("Please note these values calculate the worst case voltage ripple because the max voltage input and current ripple is used. " \
+    print("Please note these values calculate the worst case voltage ripple because the max voltage input and current ripple is used. "
     "The actual voltage ripple will be much lower.")
     out_cap_vals = [220e-6, 100e-6, 55e-6, 22e-6]
     esr_values = [5,4,3,2,1,0.2,0.1,0.05,0.01,0.005]

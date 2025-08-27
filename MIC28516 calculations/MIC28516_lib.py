@@ -144,7 +144,7 @@ class MIC28516():
             value_print_block()
             value_printer("Time on aprox", self.time_on_aprrox, "s")
             value_printer("Max duty cycle", self.max_duty_cycle, "")
-            value_printer("Nominal duty cycle", self.nominal_duty_cycle, "")
+            value_printer("Nominal duty cycle", self.nominal_duty_cycle * 100, "%")
             value_printer("Aprrox time off", self.time_off_aprrox, "s")
             value_printer("Switching frequency", self.switching_frequency, "Hz")
             value_printer("Switching period", self.switching_period, "s")
@@ -261,7 +261,7 @@ class MIC28516():
             value_printer("Max input capacitor power loss", self.input_capacitor_power_loss, "W")
  
 
-    def run_all_calcs_compare(self, set_inductance = None, set_inductance_value = None):
+    def run_all_calcs_compare(self, print_val: bool, set_inductance = None, set_inductance_value = None):
         message = f" All the important calculation methods ran here: Vin = {self.input_voltage}V, Vout = {self.output_voltage}V "
         message_string = f"\n\n{message:-^100}"
 
@@ -270,21 +270,21 @@ class MIC28516():
 
         print(message_string)
 
-        self.preliminary_calculations(True)
-        self.feedback_bottom_resistor(True)
-        self.soft_start_capacitor(True)
+        self.preliminary_calculations(print_val)
+        self.feedback_bottom_resistor(print_val)
+        self.soft_start_capacitor(print_val)
 
         if set_inductance:
-            self.inductor_calculations(True, True, set_inductance_value)
+            self.inductor_calculations(print_val, True, set_inductance_value)
         
         else:
-            self.inductor_calculations(True)
+            self.inductor_calculations(print_val)
 
-        self.inductor_copper_loss_calculations(True)
+        self.inductor_copper_loss_calculations(print_val)
 
-        self.output_voltage_ripple_calculations(True)
-        self.ripple_injection_calculations_given_components_known(True)
-        self.input_voltage_ripple_calcualtions(True)
+        self.output_voltage_ripple_calculations(print_val)
+        self.ripple_injection_calculations_given_components_known(print_val)
+        self.input_voltage_ripple_calcualtions(print_val)
 
         print(end_message_string)
 
