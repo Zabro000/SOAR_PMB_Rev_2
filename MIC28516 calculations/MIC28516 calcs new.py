@@ -4,7 +4,7 @@ from engineering_notation import EngNumber
 from matplotlib import pyplot as plt
 
 
-def buck_12V():
+def buck_12V_1():
     # defining inital values
     fsw = 300e3
     vin =  48
@@ -58,7 +58,7 @@ def buck_12V():
     plt.show()
 
 
-def buck_12V_1():
+def buck_12V():
     # defining inital values
     fsw = 300e3
     vin =  48
@@ -73,18 +73,21 @@ def buck_12V_1():
     ripple_resistor = 24e3
     ripple_capacitor = 100e-9
     eff = 0.9
-    winding_res = 1.9e-3
+    winding_res = 8.8e-3
+    input_cap_esr = 15e-3
+    set_ind = 22e-6
 
     buck_1 = Buck.MIC28516(fsw, vin, vout, tss, ripple_ratio, fb_rtop, curent_limit, output_capacitance = c_out, output_capacitance_esr = esr_c_out, 
                       ripple_injection_resistor= ripple_resistor, ripple_injection_capacitor = ripple_capacitor, feedforward_capacitor = feedforward_cap,
-                      typical_efficiency = eff, inductor_winding_resistance = winding_res)
+                      typical_efficiency = eff, inductor_winding_resistance = winding_res, input_capacitance_esr = input_cap_esr)
     
-    buck_1.run_all_calcs_compare()
+    print("FINDING THE INDUCTANCE")
+    buck_1.run_all_calcs_compare(print_val = True)
 
     buck_1.input_voltage = 16.8
-    set_ind = buck_1.inductance
 
-    buck_1.run_all_calcs_compare(set_inductance = True, set_inductance_value = set_ind)
+    print(f"WHAT HAPPENS WITH INDUCTANCE OF {EngNumber(set_ind)}H")
+    buck_1.run_all_calcs_compare(print_val = True, set_inductance = True, set_inductance_value = set_ind)
 
 
 def buck_5V():
@@ -141,7 +144,7 @@ def buck_5V_1():
     ripple_resistor = 63.4e3
     ripple_capacitor = 100e-9
     eff = 0.9
-    winding_res = 1.9e-3
+    winding_res = 16.7e-3
     input_cap_esr = 15e-3
     set_ind = 10e-6
 
@@ -183,9 +186,9 @@ def buck_3V3():
     ripple_resistor = 63.4e3
     ripple_capacitor = 100e-9
     eff = 0.9
-    winding_res = 1.9e-3
+    winding_res = 11e-3
     input_cap_esr = 15e-3
-    set_ind = 10e-6
+    set_ind = 6.8e-6
 
     buck_1 = Buck.MIC28516(fsw, vin, vout, tss, ripple_ratio, fb_rtop, curent_limit, output_capacitance = c_out, output_capacitance_esr = esr_c_out, 
                       ripple_injection_resistor= ripple_resistor, ripple_injection_capacitor = ripple_capacitor, feedforward_capacitor = feedforward_cap,
@@ -208,7 +211,7 @@ def buck_3V3():
 
 
 def main():
-    buck_3V3()
+    buck_12V()
 
 
 if __name__ == "__main__":
