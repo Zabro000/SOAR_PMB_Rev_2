@@ -169,9 +169,6 @@ def buck_5V_1():
     buck_1.run_all_calcs_compare(print_val = True, set_inductance = True, set_inductance_value = set_ind)
 
 
-    
-
-
 def buck_3V3():
     # defining inital values
     fsw = 300e3
@@ -209,6 +206,8 @@ def buck_3V3():
     buck_1.input_voltage = 16.8
 
     buck_1.run_all_calcs_compare(print_val = True, set_inductance = True, set_inductance_value = set_ind)
+    buck_1.export_list_of_values()
+
 
 
 def main():

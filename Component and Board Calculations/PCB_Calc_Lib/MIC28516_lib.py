@@ -3,6 +3,7 @@ import matplotlib.pyplot as plt
 import pandas as pd 
 import math as M 
 from engineering_notation import EngNumber
+import os
 
 
 def value_print_block():
@@ -37,7 +38,7 @@ class MIC28516():
     fundimental_switching_frequency_fo = 800e3
     maximum_output_current = 8 
 
-    file_folder_path = "./MIC28516 calculations/"
+    file_folder_path = "./Component and Board Calculations/MIC28516 Output Files/"
 
 
     def __init__(self, switching_freq: float, input_voltage: float, output_voltage: float, soft_start_time: float, ripple_current_ratio: float,
@@ -301,6 +302,8 @@ class MIC28516():
             self.export_csv_filename = f"{MIC28516.file_folder_path}MIC28516 buck converter values Vin = {self.input_voltage}V, Vout = {self.output_voltage}V.csv"
         else:
             self.export_csv_filename = f"{MIC28516.file_folder_path}{filename}.csv"
+
+        os.makedirs(os.path.dirname(self.export_csv_filename), exist_ok = True)
 
         row_indices = ["Switching On Time", "Max Duty Cycle", "Top Feedback Resistor Value", "Bottom Feedback Resistor Value", "Soft Start Capacitance", 
                        "Output Inductance", "Peak to Peak Ind Current Ripple", "Peak Ind Current", "RMS Ind Current", "Output Votlage Ripple",
