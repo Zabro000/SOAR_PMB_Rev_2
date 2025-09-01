@@ -10,12 +10,11 @@ from engineering_notation import EngNumber
 class PCB_Object():
 
     def __init__(self, converter_efficiencies, converter_nominal_output_currents, converter_output_voltages, 
-                 input_voltage: float, current_safety_factor: float = None):
+                 input_voltage: float = None, current_safety_factor: float = None):
         
         self.converter_efficiencies = np.array(converter_efficiencies)
         self.converter_nominal_output_currents = np.array(converter_nominal_output_currents)
         self.converter_output_voltages = np.array(converter_output_voltages)
-        self.input_voltage = input_voltage
 
         self.total_input_power = None
         self.total_output_power = None
@@ -29,6 +28,11 @@ class PCB_Object():
             self.current_safety_factor = None 
         else:
             self.current_safety_factor = current_safety_factor
+
+        if input_voltage is None:
+            self.input_voltage = None
+        else:
+            self.input_voltage = input_voltage
 
     def compute_output_powers(self): 
         self.output_power_per_converter = np.multiply(self.converter_output_voltages, self.converter_nominal_output_currents)
@@ -47,12 +51,19 @@ class PCB_Object():
         self.total_nominal_input_current_with_safety_factor = self.total_nominal_input_current * (1 + self.current_safety_factor)
 
 
-    def test_computation(self):
+    def compute_converter_powers(self):
+        self.compute_output_powers()
+        self.compute_input_powers()
+
+    
+    def run_all_computations(self):
         self.compute_output_powers()
         self.compute_input_powers()
         self.compute_input_currents()
         self.compute_total_input_current_with_safety_factor()
 
+
+    def print_all_values(self):
         print(self.output_power_per_converter)
         print(self.input_power_per_converter)
         print(self.total_input_power)
