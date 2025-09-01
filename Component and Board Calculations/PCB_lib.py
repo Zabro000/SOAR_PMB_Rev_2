@@ -63,7 +63,15 @@ class PCB_Object():
         
 
         
-class Power_Trace(PCB_Object):
+class PCB_Feature():
+    def __init__(self):
+        pass
+
+    @staticmethod
+    def convert_mm_to_mil_general():
+        pass
+
+class PCB_Trace(PCB_Feature):
     def __init__(self):
         super().__init__()
 
