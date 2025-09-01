@@ -1,4 +1,4 @@
-import MIC28516_lib as Buck
+from PCB_Calc_Lib import MIC28516_lib as Buck
 import numpy as np
 from engineering_notation import EngNumber
 from matplotlib import pyplot as plt
@@ -211,7 +211,7 @@ def buck_3V3():
 
 
 def main():
-    buck_12V()
+    buck_3V3()
 
 
 if __name__ == "__main__":
