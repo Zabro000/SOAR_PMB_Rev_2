@@ -16,7 +16,7 @@ def pmb_power_and_current_calculations():
 
     total_input_current_list_with_saftey_factor = []
     for i in input_votlages:
-        message = f"Current input votlage: {i}"
+        message = f"Input Votlage: {i}"
         print(f"{message:-^100}")
         pmb_1.input_voltage = i 
         pmb_1.run_all_computations()
@@ -37,6 +37,7 @@ def pmb_power_and_current_calculations():
     ax.grid(True, color = 'k', linestyle = "--")
     ax.set_xlabel("Input Voltage (V)")
     ax.set_ylabel(f"Total Input Current With Safety Factor of {pmb_1.current_safety_factor * 100:.2f}%")
+    ax.set_ylim((0, 10))
 
     plt.show()
 
