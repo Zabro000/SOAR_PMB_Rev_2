@@ -16,7 +16,8 @@ def pmb_power_and_current_calculations():
 
     total_input_current_list_with_saftey_factor = []
     for i in input_votlages:
-        print(f"Current input votlage: {i}")
+        message = f"Current input votlage: {i}"
+        print(f"{message:-^100}")
         pmb_1.input_voltage = i 
         pmb_1.run_all_computations()
         pmb_1.print_all_values()

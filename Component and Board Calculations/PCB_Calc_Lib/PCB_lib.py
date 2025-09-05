@@ -92,11 +92,14 @@ class PCB_Object():
         value_printer("\nTotal Input Power", self.total_input_power, "W")
         for i in range(len(self.converter_output_voltages)):
             print(f"Input Power for the {self.converter_output_voltages[i]:.2f}V Buck assuming eff = {self.converter_efficiencies[i] * 100:.2f}% = {self.input_power_per_converter[i]:.2f}W")
-
+        
+        value_printer("\nTotal Output Current", sum(self.converter_nominal_output_currents), "A")
+        for i in range(len(self.converter_output_voltages)):
+            print(f"Input Current for the {self.converter_output_voltages[i]:.2f}V Buck = {self.converter_nominal_output_currents[i]:.2f}A")
+      
         value_printer("\nTotal Input Current", self.total_nominal_input_current, "A")
         for i in range(len(self.converter_output_voltages)):
             print(f"Input Current for the {self.converter_output_voltages[i]:.2f}V Buck = {self.input_current_per_converter[i]:.2f}A")
-
 
         value_printer(f"\nTotal Input Current with safety factor = {self.current_safety_factor * 100:.2f}%", self.total_nominal_input_current_with_safety_factor, "A")
 
