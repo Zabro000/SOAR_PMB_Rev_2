@@ -8,7 +8,7 @@ def pmb_power_and_current_calculations():
     average_efficiency = 0.92
     efficiency = [average_efficiency, average_efficiency, average_efficiency]
     output_voltages = [12, 5, 3.3]
-    output_currents = [8, 8, 8]
+    output_currents = [5, 5, 5]
     input_votlages = [48, 45, 16.8, 14, 13.5]
     safety_factor = 0.15
 

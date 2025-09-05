@@ -5,6 +5,27 @@ import math as M
 from engineering_notation import EngNumber
 
 
+def value_print_block():
+    print()
+
+def value_printer(sentance, value, unit: str = None, floating: int = None, end = None) -> None:
+
+    if floating is None:
+        floating = 2
+
+    if unit is None:
+        unit = " "
+
+    eng_number = EngNumber(value)
+
+    if not end:
+        message = f"~ {sentance}: {eng_number}{unit}"
+        print(message)
+    else:
+        message = f"~ {sentance}: {eng_number}{unit} {end}"
+        print(message)
+
+
 # Make the assumption that there are n many buck converters
 # Assume all buck converters are in parallel 
 class PCB_Object():
@@ -64,13 +85,21 @@ class PCB_Object():
 
 
     def print_all_values(self):
-        print(self.output_power_per_converter)
-        print(self.input_power_per_converter)
-        print(self.total_input_power)
-        print(self.total_output_power)
-        print(self.input_current_per_converter)
-        print(self.total_nominal_input_current)
-        print(self.total_nominal_input_current_with_safety_factor)
+        value_printer("\nTotal Output Power", self.total_output_power, "W")
+        for i in range(len(self.converter_output_voltages)):
+            print(f"Output Power for the {self.converter_output_voltages[i]:.2f}V Buck = {self.output_power_per_converter[i]:.2f}W")
+
+        value_printer("\nTotal Input Power", self.total_input_power, "W")
+        for i in range(len(self.converter_output_voltages)):
+            print(f"Input Power for the {self.converter_output_voltages[i]:.2f}V Buck assuming eff = {self.converter_efficiencies[i] * 100:.2f}% = {self.input_power_per_converter[i]:.2f}W")
+
+        value_printer("\nTotal Input Current", self.total_nominal_input_current, "A")
+        for i in range(len(self.converter_output_voltages)):
+            print(f"Input Current for the {self.converter_output_voltages[i]:.2f}V Buck = {self.input_current_per_converter[i]:.2f}A")
+
+
+        value_printer(f"\nTotal Input Current with safety factor = {self.current_safety_factor * 100:.2f}%", self.total_nominal_input_current_with_safety_factor, "A")
+
         
 
         
