@@ -35,6 +35,8 @@ def pmb_power_and_current_calculations():
     fig, ax = plt.subplots(figsize = (4*3,3*3))
     ax.plot(input_votlages_new, total_input_current, color = 'green', linestyle = 'solid')
     ax.grid(True, color = 'k', linestyle = "--")
+    ax.set_xlabel("Input Voltage (V)")
+    ax.set_ylabel(f"Total Input Current With Safety Factor of {pmb_1.current_safety_factor * 100:.2f}%")
 
     plt.show()
 
