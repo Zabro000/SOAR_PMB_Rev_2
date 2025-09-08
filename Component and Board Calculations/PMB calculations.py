@@ -10,14 +10,14 @@ def pmb_power_and_current_calculations():
     efficiency = [average_efficiency, average_efficiency, average_efficiency]
     output_voltages = [12, 5, 3.3]
     output_currents = [buck_current, buck_current, buck_current]
-    input_votlages = [48, 45, 16.8, 14, 13.5]
+    input_votlages = [48, 45.6, 16.8, 15.6, 14]
     safety_factor = 0.15
 
     pmb_1 = PCB_Object(efficiency, output_currents, output_voltages, current_safety_factor = safety_factor)
 
     total_input_current_list_with_saftey_factor = []
     for i in input_votlages:
-        message = f"Input Votlage: {i}"
+        message = f"Input Votlage: {i}V"
         print(f"{message:-^100}")
         pmb_1.input_voltage = i 
         pmb_1.run_all_computations()
