@@ -5,8 +5,13 @@ import math
 from engineering_notation import EngNumber
 import os
 
-def value_print_block():
-    print()
+def value_print_block(title: str = None):
+    if title is None: 
+        print()
+
+    else:
+        print()
+        print(f"{title:-^100}")
 
 def value_printer(sentance, value, unit: str = None, floating: int = None, end = None) -> None:
 
@@ -35,8 +40,6 @@ class LM76005():
     enable_input_low_level_falling_voltage = 1.05
 
     internal_soft_start_current = 2.2e-6
-
-
 
     def __init__(self, switching_freq: float, input_voltage: float, output_voltage: float, output_current: float, typical_efficiency: float, soft_start_time: float, ripple_current_ratio: float, ripple_current_ratios: list,
                  feedback_top_resistor: float, enable_top_resistor: float, power_good_top_resistor: float, enable_turn_on_votlage: float, target_output_votlage_undershoot: float):
@@ -100,7 +103,7 @@ class LM76005():
         self.minimum_input_voltage_no_frequency_foldback = self.output_voltage / (self.switching_frequency * LM76005.minimum_switch_off_time)
 
         if print_val:
-            value_print_block()
+            value_print_block(title = "Preliminary Calcs")
             value_printer("Max duty cycle", self.max_duty_cycle * 100, "%")
             value_printer("Min duty cycle", self.min_duty_cycle * 100, "%")
             value_printer("Ideal Nominal duty cycle", self.ideal_nominal_duty_cycle * 100, "%")
@@ -171,15 +174,15 @@ class LM76005():
         self.peak_to_peak_inductor_ripple_current = self.ripple_current_ratio * self.output_current
         self.maximum_inductor_current = self.output_current + 0.5 * (self.peak_to_peak_inductor_ripple_current)
 
-        higher_inductance_bound = correcting_factor * ((self.input_voltage - self.output_voltage) * self.ideal_nominal_duty_cycle) / (self.switching_frequency * self.ripple_current_ratios[0] * self.output_current)
-        lower_inductance_bound = correcting_factor * ((self.input_voltage - self.output_voltage) * self.ideal_nominal_duty_cycle) / (self.switching_frequency * self.ripple_current_ratios[1] * self.output_current)
+        higher_inductance_bound = ((self.input_voltage - self.output_voltage) * self.ideal_nominal_duty_cycle) / (self.switching_frequency * self.ripple_current_ratios[0] * self.output_current)
+        lower_inductance_bound = ((self.input_voltage - self.output_voltage) * self.ideal_nominal_duty_cycle) / (self.switching_frequency * self.ripple_current_ratios[1] * self.output_current)
         
         self.range_of_inductance_values = [lower_inductance_bound, higher_inductance_bound]
         
         if print_val:
             value_print_block()
-            print(f"Max inductance for the minimum ripple ratio of {self.ripple_current_ratios[0]}, inductance = {higher_inductance_bound:.2f}H")
-            print(f"Max inductance for the maximum ripple ratio of {self.ripple_current_ratios[0]}, inductance = {lower_inductance_bound:.2f}H")
+            print(f"~ Max inductance for the minimum ripple ratio of {self.ripple_current_ratios[0]}, inductance = {EngNumber(higher_inductance_bound)}H")
+            print(f"~ Min inductance for the maximum ripple ratio of {self.ripple_current_ratios[1]}, inductance = {EngNumber(lower_inductance_bound)}H")
             value_printer("Peak to peak inductor current ripple", self.peak_to_peak_inductor_ripple_current, "A")
             value_printer("Peak current", self.maximum_inductor_current, "A")
 
@@ -236,7 +239,7 @@ class LM76005():
 
 
 def test():
-    fsw = 300e3
+    fsw = 400e3
     vin =  48
     vout = 12 
     tss = 30e-3
