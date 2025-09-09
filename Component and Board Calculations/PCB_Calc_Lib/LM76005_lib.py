@@ -257,6 +257,26 @@ def test():
     buck_1.block_standard_run_calculations()
 
 
+def test_3V3_values(): 
+    fsw = 400e3
+    vin =  48
+    vout = 3.3
+    tss = 15e-3
+    ripple_ratio = 0.2
+    ripple_ratios = [ripple_ratio, ripple_ratio * 2]
+    fb_rtop = 8.87e3
+    en_rtop = 110e3
+    pg_rtop = 100e3
+    current = 5
+    eff = 0.9
+    turn_on = 14
+    undershoot = 10e-3 
+    
+    buck_1 = LM76005(fsw, vin, vout, current, eff, tss, ripple_ratio, ripple_ratios, fb_rtop, en_rtop, pg_rtop, turn_on, undershoot)
+    buck_1.block_standard_run_calculations()
+
+
+
 def main():
     test()
 
