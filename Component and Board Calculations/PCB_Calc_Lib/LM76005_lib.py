@@ -32,9 +32,11 @@ def value_printer(sentance, value, unit: str = None, floating: int = None, end =
 
 
 class LM76005():
+    
     minimum_switch_on_time = 95e-9 
     minimum_switch_off_time = 130e-9
 
+    _enable_input_high_level_voltage_typical = 1.204
     feedback_referance_voltage_internal = 1.006
     enable_input_high_level_voltage = 1.14 # Used the minimum value
     enable_input_low_level_falling_voltage = 1.05
@@ -278,7 +280,7 @@ def test_3V3_values():
 
 
 def main():
-    test()
+    test_3V3_values()
 
 
 if __name__ == "__main__":
