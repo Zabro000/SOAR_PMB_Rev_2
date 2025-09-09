@@ -38,18 +38,22 @@ class LM76005():
 
 
 
-    def __init__(self, switching_freq: float, input_voltage: float, output_voltage: float, soft_start_time: float, ripple_current_ratio: float, ripple_current_ratios: list,
-                 feedback_top_resistor: float, enable_top_resistor: float, power_good_top_resistor: float):
+    def __init__(self, switching_freq: float, input_voltage: float, output_voltage: float, output_current: float, typical_efficiency: float, soft_start_time: float, ripple_current_ratio: float, ripple_current_ratios: list,
+                 feedback_top_resistor: float, enable_top_resistor: float, power_good_top_resistor: float, enable_turn_on_votlage: float, target_output_votlage_undershoot: float):
         
         self.switching_frequency = switching_freq
         self.soft_start_time = soft_start_time
         self.input_voltage = input_voltage
         self.output_voltage = output_voltage
+        self.output_current = output_current
         self.ripple_current_ratio = ripple_current_ratio
         self.ripple_current_ratios = ripple_current_ratios
         self.feedback_top_resistance = feedback_top_resistor
         self.enable_top_resistance = enable_top_resistor
         self.power_good_top_resistance = power_good_top_resistor
+        self.typical_efficiency = typical_efficiency
+        self.enable_turn_on_rising_voltage = enable_turn_on_votlage
+        self.target_output_votlage_undershoot = target_output_votlage_undershoot
 
         # LM76005 Things
         self.soft_start_capacitance = None 
@@ -201,7 +205,7 @@ class LM76005():
 
     def feedforward_capacitor(self, print_val = None): 
 
-        crossover_frequency = (15.46) / (self.output_voltage * self.output_capacitance)
+        crossover_frequency = (15.46) / (self.output_voltage * self.minimum_output_capacitance)
 
         func_1 = math.pow(2 * math.pi * crossover_frequency, -1)
         func_2 = (self.feedback_bottom_resistance * self.feedback_top_resistance) / (self.feedback_bottom_resistance + self.feedback_top_resistance)
@@ -228,6 +232,35 @@ class LM76005():
         self.output_capacitor(print_values)
 
         self.feedforward_capacitor(print_values)
+
+
+
+def test():
+    fsw = 300e3
+    vin =  48
+    vout = 12 
+    tss = 30e-3
+    ripple_ratio = 0.2
+    ripple_ratios = [ripple_ratio, ripple_ratio * 2]
+    fb_rtop = 21e3
+    en_rtop = 100e3
+    pg_rtop = 100e3
+    current = 5
+    eff = 0.9
+    turn_on = 14
+    undershoot = 10e-3 
+    
+    buck_1 = LM76005(fsw, vin, vout, current, eff, tss, ripple_ratio, ripple_ratios, fb_rtop, en_rtop, pg_rtop, turn_on, undershoot)
+    buck_1.block_standard_run_calculations()
+
+
+def main():
+    test()
+
+
+if __name__ == "__main__":
+    main()
+
 
 
 
