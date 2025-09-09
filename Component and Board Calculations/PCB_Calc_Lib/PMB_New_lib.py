@@ -38,6 +38,8 @@ class PMB_Converter():
     per_board_total_input_current_with_safety_factor = None
     av_system_total_output_power = None
     av_system_total_input_power = None 
+    av_system_total_input_current = None
+    av_system_total_input_current_with_safety_factor = None
     av_system_nominal_input_voltage = None
 
     def __init__(self, name: str, converter_efficiency: float, converter_nominal_output_current: float, converter_output_voltage, 
@@ -102,7 +104,7 @@ class PMB_Converter():
         PMB_Converter.per_board_total_input_current = total_input_current
         PMB_Converter.per_board_total_input_current_with_safety_factor = total_input_current_with_safety_factor
 
-        value_print_block(title = "Calcualtions for the New PMB Configuration")
+        value_print_block(title = "Calculations for the New PMB Configuration")
         value_printer(f"3V3 LDO Output Power when its output current = {ldo_3V3.converter_nominal_output_current}A is", ldo_3V3.converter_output_power, "W")
         value_printer(f"3V3 LDO Input Power when its efficiency = {ldo_3V3.converter_efficiency} is", ldo_3V3.converter_input_power, "W")
         value_printer(f"3V3 LDO Wasted Power when its efficiency = {ldo_3V3.converter_efficiency} is", ldo_3V3.converter_input_power - ldo_3V3.converter_output_power, "W")
@@ -127,12 +129,18 @@ class PMB_Converter():
 
         cls.av_system_total_input_power = cls.per_board_total_input_power * cls.number_of_boards
         cls.av_system_total_output_power = cls.per_board_total_output_power * cls.number_of_boards
+        cls.av_system_total_input_current = cls.per_board_total_input_current * cls.number_of_boards
+        cls.av_system_total_input_current_with_safety_factor = cls.per_board_total_input_current_with_safety_factor * cls.number_of_boards
 
-        value_print_block()
+        value_print_block("Av System Calculations")
         value_printer(f"The total output power of the system with {cls.number_of_boards} boards is", cls.av_system_total_output_power, "W")
         value_printer(f"The total input power of the system with {cls.number_of_boards} boards is", cls.av_system_total_input_power, "W")
-        value_printer(f"The total input current when the input voltage is {PMB_Converter.av_system_nominal_input_voltage}V is", PMB_Converter.per_board_total_input_current, "A")
-        value_printer(f"The total input current with safety factor when the input voltage is {PMB_Converter.av_system_nominal_input_voltage}V is", PMB_Converter.per_board_total_input_current_with_safety_factor, "A")
+        value_print_block()
+        value_printer(f"The total input current per board when the input voltage is {PMB_Converter.av_system_nominal_input_voltage}V is", PMB_Converter.per_board_total_input_current, "A")
+        value_printer(f"The total input current per board with safety factor when the input voltage is {PMB_Converter.av_system_nominal_input_voltage}V is", PMB_Converter.per_board_total_input_current_with_safety_factor, "A")
+        value_print_block()
+        value_printer(f"The total input current of the system with {cls.number_of_boards} board(s) is", cls.av_system_total_input_current, "A")
+        value_printer(f"The total input current of the system with {cls.number_of_boards} board(s) and with safety factor is", cls.av_system_total_input_current_with_safety_factor, "A")
 
 
 def test():
