@@ -4,6 +4,7 @@ import pandas as pd
 import math
 from engineering_notation import EngNumber
 import os
+import random
 
 def value_print_block(title: str = None):
     if title is None: 
@@ -29,6 +30,32 @@ def value_printer(sentance, value, unit: str = None, floating: int = None, end =
     else:
         message = f"~ {sentance}: {eng_number}{unit} {end}"
         print(message)
+
+
+class Data_Table():
+    defualt_export_location = "./Component and Board Calculations/"
+    unit_column_name = "Units"
+
+    def __init__(self, indices: list, table_name: str):
+        self.indices = indices
+        self.table_name = table_name
+
+        self.default_table_name = f"Output_Table_{round(random.random(), 6)}"
+        self.data_dict = {}
+        self.export_location = None
+        self.export_csv_path = None
+
+    def add_data_row(self, row_name: str, row, unit_row):
+        self.data_dict[row_name] = row
+        self.data_dict[Data_Table.unit_column_name] = unit_row
+
+    def export_table(self):
+
+        self.export_csv_path = f"{Data_Table.defualt_export_location}{self.table_name}.csv"
+
+        os.makedirs(os.path.dirname(self.export_csv_path), exist_ok = True)
+        dataframe = pd.DataFrame(data = self.data_dict, index = self.indices)
+        dataframe.to_csv(self.export_csv_path)
 
 
 class LM76005():
@@ -262,7 +289,7 @@ def test():
 def test_3V3_values(): 
     fsw = 400e3
     vin =  48
-    vout = 3.3
+    vout = 12
     tss = 15e-3
     ripple_ratio = 0.2
     ripple_ratios = [ripple_ratio, ripple_ratio * 2]
@@ -277,6 +304,10 @@ def test_3V3_values():
     buck_1 = LM76005(fsw, vin, vout, current, eff, tss, ripple_ratio, ripple_ratios, fb_rtop, en_rtop, pg_rtop, turn_on, undershoot)
     buck_1.block_standard_run_calculations()
 
+    indices = ["bottom resistor", "top resistor"]
+    table_1 = Data_Table(indices, "New table test")
+    table_1.add_data_row("3V3 Buck", [buck_1.feedback_bottom_resistance, buck_1.feedback_top_resistance], ["ohm", "ohm"])
+    table_1.export_table()
 
 
 def main():
