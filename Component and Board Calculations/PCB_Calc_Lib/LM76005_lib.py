@@ -39,7 +39,7 @@ class LM76005():
 
 
     def __init__(self, switching_freq: float, input_voltage: float, output_voltage: float, soft_start_time: float, ripple_current_ratio: float, ripple_current_ratios: list,
-                 feedback_top_resistor: float):
+                 feedback_top_resistor: float, enable_top_resistor: float, power_good_top_resistor: float):
         
         self.switching_frequency = switching_freq
         self.soft_start_time = soft_start_time
@@ -48,36 +48,33 @@ class LM76005():
         self.ripple_current_ratio = ripple_current_ratio
         self.ripple_current_ratios = ripple_current_ratios
         self.feedback_top_resistance = feedback_top_resistor
-
-        self.soft_start_capacitance = None 
-        self.feedback_bottom_resistance = None
-        self.enable_bottom_resistance
-        self.power_good_bottom_resistance 
-
-        self.inductor_ripple_current = None
-        self.inductance = None 
-        self.peak_to_peak_inductor_ripple_current = None
-        self.maximum_inductor_current = None
-        
-        self.output_voltage_ripple = None
-        self.peak_to_peak_feedback_voltage_ripple_using_feedforward_capacitor_only = None
-        self.export_csv_filename = None 
-        self.ideal_nominal_duty_cycle = None 
-        self.time_off_aprrox = None
-        self.switching_period = None
-        self.period_approx = None
-        self.inductor_copper_loss = None
-        self.feedforward_capacitor_time_contsant_value = None # Yapped about on Pg 25
-
+        self.enable_top_resistance = enable_top_resistor
+        self.power_good_top_resistance = power_good_top_resistor
 
         # LM76005 Things
+        self.soft_start_capacitance = None 
+        self.feedback_bottom_resistance = None
+        self.enable_bottom_resistance = None 
+        self.power_good_bottom_resistance = None
+
+        self.inductor_ripple_current = None
+        self.range_of_inductance_values = None 
+        self.peak_to_peak_inductor_ripple_current = None
+        self.maximum_inductor_current = None
+ 
+        self.switching_period = None
         self.maximum_output_voltage_no_frequency_foldback = None 
-        self.ideal_nominal_duty_cycle
-        self.inverse_ideal_nominal_duty_cycle
-        self.max_duty_cycle 
-        self.min_duty_cycle
-        self.maximum_input_voltage
-        self.minimum_input_voltage_no_frequency_foldback
+        self.ideal_nominal_duty_cycle = None 
+        self.inverse_ideal_nominal_duty_cycle = None 
+        self.max_duty_cycle = None  
+        self.min_duty_cycle = None 
+        self.maximum_input_voltage = None 
+        self.minimum_input_voltage_no_frequency_foldback = None 
+        self.switching_frequency_resistance = None 
+        self.feedforward_capacitance = None  
+
+        self.undervoltage_input_high_level_rising_voltage = None 
+        self.undervoltage_input_low_level_falling_voltage = None 
 
         if len(ripple_current_ratios) != 2:
             raise ValueError
@@ -172,7 +169,9 @@ class LM76005():
 
         higher_inductance_bound = correcting_factor * ((self.input_voltage - self.output_voltage) * self.ideal_nominal_duty_cycle) / (self.switching_frequency * self.ripple_current_ratios[0] * self.output_current)
         lower_inductance_bound = correcting_factor * ((self.input_voltage - self.output_voltage) * self.ideal_nominal_duty_cycle) / (self.switching_frequency * self.ripple_current_ratios[1] * self.output_current)
-
+        
+        self.range_of_inductance_values = [lower_inductance_bound, higher_inductance_bound]
+        
         if print_val:
             value_print_block()
             print(f"Max inductance for the minimum ripple ratio of {self.ripple_current_ratios[0]}, inductance = {higher_inductance_bound:.2f}H")
