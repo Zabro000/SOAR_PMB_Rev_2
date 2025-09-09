@@ -144,7 +144,7 @@ class PMB_Converter():
 
 
 def test():
-    or_bus_voltage = 16.8
+    or_bus_voltage = 15
     buck_1 = PMB_Converter("12 Buck", 0.9, 5, 12, or_bus_voltage, 0.15)
     buck_1.run_all_computations()
 
