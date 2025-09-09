@@ -34,8 +34,11 @@ class PMB_Converter():
     number_of_boards = None
     per_board_total_output_power = None
     per_board_total_input_power = None
+    per_board_total_input_current = None 
+    per_board_total_input_current_with_safety_factor = None
     av_system_total_output_power = None
     av_system_total_input_power = None 
+    av_system_nominal_input_voltage = None
 
     def __init__(self, name: str, converter_efficiency: float, converter_nominal_output_current: float, converter_output_voltage, 
                  converter_input_voltage: float, input_current_safety_factor: float):
@@ -92,9 +95,12 @@ class PMB_Converter():
         total_output_power = buck_12V.converter_output_power + buck_5V.converter_output_power - (ldo_3V3.converter_input_power - ldo_3V3.converter_output_power)
         total_input_power = buck_12V.converter_input_power + buck_5V.converter_input_power
         total_input_current = buck_12V.converter_input_current + buck_5V.converter_input_current
+        total_input_current_with_safety_factor = buck_12V.converter_input_current_with_safety_factor + buck_5V.converter_input_current_with_safety_factor
 
         PMB_Converter.per_board_total_input_power = total_input_power
         PMB_Converter.per_board_total_output_power = total_output_power
+        PMB_Converter.per_board_total_input_current = total_input_current
+        PMB_Converter.per_board_total_input_current_with_safety_factor = total_input_current_with_safety_factor
 
         value_print_block(title = "Calcualtions for the New PMB Configuration")
         value_printer(f"3V3 LDO Output Power when its output current = {ldo_3V3.converter_nominal_output_current}A is", ldo_3V3.converter_output_power, "W")
@@ -110,6 +116,7 @@ class PMB_Converter():
 
         if buck_12V.converter_input_voltage == buck_5V.converter_input_voltage:
             value_printer(f"The total input current when the input voltage is {buck_12V.converter_input_voltage}V is", total_input_current, "A")
+            PMB_Converter.av_system_nominal_input_voltage = buck_12V.converter_input_voltage
         else:
             raise ValueError
         
@@ -120,23 +127,23 @@ class PMB_Converter():
 
         cls.av_system_total_input_power = cls.per_board_total_input_power * cls.number_of_boards
         cls.av_system_total_output_power = cls.per_board_total_output_power * cls.number_of_boards
+
         value_print_block()
         value_printer(f"The total output power of the system with {cls.number_of_boards} boards is", cls.av_system_total_output_power, "W")
         value_printer(f"The total input power of the system with {cls.number_of_boards} boards is", cls.av_system_total_input_power, "W")
+        value_printer(f"The total input current when the input voltage is {PMB_Converter.av_system_nominal_input_voltage}V is", PMB_Converter.per_board_total_input_current, "A")
+        value_printer(f"The total input current with safety factor when the input voltage is {PMB_Converter.av_system_nominal_input_voltage}V is", PMB_Converter.per_board_total_input_current_with_safety_factor, "A")
 
 
-        
-    
-
-        
 def test():
-    buck_1 = PMB_Converter("12 Buck", 0.9, 5, 12, 16.8, 0.15)
+    or_bus_voltage = 16.8
+    buck_1 = PMB_Converter("12 Buck", 0.9, 5, 12, or_bus_voltage, 0.15)
     buck_1.run_all_computations()
 
-    buck_2 = PMB_Converter("5 Buck", 0.9, 5, 5, 16.8, 0.15)
+    buck_2 = PMB_Converter("5 Buck", 0.9, 5, 5, or_bus_voltage, 0.15)
     buck_2.run_all_computations()
 
-    ldo_1 = PMB_Converter("3V3 LDO", 0.65, 2, 3.3, 5, 0.15)
+    ldo_1 = PMB_Converter("3V3 LDO", 0.65, 2, 3.3, buck_2.converter_input_voltage, 0.15)
     ldo_1.run_all_computations()
 
     PMB_Converter.run_new_PMB_configuration(buck_1, buck_2, ldo_1)
