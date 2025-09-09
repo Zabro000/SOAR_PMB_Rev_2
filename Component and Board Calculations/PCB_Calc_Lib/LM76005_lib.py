@@ -38,32 +38,27 @@ class LM76005():
 
 
 
-    def __init__(self, switching_freq: float, input_voltage: float, output_voltage: float, soft_start_time: float, ripple_current_ratio: float,
-                 feedback_top_resistor: float, load_current_limit: float, feedforward_capacitor: float = None,
-                 ripple_injection_resistor: float = None, ripple_injection_capacitor: float = None, output_capacitance: float = None,
-                 output_capacitance_esr: float = None, typical_efficiency: float = None, inductor_winding_resistance: float = None, injected_ripple_method_3: float = None, 
-                 input_capacitance_esr: float = None):
+    def __init__(self, switching_freq: float, input_voltage: float, output_voltage: float, soft_start_time: float, ripple_current_ratio: float, ripple_current_ratios: list,
+                 feedback_top_resistor: float):
         
         self.switching_frequency = switching_freq
         self.soft_start_time = soft_start_time
         self.input_voltage = input_voltage
         self.output_voltage = output_voltage
         self.ripple_current_ratio = ripple_current_ratio
+        self.ripple_current_ratios = ripple_current_ratios
         self.feedback_top_resistance = feedback_top_resistor
-        self.load_current_limit = load_current_limit
 
-
-        self.time_on_aprrox = None
-        self.max_duty_cycle = None 
         self.soft_start_capacitance = None 
         self.feedback_bottom_resistance = None
-        self.current_limit_external_resistance = None
+        self.enable_bottom_resistance
+        self.power_good_bottom_resistance 
+
         self.inductor_ripple_current = None
-        self.negitive_current_limit = None
         self.inductance = None 
         self.peak_to_peak_inductor_ripple_current = None
         self.maximum_inductor_current = None
-        self.rms_inductor_current = None
+        
         self.output_voltage_ripple = None
         self.peak_to_peak_feedback_voltage_ripple_using_feedforward_capacitor_only = None
         self.export_csv_filename = None 
@@ -77,52 +72,15 @@ class LM76005():
 
         # LM76005 Things
         self.maximum_output_voltage_no_frequency_foldback = None 
+        self.ideal_nominal_duty_cycle
+        self.inverse_ideal_nominal_duty_cycle
+        self.max_duty_cycle 
+        self.min_duty_cycle
+        self.maximum_input_voltage
+        self.minimum_input_voltage_no_frequency_foldback
 
-
-        if feedforward_capacitor is None:
-            self.feedforward_capacitance = None 
-        else:
-           self.feedforward_capacitance = feedforward_capacitor 
-
-        if ripple_injection_resistor is None:
-            self.ripple_injection_resistance = None 
-        else:
-           self.ripple_injection_resistance = ripple_injection_resistor 
-
-        if ripple_injection_capacitor is None:
-            self.ripple_injection_capacitance = None 
-        else:
-           self.ripple_injection_capacitance = ripple_injection_capacitor 
-
-        if injected_ripple_method_3 is None:
-            self.peak_to_peak_feedback_voltage_ripple_using_method_3 = None
-        else:
-            self.peak_to_peak_feedback_voltage_ripple_using_method_3 = injected_ripple_method_3
-
-        if output_capacitance is None:
-            self.output_capacitance = None
-        else: 
-            self.output_capacitance = output_capacitance
-
-        if output_capacitance_esr is None:
-            self.output_capacitance_esr = None
-        else:
-            self.output_capacitance_esr = output_capacitance_esr
-
-        if typical_efficiency is None:
-            self.typical_efficiency = None
-        else:
-            self.typical_efficiency = typical_efficiency
-
-        if inductor_winding_resistance is None:
-            self.inductor_winding_resistance = None
-        else:
-            self.inductor_winding_resistance = inductor_winding_resistance
-
-        if input_capacitance_esr is None:
-            self.input_capacitance_esr = None 
-        else:
-            self.input_capacitance_esr = input_capacitance_esr
+        if len(ripple_current_ratios) != 2:
+            raise ValueError
 
 
     def preliminary_calculations(self, print_val = None):
@@ -275,7 +233,7 @@ class LM76005():
 
 
 
-        
+
 
 
         
