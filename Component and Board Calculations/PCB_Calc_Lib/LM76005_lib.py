@@ -142,13 +142,14 @@ class LM76005():
 
         if print_val:
             value_print_block()
-            value_printer("Time on aprox", self.time_on_aprrox, "s")
-            value_printer("Max duty cycle", self.max_duty_cycle, "")
-            value_printer("Nominal duty cycle", self.ideal_nominal_duty_cycle * 100, "%")
-            value_printer("Aprrox time off", self.time_off_aprrox, "s")
+            value_printer("Max duty cycle", self.max_duty_cycle * 100, "%")
+            value_printer("Min duty cycle", self.min_duty_cycle * 100, "%")
+            value_printer("Ideal Nominal duty cycle", self.ideal_nominal_duty_cycle * 100, "%")
+            value_printer("Inverse Ideal Nominal duty cycle", self.inverse_ideal_nominal_duty_cycle * 100, "%")
             value_printer("Switching frequency", self.switching_frequency, "Hz")
             value_printer("Switching period", self.switching_period, "s")
-            value_printer("Switching period approx", self.period_approx, "s")
+            value_printer("Max input voltage", self.maximum_input_voltage, "V")
+            value_printer("Min input voltage with no freq foldback", self.minimum_input_voltage_no_frequency_foldback, "V")
 
     def feedback_bottom_resistor(self, print_val = None):
         
@@ -169,15 +170,18 @@ class LM76005():
 
         if print_val:
             value_print_block()
+            value_printer("Top enable resistor value", self.enable_top_resistance, "ohm")
+            value_printer("Bottom enable resistor value", self.enable_bottom_resistance, "ohm")
+            value_printer("Undervoltage turn on votlage", self.undervoltage_input_high_level_rising_voltage, "V")
+            value_printer("Undervoltage turn off votlage", self.undervoltage_input_low_level_falling_voltage, "V")
 
     
     def soft_start_capacitor(self, print_val = None):
-
         self.soft_start_capacitance = (LM76005.internal_soft_start_current * self.soft_start_time)
 
         if print_val:
             value_print_block()
-            value_printer("Soft start capacitance", self.soft_start_capacitance, "F")
+            value_printer("Soft start capacitance value", self.soft_start_capacitance, "F")
 
 
     def switching_frequency_resistor(self, print_val = None): 
@@ -186,6 +190,7 @@ class LM76005():
 
         if print_val:
             value_print_block()
+            value_printer("Switching freq setting resistor value", self.switching_frequency_resistance, "ohm")
 
 
     def power_good_bottom_resistor(self, print_val = None):
@@ -195,6 +200,8 @@ class LM76005():
 
         if print_val:
             value_print_block()
+            print("Since for all of our bucks the output voltage is small the bottom resistor is the same as the top resistor.")
+            value_printer("Top and bottom resistor value", self.power_good_top_resistance, "ohm")
 
 
 
@@ -210,6 +217,10 @@ class LM76005():
 
         if print_val:
             value_print_block()
+            print(f"Max inductance for the minimum ripple ratio of {self.ripple_current_ratios[0]}, inductance = {higher_inductance_bound:.2f}H")
+            print(f"Max inductance for the maximum ripple ratio of {self.ripple_current_ratios[0]}, inductance = {lower_inductance_bound:.2f}H")
+            value_printer("Peak to peak inductor current ripple", self.peak_to_peak_inductor_ripple_current, "A")
+            value_printer("Peak current", self.maximum_inductor_current, "A")
 
 
     def output_capacitor(self, print_val = None):
@@ -224,6 +235,12 @@ class LM76005():
 
         self.maximum_output_capacitor_esr = func_4 * func_5
 
+        if print_val:
+            value_print_block()
+            value_printer("Target votlage undershoot", self.target_output_votlage_undershoot, "V")
+            value_printer("Min output capacitance", self.minimum_output_capacitance, "F")
+            value_printer("Max output capacitor esr", self.maximum_output_capacitor_esr, "ohm")
+
 
     def feedforward_capacitor(self, print_val = None): 
 
@@ -235,7 +252,30 @@ class LM76005():
 
         self.feedforward_capacitance = func_1 * func_3 
 
+        if print_val:
+            value_print_block()
+            value_printer("Feedforward capacitor value approx", self.feedforward_capacitance, "F")
 
+
+
+    def block_standard_run_calculations(self):
+        print_values = True 
+        self.preliminary_calculations(print_values)
+        self.feedback_bottom_resistor(print_values)
+        self.enable_bottom_resistor(print_values)
+        self.power_good_bottom_resistor(print_values)
+        self.switching_frequency_resistor(print_values)
+        self.soft_start_capacitor(print_values)
+
+        self.output_inductor(print_values)
+        self.output_capacitor(print_values)
+
+        self.feedforward_capacitor(print_values)
+
+
+
+
+        
 
 
         
