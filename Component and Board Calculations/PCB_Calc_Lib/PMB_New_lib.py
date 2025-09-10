@@ -28,7 +28,28 @@ def value_printer(sentance, value, unit: str = None, floating: int = None, end =
         message = f"~ {sentance}: {eng_number}{unit} {end}"
         print(message)
 
+class PMB_Power_Source_Voltage_Divider():
+    def __init__(self, bottom_resistor, enable_node_votlage: float, enable_source_voltage: float):
+        self.bottom_resistor = bottom_resistor
+        self.enable_node_votlage = enable_node_votlage
+        self.enable_source_voltage = enable_source_voltage
 
+        self.top_resistor = None 
+        self.middle_resistor = None
+        self.divider_current = None
+
+    def calculate_all_resistors(self, print_val = None):
+        self.divider_current = self.enable_node_votlage / self.bottom_resistor
+
+        self.top_resistor = (0.5 * self.enable_source_voltage) / self.divider_current
+        self.middle_resistor = (0.5 * self.enable_source_voltage - self.enable_node_votlage) / self.divider_current
+
+        if print_val:
+            value_print_block("Resistor Divider Calculations")
+            print(f"Top Resistor = {EngNumber(self.top_resistor)}ohm, Middle Resitor = {EngNumber(self.middle_resistor)}ohm, Bottom Resistor = {EngNumber(self.bottom_resistor)}ohm")
+            print(f"Total divider current = {EngNumber(self.divider_current)}A")
+
+    
 # Make converter object to do the math but I have write code since some converters are nested
 class PMB_Converter():
     number_of_boards = None
@@ -143,7 +164,7 @@ class PMB_Converter():
         value_printer(f"The total input current of the system with {cls.number_of_boards} board(s) and with safety factor is", cls.av_system_total_input_current_with_safety_factor, "A")
 
 
-def test():
+def test_bucks():
     or_bus_voltage = 15
     buck_1 = PMB_Converter("12 Buck", 0.9, 5, 12, or_bus_voltage, 0.15)
     buck_1.run_all_computations()
@@ -157,9 +178,13 @@ def test():
     PMB_Converter.run_new_PMB_configuration(buck_1, buck_2, ldo_1)
     PMB_Converter.update_entire_system_values(1)
 
+def test_divider():
+    div_1 = PMB_Power_Source_Voltage_Divider(10e3, 5.2, 14)
+    div_1.calculate_all_resistors(True)
+
 
 def main():
-    test()
+    test_divider()
 
 if __name__ == "__main__":
     main()
