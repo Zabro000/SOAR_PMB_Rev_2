@@ -155,7 +155,7 @@ def test():
     ldo_1.run_all_computations()
 
     PMB_Converter.run_new_PMB_configuration(buck_1, buck_2, ldo_1)
-    PMB_Converter.update_entire_system_values(3)
+    PMB_Converter.update_entire_system_values(1)
 
 
 def main():
