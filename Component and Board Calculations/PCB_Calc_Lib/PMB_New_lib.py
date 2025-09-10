@@ -166,7 +166,8 @@ class PMB_Converter():
 
 
 def test_bucks():
-    or_bus_voltage = 15
+    or_bus_voltage = 15 # Wait untill we get the go ahead with the fith battery 
+
     buck_1 = PMB_Converter("12 Buck", 0.9, 5, 12, or_bus_voltage, 0.15)
     buck_1.run_all_computations()
 
@@ -180,10 +181,10 @@ def test_bucks():
     PMB_Converter.update_entire_system_values(1)
 
 def test_divider():
-    div_1 = PMB_Power_Source_Voltage_Divider(10e3, 5.2, 14)
+    div_1 = PMB_Power_Source_Voltage_Divider(10e3, 5.2, 15)
     div_1.calculate_all_resistors(True)
 
-    bottom_values = np.linspace(start= 5000, stop = 20000, num = 51)
+    bottom_values = np.linspace(start= 5000, stop = 20000, num = 151)
     middle_resistors = np.array([])
     top_resistors = np.array([])
     for i in bottom_values:
@@ -196,7 +197,9 @@ def test_divider():
     data = {"Top resistor": top_resistors, "Middle resistor": middle_resistors, "Bottom_resistors": bottom_values}
 
     dataframe = pd.DataFrame(data = data)
-
+    dataframe = dataframe.round(0)
+    pd.set_option('display.max_rows', None)
+    pd.set_option('display.max_columns', None)
     print(dataframe)
 
 
