@@ -151,7 +151,7 @@ def test():
     buck_2 = PMB_Converter("5 Buck", 0.9, 5, 5, or_bus_voltage, 0.15)
     buck_2.run_all_computations()
 
-    ldo_1 = PMB_Converter("3V3 LDO", 0.65, 2, 3.3, buck_2.converter_input_voltage, 0.15)
+    ldo_1 = PMB_Converter("3V3 LDO", 0.65, 3, 3.3, buck_2.converter_input_voltage, 0.15)
     ldo_1.run_all_computations()
 
     PMB_Converter.run_new_PMB_configuration(buck_1, buck_2, ldo_1)
