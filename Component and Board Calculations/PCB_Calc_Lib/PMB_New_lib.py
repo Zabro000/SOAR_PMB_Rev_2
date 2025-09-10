@@ -1,5 +1,6 @@
 import numpy as np
 from engineering_notation import EngNumber
+import pandas as pd
 
 
 def value_print_block(title: str = None):
@@ -48,8 +49,8 @@ class PMB_Power_Source_Voltage_Divider():
             value_print_block("Resistor Divider Calculations")
             print(f"Top Resistor = {EngNumber(self.top_resistor)}ohm, Middle Resitor = {EngNumber(self.middle_resistor)}ohm, Bottom Resistor = {EngNumber(self.bottom_resistor)}ohm")
             print(f"Total divider current = {EngNumber(self.divider_current)}A")
+            
 
-    
 # Make converter object to do the math but I have write code since some converters are nested
 class PMB_Converter():
     number_of_boards = None
@@ -181,6 +182,25 @@ def test_bucks():
 def test_divider():
     div_1 = PMB_Power_Source_Voltage_Divider(10e3, 5.2, 14)
     div_1.calculate_all_resistors(True)
+
+    bottom_values = np.linspace(start= 5000, stop = 20000, num = 51)
+    middle_resistors = np.array([])
+    top_resistors = np.array([])
+    for i in bottom_values:
+        div_1.bottom_resistor = i
+        div_1.calculate_all_resistors()
+        middle_resistors = np.append(middle_resistors, div_1.middle_resistor)
+        top_resistors = np.append(top_resistors, div_1.top_resistor)
+
+
+    data = {"Top resistor": top_resistors, "Middle resistor": middle_resistors, "Bottom_resistors": bottom_values}
+
+    dataframe = pd.DataFrame(data = data)
+
+    print(dataframe)
+
+
+    
 
 
 def main():
