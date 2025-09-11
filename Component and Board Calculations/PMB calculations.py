@@ -6,7 +6,7 @@ from matplotlib import pyplot as plt
 
 def pmb_power_and_current_calculations():
     average_efficiency = 0.92
-    buck_current = 8
+    buck_current = 5
     efficiency = [average_efficiency, average_efficiency, average_efficiency]
     output_voltages = [12, 5, 3.3]
     output_currents = [buck_current, buck_current, buck_current]
