@@ -10,7 +10,7 @@ def pmb_power_and_current_calculations():
     efficiency = [average_efficiency, average_efficiency, average_efficiency]
     output_voltages = [12, 5, 3.3]
     output_currents = [buck_current, buck_current, buck_current]
-    input_votlages = [48, 45.6, 16.8, 15.6, 14]
+    input_votlages = [48, 45.6, 4.2 * 5, 3.7 * 5, 14]
     safety_factor = 0.15
 
     pmb_1 = PCB_Object(efficiency, output_currents, output_voltages, current_safety_factor = safety_factor)
@@ -27,18 +27,21 @@ def pmb_power_and_current_calculations():
 
     input_votlages_new = np.linspace(13.5, 48, 500)
     total_input_current = np.array([])
+    input_current = np.array([])
 
     for i in input_votlages_new:
         pmb_1.input_voltage = i 
         pmb_1.run_all_computations()
         total_input_current = np.append(total_input_current, pmb_1.total_nominal_input_current_with_safety_factor)
+        input_current = np.append(input_current, pmb_1.total_nominal_input_current)
 
     fig, ax = plt.subplots(figsize = (4*3,3*3))
-    ax.plot(input_votlages_new, total_input_current, color = 'green', linestyle = 'solid')
+    ax.plot(input_votlages_new, total_input_current, color = 'red', linestyle = 'dotted')
+    ax.plot(input_votlages_new, input_current, color = 'green', linestyle = 'solid')
     ax.grid(True, color = 'k', linestyle = "--")
     ax.set_xlabel("Input Voltage (V)")
     ax.set_ylabel(f"Total Input Current With Safety Factor of {pmb_1.current_safety_factor * 100:.2f}%")
-    ax.set_ylim((0, 18))
+    ax.set_ylim((0, 10))
 
     plt.show()
 
