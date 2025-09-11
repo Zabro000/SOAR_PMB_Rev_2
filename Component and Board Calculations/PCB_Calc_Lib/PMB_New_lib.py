@@ -30,24 +30,34 @@ def value_printer(sentance, value, unit: str = None, floating: int = None, end =
         print(message)
 
 class PMB_Power_Source_Voltage_Divider():
-    def __init__(self, bottom_resistor, enable_node_votlage: float, enable_source_voltage: float):
+    def __init__(self, bottom_resistor, top_resistor: float, enable_node_votlage: float, enable_source_voltage: float):
         self.bottom_resistor = bottom_resistor
         self.enable_node_votlage = enable_node_votlage
         self.enable_source_voltage = enable_source_voltage
+        self.top_resistor = top_resistor
 
-        self.top_resistor = None 
         self.middle_resistor = None
         self.divider_current = None
 
-    def calculate_all_resistors(self, print_val = None):
+    def calculate_all_resistors_3_divider(self, print_val = None):
         self.divider_current = self.enable_node_votlage / self.bottom_resistor
 
         self.top_resistor = (0.5 * self.enable_source_voltage) / self.divider_current
         self.middle_resistor = (0.5 * self.enable_source_voltage - self.enable_node_votlage) / self.divider_current
 
         if print_val:
-            value_print_block("Resistor Divider Calculations")
+            value_print_block("Resistor Divider 3 Way Calculations")
             print(f"Top Resistor = {EngNumber(self.top_resistor)}ohm, Middle Resitor = {EngNumber(self.middle_resistor)}ohm, Bottom Resistor = {EngNumber(self.bottom_resistor)}ohm")
+            print(f"Total divider current = {EngNumber(self.divider_current)}A")
+
+
+    def calculate_all_resistors_2_divider(self, print_val = None):
+        self.bottom_resistor = (self.enable_node_votlage * self.top_resistor) / (self.enable_source_voltage - self.enable_node_votlage)
+        self.divider_current = (self.enable_source_voltage - self.enable_node_votlage) / (self.top_resistor)
+
+        if print_val:
+            value_print_block("Resistor Divider 2 Way Calculations")
+            print(f"Top Resistor = {EngNumber(self.top_resistor)}ohm, Bottom Resistor = {EngNumber(self.bottom_resistor)}ohm")
             print(f"Total divider current = {EngNumber(self.divider_current)}A")
             
 
@@ -181,15 +191,15 @@ def test_bucks():
     PMB_Converter.update_entire_system_values(1)
 
 def test_divider():
-    div_1 = PMB_Power_Source_Voltage_Divider(10e3, 5.2, 15)
-    div_1.calculate_all_resistors(True)
+    div_1 = PMB_Power_Source_Voltage_Divider(10e3, None, 5.2, 15)
+    div_1.calculate_all_resistors_3_divider(True)
 
     bottom_values = np.linspace(start= 5000, stop = 20000, num = 151)
     middle_resistors = np.array([])
     top_resistors = np.array([])
     for i in bottom_values:
         div_1.bottom_resistor = i
-        div_1.calculate_all_resistors()
+        div_1.calculate_all_resistors_3_divider()
         middle_resistors = np.append(middle_resistors, div_1.middle_resistor)
         top_resistors = np.append(top_resistors, div_1.top_resistor)
 
@@ -203,11 +213,13 @@ def test_divider():
     print(dataframe)
 
 
-    
+def test_divider_1():
+    div_1 = PMB_Power_Source_Voltage_Divider(None, 10000, 5, 14)
+    div_1.calculate_all_resistors_2_divider(True)
 
 
 def main():
-    test_divider()
+    test_divider_1()
 
 if __name__ == "__main__":
     main()
