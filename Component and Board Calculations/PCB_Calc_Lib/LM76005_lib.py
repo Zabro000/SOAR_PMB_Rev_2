@@ -65,7 +65,7 @@ class LM76005():
 
     _enable_input_high_level_voltage_typical = 1.204
     feedback_referance_voltage_internal = 1.006
-    enable_input_high_level_voltage = 1.14 # Used the minimum value
+    enable_input_high_level_voltage = 1.204 # Used the minimum value
     enable_input_low_level_falling_voltage = 1.05
 
     internal_soft_start_current = 2.2e-6
