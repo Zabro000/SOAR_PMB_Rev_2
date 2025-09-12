@@ -29,6 +29,8 @@ def buck_converter_5V_calcs():
     print(f"\n\nINPUT VOLTAGE IS {buck_1.input_voltage}V\n\n")
     buck_1.block_standard_run_calculations()
 
+    print(5 * 0.021)
+
 
 def main():
     buck_converter_5V_calcs()

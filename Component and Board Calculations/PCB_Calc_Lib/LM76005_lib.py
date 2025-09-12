@@ -70,8 +70,10 @@ class LM76005():
 
     internal_soft_start_current = 2.2e-6
 
-    def __init__(self, switching_freq: float, input_voltage: float, output_voltage: float, output_current: float, typical_efficiency: float, soft_start_time: float, ripple_current_ratio: float, ripple_current_ratios: list,
-                 feedback_top_resistor: float, enable_top_resistor: float, power_good_top_resistor: float, enable_turn_on_votlage: float, target_output_votlage_undershoot: float):
+    def __init__(self, switching_freq: float, input_voltage: float, output_voltage: float, output_current: float, 
+                 typical_efficiency: float, soft_start_time: float, ripple_current_ratio: float, ripple_current_ratios: list,
+                 feedback_top_resistor: float, enable_top_resistor: float, power_good_top_resistor: float, enable_turn_on_votlage: float, 
+                 target_output_votlage_undershoot: float, selected_output_capacitor: float = None):
         
         self.switching_frequency = switching_freq
         self.soft_start_time = soft_start_time
@@ -111,6 +113,8 @@ class LM76005():
 
         self.undervoltage_input_high_level_rising_voltage = None 
         self.undervoltage_input_low_level_falling_voltage = None 
+
+        self.selected_output_capacitor = selected_output_capacitor
 
         if len(ripple_current_ratios) != 2:
             raise ValueError
@@ -222,8 +226,14 @@ class LM76005():
         func_3 = (self.inverse_ideal_nominal_duty_cycle * (1 + self.ripple_current_ratio))
 
         self.minimum_output_capacitance = func_1 * (func_2 + func_3)
+
+        if self.selected_output_capacitor is None:
+            capacitance = self.minimum_output_capacitance
+        else:
+            capacitance = self.selected_output_capacitor
+
         
-        func_4 = self.inverse_ideal_nominal_duty_cycle / (self.switching_frequency * self.minimum_output_capacitance)
+        func_4 = self.inverse_ideal_nominal_duty_cycle / (self.switching_frequency * capacitance)
         func_5 = math.pow(self.ripple_current_ratio, -1) + 0.5
 
         self.maximum_output_capacitor_esr = func_4 * func_5
