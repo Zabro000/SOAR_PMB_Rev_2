@@ -35,19 +35,25 @@ def value_printer(sentance, value, unit: str = None, floating: int = None, end =
 class LM73100RPWR:
     undervoltage_rising_pin = 1.2
     overvotlage_rising_pin = 1.2
+    power_good_rising_pin = 1.2
     def __init__(self, buck_converter_output_capacitance, estimated_output_capacitance, estimated_inrush_current, 
-                 overvoltage_input: float, undervoltage_input: float, top_resistor: float = None):
+                 overvoltage_input: float, undervoltage_input: float, top_resistor: float = None, power_good_top_resistor: float = None, power_good_rising_voltage: float = None):
         self.buck_converter_output_capacitance = buck_converter_output_capacitance
         self.estimated_output_capacitance = estimated_output_capacitance
         self.estimated_inrush_current = estimated_inrush_current
         self.overvoltage_input = overvoltage_input
         self.undervoltage_input = undervoltage_input
         self.top_resistor = top_resistor
+        self.power_good_top_resistor = power_good_top_resistor
+        self.power_good_rising_voltage = power_good_rising_voltage
+        
 
         self.output_slew_rate = None
         self.limiter_capacitance_value = None
         self.middle_resistor = None 
         self.bottom_resistor = None
+
+        self.power_good_bottom_resistor = None 
 
 
     def inrush_current_limiter_capacitor_calculation(self):
@@ -63,12 +69,26 @@ class LM73100RPWR:
 
         self.middle_resistor = (self.top_resistor * ((-B_prime * C) + (A_prime *  D))) / (A_prime * self.undervoltage_input - A_prime * D + B_prime * C)
         self.bottom_resistor = (-C * (self.top_resistor + self.middle_resistor)) / (A_prime)
-        
+
+        minimum_current = self.undervoltage_rising_pin / (self.top_resistor + self.bottom_resistor + self.middle_resistor)
 
         if print_val:
-            value_print_block("Resistor Divider 3 Way Calculations")
+            value_print_block("Undervoltage and Overvotlage Resistor Divider Calculations")
             print(f"Top Resistor = {EngNumber(self.top_resistor)}ohm, Middle Resitor = {EngNumber(self.middle_resistor)}ohm, Bottom Resistor = {EngNumber(self.bottom_resistor)}ohm")
+            print(f"At {EngNumber(self.undervoltage_rising_pin)}V, the minimum current is {EngNumber(minimum_current)}A which needs to be more than 2uA")
+        
 
+    def power_good_resistor_divider_calculations(self, print_val):
+        A = LM73100RPWR.power_good_rising_pin
+        self.power_good_bottom_resistor = (-A * self.power_good_top_resistor) / (A - self.power_good_rising_voltage)
+
+        minimum_current = self.power_good_rising_voltage / (self.power_good_top_resistor + self.power_good_bottom_resistor)
+
+        if print_val:
+            value_print_block("Resistor Divider 2 Way Calculations")
+            print(f"Power Good Top Resistor = {EngNumber(self.power_good_top_resistor)}ohm, Power Good Bottom Resistor = {EngNumber(self.power_good_bottom_resistor)}ohm")
+            print(f"At {EngNumber(self.power_good_rising_voltage)}V, the minimum current is {EngNumber(minimum_current)}A which needs to be more than 20uA")
+        
 
 
 
