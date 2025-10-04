@@ -29,6 +29,30 @@ def value_printer(sentance, value, unit: str = None, floating: int = None, end =
         message = f"~ {sentance}: {eng_number}{unit} {end}"
         print(message)
 
+
+class General_Resistor_Divider():
+    def __init__(self, input_voltage: float, bottom_resistor: float = None, top_resistor: float = None, first_voltage_out: float = None, second_voltage_out: float = None):
+        self.input_voltage = input_voltage
+        self.bottom_resistor = bottom_resistor
+        self.first_voltage_out = first_voltage_out
+        self.second_voltage_out = second_voltage_out
+        self.top_resistor = top_resistor
+
+        self.middle_resistor = None
+        self.divider_current = None
+
+    def calculate_all_resistors_3_divider(self, print_val = None):
+        self.divider_current = self.second_voltage_out / self.bottom_resistor
+
+        self.top_resistor = (self.input_voltage - self.first_voltage_out) / self.divider_current
+        self.middle_resistor = (self.first_voltage_out - self.second_voltage_out)  / self.divider_current
+
+        if print_val:
+            value_print_block("Resistor Divider 3 Way Calculations")
+            print(f"First voltage pin = {EngNumber(self.first_voltage_out)}V, Second voltage pin = {EngNumber(self.second_voltage_out)}V")
+            print(f"Top Resistor = {EngNumber(self.top_resistor)}ohm, Middle Resitor = {EngNumber(self.middle_resistor)}ohm, Bottom Resistor = {EngNumber(self.bottom_resistor)}ohm")
+            print(f"Total divider current = {EngNumber(self.divider_current)}A")
+
 class PMB_Power_Source_Voltage_Divider():
     def __init__(self, bottom_resistor, top_resistor: float, enable_node_votlage: float, enable_source_voltage: float):
         self.bottom_resistor = bottom_resistor
@@ -219,7 +243,7 @@ def test_divider_1():
 
 
 def main():
-    test_divider_1()
+    test_divider()
 
 if __name__ == "__main__":
     main()
