@@ -36,8 +36,11 @@ class LM73100RPWR:
     undervoltage_rising_pin = 1.2
     overvotlage_rising_pin = 1.2
     power_good_rising_pin = 1.2
+    current_monitor_pin_voltage_max = 0.5
+    gain_current_monitor = 182
+
     def __init__(self, buck_converter_output_capacitance, estimated_output_capacitance, estimated_inrush_current, 
-                 overvoltage_input: float, undervoltage_input: float, top_resistor: float = None, power_good_top_resistor: float = None, power_good_rising_voltage: float = None):
+                 overvoltage_input: float, undervoltage_input: float, maximum_output_current, top_resistor: float = None, power_good_top_resistor: float = None, power_good_rising_voltage: float = None):
         self.buck_converter_output_capacitance = buck_converter_output_capacitance
         self.estimated_output_capacitance = estimated_output_capacitance
         self.estimated_inrush_current = estimated_inrush_current
@@ -46,6 +49,8 @@ class LM73100RPWR:
         self.top_resistor = top_resistor
         self.power_good_top_resistor = power_good_top_resistor
         self.power_good_rising_voltage = power_good_rising_voltage
+        self.maximum_output_current = maximum_output_current
+        
         
 
         self.output_slew_rate = None
@@ -55,6 +60,7 @@ class LM73100RPWR:
 
         self.power_good_bottom_resistor = None 
 
+        self.current_monitor_resistor = None
 
     def inrush_current_limiter_capacitor_calculation(self):
         self.output_slew_rate = (self.estimated_inrush_current * 1000) / ((self.estimated_output_capacitance + self.buck_converter_output_capacitance) * 1e6)
@@ -78,17 +84,33 @@ class LM73100RPWR:
             print(f"At {EngNumber(self.undervoltage_rising_pin)}V, the minimum current is {EngNumber(minimum_current)}A which needs to be more than 2uA")
         
 
-    def power_good_resistor_divider_calculations(self, print_val):
+    def power_good_resistor_divider_calculations(self, print_val, real_bottom_resistor = None):
         A = LM73100RPWR.power_good_rising_pin
         self.power_good_bottom_resistor = (-A * self.power_good_top_resistor) / (A - self.power_good_rising_voltage)
 
-        minimum_current = self.power_good_rising_voltage / (self.power_good_top_resistor + self.power_good_bottom_resistor)
+
+        if real_bottom_resistor is not None:
+            minimum_current = self.power_good_rising_voltage / (self.power_good_top_resistor + real_bottom_resistor)
+        else: 
+            minimum_current = self.power_good_rising_voltage / (self.power_good_top_resistor + self.power_good_bottom_resistor)
+
 
         if print_val:
             value_print_block("Resistor Divider 2 Way Calculations")
             print(f"Power Good Top Resistor = {EngNumber(self.power_good_top_resistor)}ohm, Power Good Bottom Resistor = {EngNumber(self.power_good_bottom_resistor)}ohm")
             print(f"At {EngNumber(self.power_good_rising_voltage)}V, the minimum current is {EngNumber(minimum_current)}A which needs to be more than 20uA")
+
+
+    def current_monitor_resistor_calcualtions(self, print_val):
+
+        A = LM73100RPWR.current_monitor_pin_voltage_max
+        B = LM73100RPWR.gain_current_monitor 
+
+        self.current_monitor_resistor = (A * 1e6) / (self.maximum_output_current * B)
         
+        if print_val:
+            value_print_block("Current monitor resistor")
+            print(f"Power Good Top Resistor = {EngNumber(self.current_monitor_resistor)}ohm")
 
 
 
