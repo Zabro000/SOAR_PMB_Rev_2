@@ -17,4 +17,8 @@ def new_func():
 
 
 
-new_func()
+def main():
+    new_func()
+
+if __name__ == "__main__":
+    main()
