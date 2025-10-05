@@ -66,7 +66,7 @@ class LM73100RPWR:
         self.output_slew_rate = (self.estimated_inrush_current * 1000) / ((self.estimated_output_capacitance + self.buck_converter_output_capacitance) * 1e6)
         self.limiter_capacitance_value = 2000 / (self.output_slew_rate)
 
-    def uv_ov_resistor_divider_calculations(self, print_val):
+    def uv_ov_resistor_divider_calculations(self, print_val, real_middle_resistor = None, real_bottom_resistor = None):
         C = LM73100RPWR.overvotlage_rising_pin
         D  = LM73100RPWR.undervoltage_rising_pin
 
@@ -76,12 +76,16 @@ class LM73100RPWR:
         self.middle_resistor = (self.top_resistor * ((-B_prime * C) + (A_prime *  D))) / (A_prime * self.undervoltage_input - A_prime * D + B_prime * C)
         self.bottom_resistor = (-C * (self.top_resistor + self.middle_resistor)) / (A_prime)
 
-        minimum_current = self.undervoltage_rising_pin / (self.top_resistor + self.bottom_resistor + self.middle_resistor)
+        if (real_bottom_resistor is not None) and (real_middle_resistor is not None):
+            minimum_current = self.undervoltage_input / (self.top_resistor + real_bottom_resistor + real_bottom_resistor)
+
+        else:
+            minimum_current = self.undervoltage_input / (self.top_resistor + self.bottom_resistor + self.middle_resistor)
 
         if print_val:
             value_print_block("Undervoltage and Overvotlage Resistor Divider Calculations")
             print(f"Top Resistor = {EngNumber(self.top_resistor)}ohm, Middle Resitor = {EngNumber(self.middle_resistor)}ohm, Bottom Resistor = {EngNumber(self.bottom_resistor)}ohm")
-            print(f"At {EngNumber(self.undervoltage_rising_pin)}V, the minimum current is {EngNumber(minimum_current)}A which needs to be more than 2uA")
+            print(f"At {EngNumber(self.undervoltage_input)}V, the minimum current is {EngNumber(minimum_current)}A which needs to be more than 2uA")
         
 
     def power_good_resistor_divider_calculations(self, print_val, real_bottom_resistor = None):

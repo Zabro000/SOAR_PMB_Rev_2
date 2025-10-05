@@ -18,9 +18,9 @@ def new_func():
 
 
 def module_1_3V3():
-    diode_1 = L(None, None, None, 4, 3.1, 5.5, 1e5, 1.8e4, 3.1)
-    diode_1.uv_ov_resistor_divider_calculations(True)
-    diode_1.power_good_resistor_divider_calculations(True, 1.1e4)
+    diode_1 = L(None, None, None, 4, 3, 5.5, 100000, 1.0e4, 3.1)
+    diode_1.uv_ov_resistor_divider_calculations(True, 16900, 49900)
+    diode_1.power_good_resistor_divider_calculations(True, 6340)
     diode_1.current_monitor_resistor_calcualtions(True)
 
 def main():
