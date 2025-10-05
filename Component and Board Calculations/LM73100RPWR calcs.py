@@ -23,8 +23,21 @@ def module_1_3V3():
     diode_1.power_good_resistor_divider_calculations(True, 6340)
     diode_1.current_monitor_resistor_calcualtions(True)
 
+def module_1_5V():
+    diode_1 = L(None, None, None, 6, 4, 5.5, 100000, 1.0e4, 4.8)
+    diode_1.uv_ov_resistor_divider_calculations(True)
+    diode_1.power_good_resistor_divider_calculations(True)
+    diode_1.current_monitor_resistor_calcualtions(True)
+
+
+def module_1_12V():
+    diode_1 = L(None, None, None, 14, 10, 5.5, 100000, 1.0e4, 11.5)
+    diode_1.uv_ov_resistor_divider_calculations(True)
+    diode_1.power_good_resistor_divider_calculations(True)
+    diode_1.current_monitor_resistor_calcualtions(True)
+
 def main():
-    module_1_3V3()
+    module_1_5V()
 
 if __name__ == "__main__":
     main()
