@@ -84,6 +84,7 @@ class LM73100RPWR:
 
         if print_val:
             value_print_block("Undervoltage and Overvotlage Resistor Divider Calculations")
+            print(f"Undervoltage = {EngNumber(self.undervoltage_input)}V, Overvoltage threshold = {EngNumber(self.overvoltage_input)}V")
             print(f"Top Resistor = {EngNumber(self.top_resistor)}ohm, Middle Resitor = {EngNumber(self.middle_resistor)}ohm, Bottom Resistor = {EngNumber(self.bottom_resistor)}ohm")
             print(f"At {EngNumber(self.undervoltage_input)}V, the minimum current is {EngNumber(minimum_current)}A which needs to be more than 2uA")
         
