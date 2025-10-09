@@ -37,7 +37,7 @@ def module_1_12V():
     diode_1.current_monitor_resistor_calcualtions(True)
 
 def main():
-    module_1_12V()
+    module_1_5V()
 
 if __name__ == "__main__":
     main()
