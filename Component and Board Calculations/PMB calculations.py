@@ -5,12 +5,12 @@ from matplotlib import pyplot as plt
 
 
 def pmb_power_and_current_calculations():
-    average_efficiency = 0.92
+    average_efficiency = 0.90
     buck_current = 5
     efficiency = [average_efficiency, average_efficiency, average_efficiency]
     output_voltages = [12, 5, 3.3]
     output_currents = [buck_current, buck_current, buck_current]
-    input_votlages = [48, 45.6, 4.2 * 5, 3.7 * 5, 16.8, 14]
+    input_votlages = [48, 45, 4.2 * 5, 3.7 * 5, 16.8, 14]
     safety_factor = 0.15
 
     pmb_1 = PCB_Object(efficiency, output_currents, output_voltages, current_safety_factor = safety_factor)
@@ -36,11 +36,13 @@ def pmb_power_and_current_calculations():
         input_current = np.append(input_current, pmb_1.total_nominal_input_current)
 
     fig, ax = plt.subplots(figsize = (4*3,3*3))
-    ax.plot(input_votlages_new, total_input_current, color = 'red', linestyle = 'dotted')
-    ax.plot(input_votlages_new, input_current, color = 'green', linestyle = 'solid')
+    ax.plot(input_votlages_new, total_input_current, color = 'red', linestyle = 'dotted', label = 'Total Input Current with 15% Safety Factor')
+    ax.plot(input_votlages_new, input_current, color = 'green', linestyle = 'solid', label = "Total Input Current")
     ax.grid(True, color = 'k', linestyle = "--")
     ax.set_xlabel("Input Voltage (V)")
-    ax.set_ylabel(f"Total Input Current With Safety Factor of {pmb_1.current_safety_factor * 100:.2f}%")
+    ax.set_ylabel(f"Total Input Current (I)")
+    ax.set_title("Total Input Current vs Input Voltage")
+    ax.legend()
     ax.set_ylim((0, 10))
 
     plt.show()
