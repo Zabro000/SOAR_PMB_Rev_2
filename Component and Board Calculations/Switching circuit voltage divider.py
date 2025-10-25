@@ -10,7 +10,7 @@ def batt_voltage_divider():
     bottom_resistor = 1e4
     top_resistor_inital = None
     priority_source_voltage = 5.2 # This is because the propogation delay of the comparators is low when an input 
-    power_source_turn_on_voltage = 17
+    power_source_turn_on_voltage = 13.5
 
 
     div_1 = Div(bottom_resistor, top_resistor_inital, priority_source_voltage, power_source_turn_on_voltage)
@@ -35,6 +35,19 @@ def batt_voltage_divider():
     pd.set_option('display.max_rows', None)
     pd.set_option('display.max_columns', None)
     print(dataframe)
+
+
+
+def simple_divider():
+    bottom_resistor = 1e4
+    top_resistor_inital = 1e4
+    priority_source_voltage = 5.2 # This is because the propogation delay of the comparators is low when an input 
+    power_source_turn_on_voltage = 14
+
+
+    div_1 = Div(bottom_resistor, top_resistor_inital, priority_source_voltage, power_source_turn_on_voltage)
+    div_1.calculate_all_resistors_2_divider()
+    print(top_resistor_inital, div_1.middle_resistor, div_1.bottom_resistor)
 
 def umb_voltage_divider():
     bottom_resistor = 1e4
@@ -70,7 +83,7 @@ def umb_voltage_divider():
 
 
 def main():
-    umb_voltage_divider()
+    simple_divider()
 
    
 
