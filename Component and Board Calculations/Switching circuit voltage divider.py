@@ -10,7 +10,7 @@ def batt_voltage_divider():
     bottom_resistor = 1e4
     top_resistor_inital = None
     priority_source_voltage = 5.2 # This is because the propogation delay of the comparators is low when an input 
-    power_source_turn_on_voltage = 13.5
+    power_source_turn_on_voltage = 13.5 # This is because the batteries might be at like 14V or something
 
 
     div_1 = Div(bottom_resistor, top_resistor_inital, priority_source_voltage, power_source_turn_on_voltage)
