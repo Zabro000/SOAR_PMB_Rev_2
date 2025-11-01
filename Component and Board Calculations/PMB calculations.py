@@ -40,7 +40,7 @@ def pmb_power_and_current_calculations():
     ax.plot(input_votlages_new, input_current, color = 'green', linestyle = 'solid', label = "Total Input Current")
     ax.grid(True, color = 'k', linestyle = "--")
     ax.set_xlabel("Input Voltage (V)")
-    ax.set_ylabel(f"Total Input Current (I)")
+    ax.set_ylabel(f"Total Input Current (A)")
     ax.set_title("Total Input Current vs Input Voltage")
     ax.legend()
     ax.set_ylim((0, 10))
