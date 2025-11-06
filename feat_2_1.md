@@ -1,0 +1,1 @@
+This branch will be all about trying to fix and simplify the switching circuit and implimenting changes from the schematic review
