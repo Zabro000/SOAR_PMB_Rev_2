@@ -147,7 +147,7 @@ R44 UMB_half_comp UMBILICAL 90000
 R45 UMB_half_comp Umbilical_priority_comparator 69200
 R55 Umbilical_priority_comparator 0 20800
 C2 UMB_half_comp 0 1n
-C4 Umbilical_priority_comparator 0 10n
+C4 Umbilical_priority_comparator 0 100n
 C5 BATT_1_half_comp 0 1n
 C6 BATT_1_priority_comparator 0 10n
 C9 BATT_2_priority_comparator 0 10n
