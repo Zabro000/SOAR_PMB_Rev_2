@@ -1,7 +1,6 @@
-from PCB_Calc_Lib.PCB_lib import PCB_Object 
 import numpy as np
 from engineering_notation import EngNumber
-from matplotlib import pyplot as plt
+import matplotlib.pyplot as plt
 
 
 def pmb_power_and_current_calculations():
@@ -9,7 +8,7 @@ def pmb_power_and_current_calculations():
     buck_current = 5
     efficiency = [average_efficiency, average_efficiency, average_efficiency]
     output_voltages = [12, 5, 3.3]
-    output_currents = [buck_current * 2, 0, 0]
+    output_currents = [buck_current, buck_current, buck_current]
     input_votlages = [48, 45, 4.2 * 5, 3.7 * 5, 16.8, 14]
     safety_factor = 0.15
 
@@ -43,7 +42,7 @@ def pmb_power_and_current_calculations():
     ax.set_ylabel(f"Total Input Current (A)")
     ax.set_title("Total Input Current vs Input Voltage")
     ax.legend()
-    ax.set_ylim((0, 14))
+    ax.set_ylim((0, 10))
 
     plt.show()
 
