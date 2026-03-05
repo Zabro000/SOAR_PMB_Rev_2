@@ -7,6 +7,7 @@ import pandas as pd
 
 
 def batt_voltage_divider():
+    print("batt voltage divider")
     bottom_resistor = 1e4
     top_resistor_inital = None
     priority_source_voltage = 5.2 # This is because the propogation delay of the comparators is low when an input 
@@ -37,6 +38,7 @@ def batt_voltage_divider():
     print(dataframe)
 
 def umb_voltage_divider():
+    print("umb voltage divider")
     bottom_resistor = 1e4
     top_resistor_inital = None
     priority_source_voltage = 5.2 # This is because the propogation delay of the comparators is low when an input 
@@ -71,6 +73,7 @@ def umb_voltage_divider():
 
 def main():
     umb_voltage_divider()
+    batt_voltage_divider()
 
    
 
